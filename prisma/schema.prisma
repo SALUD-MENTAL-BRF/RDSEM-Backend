@@ -21,6 +21,9 @@ model User {
   rol Role @relation(fields: [roleId], references: [id])
   roleId Int
   patient Patient[]
+  professional Professional[]
+  requestProfessional RequestProfessional[]
+  publication Publication[]
 }
 
 model Role {
@@ -33,8 +36,23 @@ model Patient {
   id Int @id @default(autoincrement())
   user User @relation(fields: [userId], references: [id])
   userId Int
+
 }
 
 model Professional {
   id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id]) 
+  userId Int
+}
+
+model RequestProfessional {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+model Publication {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int
 }
