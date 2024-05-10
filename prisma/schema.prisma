@@ -39,9 +39,18 @@ model Role {
   user User[]
 }
 
+model HistoryPatient {
+  id Int @id @default(autoincrement())
+
+
+  //Relations
+  
+}
 
 model Patient {
   id Int @id @default(autoincrement())
+  type String
+  fullName String
 
   //Relations
   user User @relation(fields: [userId], references: [id])
@@ -52,7 +61,9 @@ model Patient {
 
 model Professional {
   id Int @id @default(autoincrement())
-
+  fullName String
+  title String
+  certification String
 
   //Relations
   user User @relation(fields: [userId], references: [id]) 
@@ -66,6 +77,10 @@ model Professional {
 
 model RequestProfessional {
   id Int @id @default(autoincrement())
+  fullname String
+  title String
+  certification String
+  experience String
 
 
   //Relations
@@ -75,7 +90,8 @@ model RequestProfessional {
 
 model Publication {
   id Int @id @default(autoincrement())
-
+  title String
+  content String
 
   //Relations
   user User @relation(fields: [userId], references: [id])
