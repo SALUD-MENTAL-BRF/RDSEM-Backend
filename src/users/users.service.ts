@@ -19,8 +19,12 @@ export class UsersService {
 
   CreateUser(User: any){
     return this.prismaService.user.create({
-      data: User
-    });
+      data: {
+        username: User.username,
+        email: User.email,
+        password:  User.password,
+      }
+    })
   }
 
   findOneByEmail(Email: any){

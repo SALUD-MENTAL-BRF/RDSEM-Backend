@@ -38,7 +38,9 @@ export class AuthService {
       secret: jwtConstants.secret
     });
   
-    return token;
+    return {
+      token: token
+    }
   }
   
   async login({ email, password }: LoginDto) {
@@ -61,6 +63,8 @@ export class AuthService {
     }
     );
 
-    return token
+    return {
+      token: token
+    }
   }
 }
