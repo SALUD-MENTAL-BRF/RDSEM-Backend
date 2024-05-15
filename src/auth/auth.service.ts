@@ -8,6 +8,7 @@ import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import * as bcryptjs from 'bcryptjs';
+import { jwtConstants } from './constants/jwt.constant';
 
 @Injectable()
 export class AuthService {
@@ -17,23 +18,29 @@ export class AuthService {
   ) {}
 
   async register({ password, email, username }: RegisterDto) {
-    const user = await this.usersService.findOneByEmail(email);
-
+    let user = await this.usersService.findOneByEmail(email);
+  
     if (user) {
       throw new BadRequestException('Email already exists');
     }
-
+  
     const hashedPassword = await bcryptjs.hash(password, 10);
-
-    await this.usersService.CreateUser({
+  
+    user = await this.usersService.CreateUser({
       username,
       email,
       password: hashedPassword,
     });
-
-    return { message: 'User created successfully' };
+  
+    const payload = { email: user.email, password: hashedPassword };
+  
+    const token = await this.jwtService.signAsync(payload, {
+      secret: jwtConstants.secret
+    });
+  
+    return token;
   }
-
+  
   async login({ email, password }: LoginDto) {
     const user = await this.usersService.findOneByEmail(email);
 
@@ -49,11 +56,11 @@ export class AuthService {
 
     const payload = { email: user.email };
 
-    const token = await this.jwtService.signAsync(payload);
+    const token = await this.jwtService.signAsync(payload, {
+      secret: jwtConstants.secret
+    }
+    );
 
-    return {
-      token: token,
-      email: user.email,
-    };
+    return token
   }
 }
