@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Req, Res } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Request, Response } from 'express';
 
@@ -7,13 +7,22 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get('/')
-  GetAllUsers() {
-    return this.usersService.GetAllUsers();
+  async GetAllUsers() {
+    return await this.usersService.GetAllUsers();
+  }
+
+  @Get('/:email')
+  async GetUser(@Param('email') email: string) {
+    return await this.usersService.findOneByEmail(email);
   }
 
   @Post('/')
-  CreateUser(@Body() User: any, @Req() request: Request, @Res() response: Response) {
-    response.status(200).json({ User });
+  async CreateUser(@Body() user: any) {
+    try {
+      const newUser = await this.usersService.CreateUser(user);
+      return { success: true, user: newUser };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
   }
-
 }

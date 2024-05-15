@@ -18,10 +18,19 @@ export class UsersService {
   }
 
   CreateUser(User: any){
-    
     return this.prismaService.user.create({
       data: User
     });
+  }
+
+  findOneByEmail(Email: any){
+    return this.prismaService.user.findUnique(
+      {
+        where: {
+          email: Email 
+        }
+      }
+    )
   }
 
 
