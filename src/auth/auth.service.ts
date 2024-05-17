@@ -23,6 +23,12 @@ export class AuthService {
     if (user) {
       throw new BadRequestException('Email ya registrado');
     }
+
+    let userfound = await this.usersService.findOneByUsername(username);
+
+    if (userfound) {
+      throw new BadRequestException('Username ya registrado');
+    }
   
     const hashedPassword = await bcryptjs.hash(password, 10);
   

@@ -10,10 +10,6 @@ const USERS: User[] = [{ id: 1, name: 'John Doe' }];
 export class UsersService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
-
   CreateUser(User: any) {
     return this.prismaService.user.create({
       data: {
@@ -28,6 +24,14 @@ export class UsersService {
     return this.prismaService.user.findUnique({
       where: {
         email: Email,
+      },
+    });
+  }
+
+  findOneByUsername(Username: any) {
+    return this.prismaService.user.findUnique({
+      where: {
+        username: Username,
       },
     });
   }
