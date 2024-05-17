@@ -44,9 +44,12 @@ export class AuthService {
       secret: jwtConstants.secret
     });
   
-    return {
-      token: token
+    const data = {
+      token: token,
+      user: user
     }
+
+    return data;
   }
   
   async login({ email, password }: LoginDto) {
