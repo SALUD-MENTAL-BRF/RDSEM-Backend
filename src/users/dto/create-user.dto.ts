@@ -1,9 +1,9 @@
 import { IsEmail, IsNotEmpty } from "class-validator"
 
-export class userCreateDto {
+export class CreateUserDto {
     
     @IsNotEmpty({message: 'Name is required'})
-    username: string;
+    name: string;
 
     @IsEmail({}, {message: 'Invalid email'})
     email :string;
@@ -13,4 +13,4 @@ export class userCreateDto {
 
     @IsNotEmpty({message: 'Role is required'})
     role: string;
-}   
+}
