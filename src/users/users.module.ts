@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { UsersController } from './users.controller';
+import { IsUserIdValidConstraint } from './validations/is-user-id-valid.constraint';
 
 @Module({
   controllers: [UsersController],
-  providers: [UsersService, PrismaService]
+  providers: [UsersService, IsUserIdValidConstraint],
 })
 export class UsersModule {}
