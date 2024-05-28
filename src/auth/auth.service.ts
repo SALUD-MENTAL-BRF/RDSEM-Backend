@@ -9,7 +9,6 @@ import { OAuth2Client } from 'google-auth-library';
 
 @Injectable()
 export class AuthService {
-
   private client: OAuth2Client;
 
   constructor(
@@ -21,7 +20,7 @@ export class AuthService {
 
   async register({ password, email, username }: RegisterDto) {
     let user = await this.usersService.findOneByEmail(email);
-  
+
     if (user) {
       throw new Error('Email already exists');
     }
@@ -31,29 +30,29 @@ export class AuthService {
     if (userfound) {
       throw new BadRequestException('Username ya registrado');
     }
-  
+
     const hashedPassword = await bcryptjs.hash(password, 10);
-  
+
     user = await this.usersService.CreateUser({
       username,
       email,
       password: hashedPassword,
     });
-  
+
     const payload = { email: user.email, sub: user.id };
-  
+
     const token = await this.jwtService.signAsync(payload, {
       secret: jwtConstants.secret
     });
-  
+
     const data = {
       token: token,
       user: user
-    }
+    };
 
     return data;
   }
-  
+
   async login({ email, password }: LoginDto) {
     const user = await this.usersService.findOneByEmail(email);
 
@@ -76,24 +75,24 @@ export class AuthService {
     const data = {
       token,
       user
-    }
+    };
 
-    return data
+    return data;
   }
 
-  async googleLogin(tokenId: string){
+  async googleLogin(tokenId: string) {
     const ticket = await this.client.verifyIdToken({
       idToken: tokenId,
       audience: process.env.GOOGLE_CLIENT_ID
     });
 
-    const payload = ticket.getPayload()
-  
+    const payload = ticket.getPayload();
+
     if (!payload) {
-      throw new BadRequestException('Error en la verificación del token de google')
+      throw new BadRequestException('Error en la verificación del token de Google');
     }
 
-    let user = await this.usersService.findOneByEmail(payload.email)
+    let user = await this.usersService.findOneByEmail(payload.email);
 
     if (!user) {
       user = await this.usersService.CreateUser({
@@ -101,22 +100,20 @@ export class AuthService {
         email: payload.email,
         googleId: payload.sub,
         imageUrl: payload.picture
-      })
-
-      const jwtPayload = { email: user.email, sub: user.id }
-
-      const token = await this.jwtService.signAsync(jwtPayload, {
-        secret: jwtConstants.secret
-      })
-
-      const data = {
-        token,
-        user
-      }
-
-      return data
+      });
     }
 
-  }
+    const jwtPayload = { email: user.email, sub: user.id };
 
+    const token = await this.jwtService.signAsync(jwtPayload, {
+      secret: jwtConstants.secret
+    });
+
+    const data = {
+      token,
+      user
+    };
+
+    return data;
+  }
 }
