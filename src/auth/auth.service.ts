@@ -33,7 +33,7 @@ export class AuthService {
 
     const hashedPassword = await bcryptjs.hash(password, 10);
 
-    user = await this.usersService.CreateUser({
+    user = await this.usersService.createUser({
       username,
       email,
       password: hashedPassword,
@@ -87,6 +87,7 @@ export class AuthService {
     });
 
     const payload = ticket.getPayload();
+    console.log(payload.picture);
 
     if (!payload) {
       throw new BadRequestException('Error en la verificación del token de Google');
@@ -95,25 +96,27 @@ export class AuthService {
     let user = await this.usersService.findOneByEmail(payload.email);
 
     if (!user) {
-      user = await this.usersService.CreateUser({
+      // Si el usuario no existe, crear uno nuevo con los datos de Google
+      user = await this.usersService.createUser({
         username: payload.name,
         email: payload.email,
         googleId: payload.sub,
         imageUrl: payload.picture
       });
+    } else {
+      // Si el usuario ya existe, actualizar googleId e imageUrl solo si aún no están presentes
+      if (!user.googleId || !user.imageUrl) {
+        user = await this.usersService.updateUser(user.id, {
+          googleId: payload.sub,
+          imageUrl: payload.picture
+        });
+      }
     }
 
+    // Generar token JWT
     const jwtPayload = { email: user.email, sub: user.id };
+    const token = await this.jwtService.signAsync(jwtPayload, { secret: jwtConstants.secret });
 
-    const token = await this.jwtService.signAsync(jwtPayload, {
-      secret: jwtConstants.secret
-    });
-
-    const data = {
-      token,
-      user
-    };
-
-    return data;
+    return { token, user };
   }
 }
