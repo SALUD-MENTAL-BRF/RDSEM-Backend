@@ -25,11 +25,11 @@ export class AuthService {
       throw new Error('Email already exists');
     }
 
-    let userfound = await this.usersService.findOneByUsername(username);
+    // let userfound = await this.usersService.findOneByUsername(username);
 
-    if (userfound) {
-      throw new BadRequestException('Username ya registrado');
-    }
+    // if (userfound) {
+    //   throw new BadRequestException('Username ya registrado');
+    // }
 
     const hashedPassword = await bcryptjs.hash(password, 10);
 
@@ -87,7 +87,6 @@ export class AuthService {
     });
 
     const payload = ticket.getPayload();
-    console.log(payload.picture);
 
     if (!payload) {
       throw new BadRequestException('Error en la verificación del token de Google');

@@ -9,6 +9,13 @@ export class UsersService {
   constructor(private readonly prismaService: PrismaService) {}
 
   createUser(User: CreateUserDto) {
+    // console.log(User.username);
+    // console.log(User.email);
+    // console.log(User.password);
+    // console.log(User.googleId);
+    // console.log(User.imageUrl);
+
+    
     return this.prismaService.user.create({
       data: {
         username: User.username,
@@ -26,11 +33,11 @@ export class UsersService {
     });
   }
 
-  findOneByUsername(username: string) {
-    return this.prismaService.user.findUnique({
-      where: { username },
-    });
-  }
+  // findOneByUsername(username: string) {
+  //   return this.prismaService.user.findUnique({
+  //     where: { username },
+  //   });
+  // }
 
   async updateUser(id: number, updateUserDto: UpdateUserDto) {
     return this.prismaService.user.update({

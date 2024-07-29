@@ -33,6 +33,7 @@ export class AuthController {
         throw new HttpException('Invalid tokenId', HttpStatus.BAD_REQUEST);
       }
       const data = await this.authService.googleLogin(tokenId);
+      // console.log(data)
       return data;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
