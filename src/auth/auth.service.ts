@@ -37,8 +37,11 @@ export class AuthService {
     const token = await this.jwtService.signAsync(payload, {
       secret: jwtConstants.secret
     });
-  
+    
+    const findNewUser = await this.usersService.findOneByEmail(email);
+    
     return {
+      user: findNewUser,
       token: token
     }
   }
@@ -64,6 +67,7 @@ export class AuthService {
     );
 
     return {
+      user: user,
       token: token
     }
   }
