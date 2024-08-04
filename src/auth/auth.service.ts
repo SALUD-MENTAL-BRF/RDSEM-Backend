@@ -70,11 +70,52 @@ export class AuthService {
 
     const token = await this.jwtService.signAsync(payload, {
       secret: jwtConstants.secret
-    }
-    );
+    });
 
-    return {
-      token: token
+    const data = {
+      token,
+      user
+    };
+
+    return data;
+  }
+
+  async googleLogin(tokenId: string) {
+    const ticket = await this.client.verifyIdToken({
+      idToken: tokenId,
+      audience: process.env.GOOGLE_CLIENT_ID
+    });
+
+    const payload = ticket.getPayload();
+
+    if (!payload) {
+      throw new BadRequestException('Error en la verificación del token de Google');
     }
+
+    let user = await this.usersService.findOneByEmail(payload.email);
+
+    if (!user) {
+      // Si el usuario no existe, crear uno nuevo con los datos de Google
+      user = await this.usersService.createUser({
+        username: payload.name,
+        email: payload.email,
+        googleId: payload.sub,
+        imageUrl: payload.picture
+      });
+    } else {
+      // Si el usuario ya existe, actualizar googleId e imageUrl solo si aún no están presentes
+      if (!user.googleId || !user.imageUrl) {
+        user = await this.usersService.updateUser(user.id, {
+          googleId: payload.sub,
+          imageUrl: payload.picture
+        });
+      }
+    }
+
+    // Generar token JWT
+    const jwtPayload = { email: user.email, sub: user.id };
+    const token = await this.jwtService.signAsync(jwtPayload, { secret: jwtConstants.secret });
+
+    return { token, user };
   }
 }
