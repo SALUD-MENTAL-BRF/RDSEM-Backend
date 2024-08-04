@@ -1,38 +1,54 @@
+// src/users/users.service.ts
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
-import { PrismaService } from 'src/prisma/prisma.service';
-
-const USERS: User[] = [{ id: 1, name: 'John Doe' }];
 
 @Injectable()
 export class UsersService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
+  createUser(User: CreateUserDto) {
+    // console.log(User.username);
+    // console.log(User.email);
+    // console.log(User.password);
+    // console.log(User.googleId);
+    // console.log(User.imageUrl);
 
-  CreateUser(User: any) {
+    
     return this.prismaService.user.create({
       data: {
         username: User.username,
         email: User.email,
         password: User.password,
+        googleId: User.googleId,
+        imageUrl: User.imageUrl
       },
     });
   }
 
-  findOneByEmail(Email: any) {
+  findOneByEmail(email: string) {
     return this.prismaService.user.findUnique({
-      where: {
-        email: Email,
-      },
+      where: { email },
     });
   }
 
-  async findOne(id: number) {
-    return USERS.find(user => user.id === id);
+  // findOneByUsername(username: string) {
+  //   return this.prismaService.user.findUnique({
+  //     where: { username },
+  //   });
+  // }
+
+  async updateUser(id: number, updateUserDto: UpdateUserDto) {
+    return this.prismaService.user.update({
+      where: { id },
+      data: updateUserDto,
+    });
+  }
+
+  async findOne(id: number){
+    return this.prismaService.user.findUnique({
+      where: { id },
+    });
   }
 }
