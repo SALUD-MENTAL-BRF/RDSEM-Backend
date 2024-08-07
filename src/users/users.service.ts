@@ -15,14 +15,13 @@ export class UsersService {
     // console.log(User.googleId);
     // console.log(User.imageUrl);
 
-    
     return this.prismaService.user.create({
       data: {
         username: User.username,
         email: User.email,
         password: User.password,
         googleId: User.googleId,
-        imageUrl: User.imageUrl
+        imageUrl: User.imageUrl,
       },
     });
   }
@@ -46,7 +45,7 @@ export class UsersService {
     });
   }
 
-  async findOne(id: number){
+  async findOne(id: number) {
     return this.prismaService.user.findUnique({
       where: { id },
     });
