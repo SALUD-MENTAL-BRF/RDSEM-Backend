@@ -73,9 +73,11 @@ model Patient {
 
 model Professional {
   id Int @id @default(autoincrement())
-  fullName String
+  firstname String
+  lastname String
   title String
-  certification String
+  specialization String
+  tuition String
 
   // Relaciones
   user User @relation(fields: [userId], references: [id]) 
@@ -87,9 +89,10 @@ model RequestProfessional {
   id Int @id @default(autoincrement())
   fullname String
   title String
-  certification String
+  specialization String
   experience String
-
+  tuition String
+  
   // Relaciones
   user User @relation(fields: [userId], references: [id])
   userId Int
