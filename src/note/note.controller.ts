@@ -7,6 +7,11 @@ export class NoteController {
 
   constructor(private readonly notesService: NoteService) {} 
 
+  @Post('/')
+  createNote(@Body() createNoteDto: CreateNoteDto) {
+    return this.notesService.createNote(createNoteDto)
+  }
+  
   @Get()
   getNotesByUserId(@Query('userId') userId: string) {
     const userIdNumber = parseInt(userId, 10);
@@ -16,11 +21,4 @@ export class NoteController {
     return this.notesService.getNotesByUserId(userIdNumber);
   }
   
-
-  @Post('/')
-  createNote(@Body() createNoteDto: CreateNoteDto) {
-    return this.notesService.createNote(createNoteDto)
-  }
-
-
 }
