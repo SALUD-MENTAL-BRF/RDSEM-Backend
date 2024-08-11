@@ -1,6 +1,7 @@
-import { BadRequestException, Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { NoteService } from './note.service';
 import { CreateNoteDto } from './dto/createNoteDto';
+import { UpdateNoteDto } from './dto/updateNote'
 
 @Controller('note')
 export class NoteController {
@@ -29,6 +30,15 @@ export class NoteController {
       throw new BadRequestException('Invalid user ID');
     }
     return this.notesService.getNotesByUserId(userIdNumber);
+  }
+
+  @Put()
+  updateNote(@Query('noteId') noteId: string, @Body() updateNoteDto: UpdateNoteDto) {
+    const noteIdNumber = parseInt(noteId, 10);
+    if (isNaN(noteIdNumber)) {
+      throw new BadRequestException('Invalid note ID');
+    }
+    return this.notesService.updateNote(noteIdNumber, updateNoteDto);
   }
   
 }
