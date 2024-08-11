@@ -15,6 +15,8 @@ export class NoteService {
     return this.prisma.note.findMany({ where: { userId } })
   }
 
-  
+  deletedNote(noteId: number) {
+    return this.prisma.note.delete({ where: { id: noteId }  })
+  }
 
 }

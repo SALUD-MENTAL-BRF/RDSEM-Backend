@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
 import { NoteService } from './note.service';
 import { CreateNoteDto } from './dto/createNoteDto';
 
@@ -12,6 +12,16 @@ export class NoteController {
     return this.notesService.createNote(createNoteDto)
   }
   
+
+  @Delete()
+  deleteNote(@Query('noteId') noteId: string) {
+    const noteIdNumber = parseInt(noteId, 10);
+    if (isNaN(noteIdNumber)) {
+      throw new BadRequestException('Invalid note ID');
+    }
+    return this.notesService.deletedNote(noteIdNumber);
+  }
+
   @Get()
   getNotesByUserId(@Query('userId') userId: string) {
     const userIdNumber = parseInt(userId, 10);
