@@ -19,4 +19,13 @@ export class UsersController {
       return { success: false, message: error.message };
     }
   }
+
+  @Get('/token/:token')
+  async GetUserByToken(@Param('token') token: string) {
+    if (!token) {
+      return null;
+    }
+    const user = await this.usersService.findOneByToken(token);
+    return user;
+  }
 }

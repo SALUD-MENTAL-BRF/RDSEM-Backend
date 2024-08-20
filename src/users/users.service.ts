@@ -1,8 +1,10 @@
 // src/users/users.service.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import * as jwt from 'jsonwebtoken';
+import { jwtConstants } from '../auth/constants/jwt.constant'
 
 @Injectable()
 export class UsersService {
@@ -26,13 +28,7 @@ export class UsersService {
       where: { email },
     });
   }
-
-  // findOneByUsername(username: string) {
-  //   return this.prismaService.user.findUnique({
-  //     where: { username },
-  //   });
-  // }
-
+  
   async updateUser(id: number, updateUserDto: UpdateUserDto) {
     return this.prismaService.user.update({
       where: { id },
@@ -45,4 +41,22 @@ export class UsersService {
       where: { id },
     });
   }
+
+  async findOneByToken(token: string) {
+    const decodedToken = jwt.decode(token) as { id: string };
+
+    if (!decodedToken || !decodedToken.id) {
+      throw new UnauthorizedException('Token inválido o malformado');
+    }
+
+    const user = await this.findOne(parseInt(decodedToken.id))
+
+    if (!user) {
+      throw new UnauthorizedException('Usuario no encontrado');
+    }
+
+    return user;
+    
+  }
+
 }
