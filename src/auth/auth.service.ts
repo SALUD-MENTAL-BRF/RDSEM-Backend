@@ -22,14 +22,10 @@ export class AuthService {
     let user = await this.usersService.findOneByEmail(email);
 
     if (user) {
-      throw new Error('Email already exists');
+      throw new BadRequestException(
+        'Usuario ya registrado',
+      );
     }
-
-    // let userfound = await this.usersService.findOneByUsername(username);
-
-    // if (userfound) {
-    //   throw new BadRequestException('Username ya registrado');
-    // }
 
     const hashedPassword = await bcryptjs.hash(password, 10);
 
@@ -39,45 +35,39 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    const payload = { email: user.email, sub: user.id };
+    const payload = { id: user.id };
 
     const token = await this.jwtService.signAsync(payload, {
       secret: jwtConstants.secret,
     });
 
-    const data = {
-      token: token,
-      user: user,
-    };
-
-    return data;
+    return { token }
   }
 
   async login({ email, password }: LoginDto) {
     const user = await this.usersService.findOneByEmail(email);
 
     if (!user) {
-      throw new Error('Invalid credentials');
+        throw new BadRequestException(
+          'Usuario no encontrado',
+      );
     }
 
     const isPasswordValid = await bcryptjs.compare(password, user.password);
 
     if (!isPasswordValid) {
-      throw new Error('Invalid credentials');
+      throw new BadRequestException(
+        'Contraseña incorrecta',
+      )
     }
 
-    const payload = { email: user.email, sub: user.id };
+    const payload = {id: user.id };
 
     const token = await this.jwtService.signAsync(payload, {
       secret: jwtConstants.secret,
     });
 
-    const data = {
-      token,
-      user,
-    };
-
-    return data;
+    return { token }
   }
 
   async googleLogin(tokenId: string) {
@@ -97,7 +87,6 @@ export class AuthService {
     let user = await this.usersService.findOneByEmail(payload.email);
 
     if (!user) {
-      // Si el usuario no existe, crear uno nuevo con los datos de Google
       user = await this.usersService.createUser({
         username: payload.name,
         email: payload.email,
@@ -105,7 +94,6 @@ export class AuthService {
         imageUrl: payload.picture,
       });
     } else {
-      // Si el usuario ya existe, actualizar googleId e imageUrl solo si aún no están presentes
       if (!user.googleId || !user.imageUrl) {
         user = await this.usersService.updateUser(user.id, {
           googleId: payload.sub,
