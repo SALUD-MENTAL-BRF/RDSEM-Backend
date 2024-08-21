@@ -31,7 +31,6 @@ model User {
   // requestProfessional RequestProfessional[]
   publication Publication[]
   notes Note[] // Relación inversa a las notas
-  profileProfessional ProfileProfessional[]
 }
 
 model Note {
@@ -78,13 +77,15 @@ model Professional {
   lastname String
   title String
   specialization String
-  tuition String
+  tuition Int
   birthdate DateTime
+
 
   // Relaciones
   user User @relation(fields: [userId], references: [id]) 
   userId Int
   patient Patient[]
+    profileProfessional ProfileProfessional[]
 }
 
 // model RequestProfessional {
@@ -102,14 +103,14 @@ model Professional {
 
 model ProfileProfessional {
   id Int @id @default(autoincrement())
-  description String
-  availability Boolean
-  preference_communication String
-  url_image String
+  description String @default("")
+  availability Boolean @default(false)
+  preference_communication String @default("")
+  url_image String @default("")
 
   //Relaciones
-  user User @relation(fields: [userId], references: [id])
-  userId Int
+  professional Professional @relation(fields: [professionalId], references: [id])
+  professionalId Int
 }
 
 model Publication {
