@@ -70,9 +70,8 @@ model Patient {
   professional Professional[]
   historyPatient9 HistoryPatient[]
 }
-
 model Professional {
-  id Int @id @default(autoincrement())
+  id Int                @id @default(autoincrement())
   firstname String
   lastname String
   title String
@@ -80,13 +79,28 @@ model Professional {
   tuition Int
   birthdate DateTime
 
-
   // Relaciones
   user User @relation(fields: [userId], references: [id]) 
   userId Int
   patient Patient[]
-    profileProfessional ProfileProfessional[]
+  profile ProfileProfessional?
 }
+
+model ProfileProfessional {
+  id Int @id @default(autoincrement())
+  description String @default("")
+  availability Boolean @default(false)
+  preference_communication String @default("")
+  url_image String @default("")
+
+  // Relaciones
+  professional Professional @relation(fields: [professionalId], references: [id])
+  professionalId Int @unique
+}
+
+
+
+
 
 // model RequestProfessional {
 //   id Int @id @default(autoincrement())
@@ -101,17 +115,7 @@ model Professional {
 //   userId Int
 // }
 
-model ProfileProfessional {
-  id Int @id @default(autoincrement())
-  description String @default("")
-  availability Boolean @default(false)
-  preference_communication String @default("")
-  url_image String @default("")
 
-  //Relaciones
-  professional Professional @relation(fields: [professionalId], references: [id])
-  professionalId Int
-}
 
 model Publication {
   id Int @id @default(autoincrement())

@@ -8,7 +8,7 @@ export class ProfessionalService {
 
     constructor(private readonly prismaService : PrismaService){};
 
-    async AddProfessional(data:any, id: string){
+    async create(data:any, id: string){
         
         const userId = Number(id)
 
@@ -40,6 +40,14 @@ export class ProfessionalService {
 
         
     };
+
+    async findAll(){
+        return await this.prismaService.profileProfessional.findMany({
+            include: {
+                professional: true,
+            },
+        });
+    }
 
 
     async createProfile(id: number) {
