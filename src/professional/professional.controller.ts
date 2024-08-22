@@ -1,9 +1,8 @@
 import { Controller,Post, Body, Req,Res, Param, ValidationPipe, Get } from "@nestjs/common";
 import { Request,Response } from "express";
 import { ProfessionalService } from "./professional.service";
-import { CreateProfessionalDto } from "./dto/createProfessional.dto";
 import { UsePipes } from "@nestjs/common";
-import { request } from "http";
+import { CreateProfessionalDto } from "./dto/createProfessional.dto";
 
 @Controller('professional')
 export class ProfessionalControllers {
@@ -12,7 +11,7 @@ export class ProfessionalControllers {
 
     @Post(':id')
     @UsePipes(new ValidationPipe({whitelist: true}))
-    async createProfessional(@Param('id') id: string ,@Req() _request: Request, @Res() response : Response, @Body() data: any) {
+    async createProfessional(@Param('id') id: string ,@Req() _request: Request, @Res() response : Response, @Body() data: CreateProfessionalDto) {
         try {
             const professional = await this.professionalService.create(data, id);
 
@@ -35,4 +34,14 @@ export class ProfessionalControllers {
         }
     };
 
+
+    @Get(':id')
+    async findOneProfile(@Req() _request: Request, @Res() response: Response, @Param('id') id: string){
+        try {
+            response.status(200).json(await this.professionalService.findOneProfile(Number(id)));
+        } catch (error) {
+            console.log(error);
+            response.status(500).json({msg: "Error to get one professional"})
+        }
+    };
 }

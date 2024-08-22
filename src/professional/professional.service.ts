@@ -1,4 +1,4 @@
-import { Injectable, Post, Body, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 
 
@@ -17,7 +17,7 @@ export class ProfessionalService {
         }})
 
         if(!user){
-            throw new NotFoundException("No se encontro el usuario")
+            throw new NotFoundException("No se encontro el usuario.")
         }
 
         if(user.roleId == 2) {
@@ -62,7 +62,15 @@ export class ProfessionalService {
             }
           }
         });
-      }
+      };
       
+      async findOneProfile(id: number){
+        return await this.prismaService.profileProfessional.findFirst({
+            where: {id: id},
+            include: {
+                professional: true
+            }
+        })
+      }
 
 }
