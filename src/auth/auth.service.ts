@@ -27,6 +27,13 @@ export class AuthService {
       );
     }
 
+    let foundUser = await this.usersService.findOneByUsername(username);
+    if (foundUser) {
+      throw new BadRequestException(
+        'Nombre de Usuario ya registrado',
+      );
+    }
+
     const hashedPassword = await bcryptjs.hash(password, 10);
 
     user = await this.usersService.createUser({
