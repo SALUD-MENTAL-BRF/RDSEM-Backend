@@ -51,4 +51,8 @@ export class UsersService {
       where: { id },
     });
   }
+
+  async updateImage(img: Blob){
+    
+  }
 }

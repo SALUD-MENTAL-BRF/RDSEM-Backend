@@ -26,3 +26,26 @@ export class CreateProfessionalDto {
   birthdate: string;
 }
 
+
+// export class UpdateProfessionalDto {
+
+//   @IsString({ message: 'El título debe ser una cadena de texto' })
+//   title?: string;
+
+//   @IsString({ message: 'El nombre debe ser una cadena de texto' })
+//   firstname?: string;
+
+
+//   @IsString({ message: 'El apellido debe ser una cadena de texto' })
+//   lastname?: string;
+
+//   @IsString({ message: 'La especialización debe ser una cadena de texto' })
+//   specialization?: string;
+
+//   @IsNumber({}, { message: 'La matrícula debe ser un número' })
+//   tuition?: number;
+
+
+//   @IsISO8601({}, { message: 'La fecha de nacimiento debe estar en un formato ISO 8601 válido' })
+//   birthdate?: string;
+// }

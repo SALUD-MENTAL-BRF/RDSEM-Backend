@@ -4,6 +4,7 @@ import { PreloadedData } from './prisma/data/preloaded';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { ValidationPipe } from '@nestjs/common';
 import { useContainer } from 'class-validator';
+import * as cloudinary from 'cloudinary'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,6 +15,7 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   };
+
 
   app.enableCors(corsOptions);
   //*carga de datos predefinidos

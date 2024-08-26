@@ -2,7 +2,7 @@ import { Controller,Post, Body, Req,Res, Param, ValidationPipe, Get } from "@nes
 import { Request,Response } from "express";
 import { ProfessionalService } from "./professional.service";
 import { UsePipes } from "@nestjs/common";
-import { CreateProfessionalDto } from "./dto/createProfessional.dto";
+import { CreateProfessionalDto } from "./dto/professional.dto";
 
 @Controller('professional')
 export class ProfessionalControllers {
