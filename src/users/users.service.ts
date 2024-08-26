@@ -59,4 +59,7 @@ export class UsersService {
     
   }
 
+  async updateImage(img: Blob){
+    
+  }
 }
