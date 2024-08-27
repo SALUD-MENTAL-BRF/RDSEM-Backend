@@ -3,10 +3,15 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly cloudinaryService:CloudinaryService
+  ) {}
 
   createUser(User: CreateUserDto) {
     // console.log(User.username);
@@ -52,7 +57,23 @@ export class UsersService {
     });
   }
 
-  async updateImage(img: Blob){
-    
+  async updateImage(id: number, file: Express.Multer.File): Promise<string> {
+    return await this.cloudinaryService.uploadImage(file).then(async (result) => {
+      if (!result || !result.secure_url) {
+        throw new BadRequestException('Error uploading image.');
+      }
+
+      await this.prismaService.user.update({
+        where: {id:id},
+        data: {
+          imageUrl: result.secure_url
+        }
+      })
+
+
+      return result.secure_url;
+    }).catch(() => {
+      throw new BadRequestException('Invalid file type.');
+    });
   }
 }

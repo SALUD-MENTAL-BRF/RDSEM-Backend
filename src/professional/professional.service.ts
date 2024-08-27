@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
+import { CreateProfessionalDto,UpdateProfileProfessionalDto } from "./dto/professional.dto";
 
 @Injectable({})
 export class ProfessionalService {
@@ -9,7 +10,7 @@ export class ProfessionalService {
 
     ){};
 
-    async create(data:any, id: string){
+    async create(data:CreateProfessionalDto, id: string){
         
         const userId = Number(id)
 
@@ -74,7 +75,12 @@ export class ProfessionalService {
         })
       }
 
-      async update(data:any){
-        
+      async update(id:number,data:UpdateProfileProfessionalDto){
+        return await this.prismaService.profileProfessional.update({
+            where:{id:id},
+            data: {
+                
+            }
+        })
       }
 }
