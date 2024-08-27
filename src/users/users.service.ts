@@ -59,10 +59,7 @@ export class UsersService {
     
   }
 
-  async findOneByUsername(username: string) {
-    return this.prismaService.user.findUnique({
-      where: { username },
-    });
+  async updateImage(img: Blob){
+    
   }
-
 }
