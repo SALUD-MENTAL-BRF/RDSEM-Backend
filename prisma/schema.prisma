@@ -91,7 +91,6 @@ model ProfileProfessional {
   description String @default("")
   availability Boolean @default(false)
   preference_communication String @default("")
-  url_image String @default("")
 
   // Relaciones
   professional Professional @relation(fields: [professionalId], references: [id])

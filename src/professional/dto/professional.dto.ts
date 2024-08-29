@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsNumber, IsISO8601 } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsISO8601, isString, isNotEmpty } from 'class-validator';
 
 export class CreateProfessionalDto {
   @IsNotEmpty({ message: 'El título es obligatorio' })
@@ -27,25 +27,13 @@ export class CreateProfessionalDto {
 }
 
 
-// export class UpdateProfessionalDto {
+export class UpdateProfileProfessionalDto {
 
-//   @IsString({ message: 'El título debe ser una cadena de texto' })
-//   title?: string;
+  description?: string;
 
-//   @IsString({ message: 'El nombre debe ser una cadena de texto' })
-//   firstname?: string;
+  availability?: boolean;
 
-
-//   @IsString({ message: 'El apellido debe ser una cadena de texto' })
-//   lastname?: string;
-
-//   @IsString({ message: 'La especialización debe ser una cadena de texto' })
-//   specialization?: string;
-
-//   @IsNumber({}, { message: 'La matrícula debe ser un número' })
-//   tuition?: number;
+  preference_communication?: string;
 
 
-//   @IsISO8601({}, { message: 'La fecha de nacimiento debe estar en un formato ISO 8601 válido' })
-//   birthdate?: string;
-// }
+}

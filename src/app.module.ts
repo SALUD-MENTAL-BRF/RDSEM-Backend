@@ -5,12 +5,12 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { NoteModule } from './note/note.module';
 import { ProfessionalModule } from './professional/professional.module';
-import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { CloudinaryService } from './cloudinary/cloudinary.service';
 
 
 @Module({
-  imports: [UsersModule, AuthModule, NoteModule, ProfessionalModule,CloudinaryModule],
+  imports: [UsersModule, AuthModule, NoteModule, ProfessionalModule],
   controllers: [],
-  providers: [PreloadedData, PrismaService],
+  providers: [PreloadedData, PrismaService, CloudinaryService],
 })
 export class AppModule {}
