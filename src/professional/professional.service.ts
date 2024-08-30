@@ -70,7 +70,11 @@ export class ProfessionalService {
         return await this.prismaService.profileProfessional.findFirst({
             where: {id: id},
             include: {
-                professional: true
+                professional: {
+                    include: {
+                        user: true
+                    }
+                }
             }
         })
       }
