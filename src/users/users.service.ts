@@ -78,7 +78,6 @@ export class UsersService {
         }
       })
 
-
       return result.secure_url;
     }).catch(() => {
       throw new BadRequestException('Invalid file type.');
