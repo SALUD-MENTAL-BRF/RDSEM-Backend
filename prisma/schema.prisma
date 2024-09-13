@@ -22,9 +22,12 @@ model User {
   googleId String?
   imageUrl String?
 
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())  
+
   // Relaciones
   rol Role @relation(fields: [roleId], references: [id])
-  roleId Int @default(1)
+  roleId Int @default(3)
 
   patient Patient[]
   professional Professional[]
