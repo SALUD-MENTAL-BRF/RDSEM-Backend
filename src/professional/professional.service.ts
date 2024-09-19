@@ -46,7 +46,12 @@ export class ProfessionalService {
     async findAll(){
         return await this.prismaService.profileProfessional.findMany({
             include: {
-                professional: true,
+                professional: {
+                    include:{
+                        user: true
+                    }
+                }
+
             },
         });
     }
@@ -69,7 +74,11 @@ export class ProfessionalService {
         return await this.prismaService.profileProfessional.findFirst({
             where: {id: id},
             include: {
-                professional: true
+                professional: {
+                    include: {
+                        user: true
+                    }
+                }
             }
         })
       }
