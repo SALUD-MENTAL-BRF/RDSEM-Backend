@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, ValidationPipe, UsePipes } from '@nestjs/common';
+import { Req, Res, Controller, Get, Post, Body, Param, Put, Delete, ValidationPipe, UsePipes } from '@nestjs/common';
+import { Request,Response } from 'express';
 import { RequestPatientService } from './request_patient.service';
 import { CreateRequestPatientDto } from './dto/request_patient.dto';
 @Controller('request-patient')
@@ -7,8 +8,14 @@ export class RequestPatientController {
 
   @Post()
   @UsePipes(new ValidationPipe({whitelist: true}))
-  create(@Body() data: CreateRequestPatientDto) {
-    return this.requestPatientService.create(data);
+  create(@Body() data: CreateRequestPatientDto, @Req() request: Request, @Res() response: Response) {
+    try {
+        const request_patient = this.requestPatientService.create(data);
+        
+    } catch (error) {
+        
+    }
+    
   }
 
   @Get()
