@@ -63,7 +63,6 @@ export class ProfessionalService {
             description: '', 
             availability: false, 
             preference_communication: '',
-            url_image: '', 
             professional: {
               connect: { id: id }
             }
