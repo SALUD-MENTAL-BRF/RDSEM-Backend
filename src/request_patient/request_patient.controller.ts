@@ -1,12 +1,13 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, ValidationPipe, UsePipes } from '@nestjs/common';
 import { RequestPatientService } from './request_patient.service';
-
+import { CreateRequestPatientDto } from './dto/request_patient.dto';
 @Controller('request-patient')
 export class RequestPatientController {
   constructor(private readonly requestPatientService: RequestPatientService) {}
 
   @Post()
-  create(@Body() data: any) {
+  @UsePipes(new ValidationPipe({whitelist: true}))
+  create(@Body() data: CreateRequestPatientDto) {
     return this.requestPatientService.create(data);
   }
 
