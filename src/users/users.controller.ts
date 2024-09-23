@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, UseInterceptors, Req, Res, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, UseInterceptors, Req, Res, UploadedFile, Delete, BadRequestException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
@@ -55,4 +55,17 @@ export class UsersController {
       return response.status(500).json({ error: error.message });
     }
   }
+
+  @Delete('/:id')
+  async deleteUser(@Param('id') id: string) {
+    const numericId = parseInt(id);
+  
+    if (isNaN(numericId)) {
+      throw new BadRequestException('ID inválido');
+    }
+  
+    const response = await this.usersService.deleteUser(numericId);
+    return response;
+  }
+  
 }

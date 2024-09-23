@@ -88,4 +88,18 @@ export class UsersService {
     });
   }
 
+  async deleteUser(userId: number) {
+    try {
+      const user = await this.prismaService.user.delete({
+        where: { id: userId },
+      });
+  
+      return { success: true };
+    } catch (error) {
+      throw new BadRequestException('Usuario no encontrado');
+    }
+  }
+  
+  
+
 }

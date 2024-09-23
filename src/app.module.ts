@@ -6,10 +6,11 @@ import { AuthModule } from './auth/auth.module';
 import { NoteModule } from './note/note.module';
 import { ProfessionalModule } from './professional/professional.module';
 import { CloudinaryService } from './cloudinary/cloudinary.service';
+import { RolesModule } from './roles/roles.module';
 
 
 @Module({
-  imports: [UsersModule, AuthModule, NoteModule, ProfessionalModule],
+  imports: [UsersModule, AuthModule, NoteModule, ProfessionalModule, RolesModule],
   controllers: [],
   providers: [PreloadedData, PrismaService, CloudinaryService],
 })
