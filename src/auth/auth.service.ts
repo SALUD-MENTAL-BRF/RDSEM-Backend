@@ -39,6 +39,7 @@ export class AuthService {
 
     const token = await this.jwtService.signAsync(payload, {
       secret: jwtConstants.secret,
+      expiresIn: '1h'
     });
 
     return { token }
@@ -65,6 +66,7 @@ export class AuthService {
 
     const token = await this.jwtService.signAsync(payload, {
       secret: jwtConstants.secret,
+      expiresIn: '1h'
     });
 
     return { token }
@@ -106,7 +108,8 @@ export class AuthService {
     const jwtPayload = { id: foudUser.id }
 
     const token = await this.jwtService.signAsync(jwtPayload, {
-      secret: jwtConstants.secret
+      secret: jwtConstants.secret,
+      expiresIn: '1h',
     })
 
     return { token }
