@@ -13,27 +13,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserStatus {
+  ACTIVO
+  INACTIVO
+}
+
 model User {
-  id Int @id @default(autoincrement())
-  username String 
-  email String @unique
-  password String?
-
-  googleId String?
-  imageUrl String?
-
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())  
+  id          Int          @id @default(autoincrement())
+  username    String
+  email       String       @unique
+  password    String?
+  googleId    String?
+  imageUrl    String?
+  updatedAt   DateTime     @updatedAt
+  createdAt   DateTime     @default(now())
+  status      UserStatus   @default(ACTIVO) // Por defecto "ACTIVO"
 
   // Relaciones
-  rol Role @relation(fields: [roleId], references: [id])
-  roleId Int @default(3)
+  rol         Role         @relation(fields: [roleId], references: [id])
+  roleId      Int          @default(3)
 
-  patient Patient[]
-  professional Professional[]
-  // requestProfessional RequestProfessional[]
-  publication Publication[]
-  notes Note[] // Relación inversa a las notas
+  patient     Patient[]    // Relación con los pacientes asociados
+  professional Professional[] // Relación con los profesionales asociados
+  publication Publication[] // Relación con las publicaciones del usuario
+  notes       Note[]       // Relación con las notas creadas por el usuario
 }
 
 model Note {
