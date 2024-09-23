@@ -28,6 +28,10 @@ export class UsersService {
     });
   }
 
+  findAll() {
+    return this.prismaService.user.findMany();
+  }
+
   findOneByEmail(email: string) {
     return this.prismaService.user.findUnique({
       where: { email },

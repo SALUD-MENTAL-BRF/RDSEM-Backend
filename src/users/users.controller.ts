@@ -6,12 +6,7 @@ import { Request, Response } from 'express';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  @Get('/:email')
-  async GetUser(@Param('email') email: string) {
-    return await this.usersService.findOneByEmail(email);
-  }
-
+  
   @Post('/')
   async CreateUser(@Body() user: any) {
     try {
@@ -21,6 +16,17 @@ export class UsersController {
       return { success: false, message: error.message };
     }
   }
+
+  @Get('/')
+  async GetUsers() {
+    return await this.usersService.findAll();
+  }
+
+  @Get('/:email')
+  async GetUser(@Param('email') email: string) {
+    return await this.usersService.findOneByEmail(email);
+  }
+
 
   @Get('/token/:token')
   async GetUserByToken(@Param('token') token: string) {
