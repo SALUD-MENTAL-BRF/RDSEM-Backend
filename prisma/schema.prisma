@@ -53,7 +53,7 @@ model Role {
 
 model HistoryPatient {
   id Int @id @default(autoincrement())
-
+  
   // Relaciones
   patient Patient @relation(fields: [patientId], references: [id])
   patientId Int
