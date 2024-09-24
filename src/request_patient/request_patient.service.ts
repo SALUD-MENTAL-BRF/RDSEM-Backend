@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-
+import { CreateRequestPatientDto } from './dto/request_patient.dto';
 
 @Injectable()
 export class RequestPatientService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: any) {
+  async create(data: any, id: number, professionalId:number) {
     return this.prisma.request_patient.create({
-      data,
+      data: {...data, userId: id, professionalId: professionalId} 
     });
   }
 
@@ -16,9 +16,12 @@ export class RequestPatientService {
     return this.prisma.request_patient.findMany();
   }
 
-  async findOne(id: number) {
-    return this.prisma.request_patient.findUnique({
-      where: { id },
+  async findOne(id: number, professionalId: number) {
+    return this.prisma.request_patient.findFirst({
+      where: { 
+        userId: id,
+        professionalId: professionalId
+       },
     });
   }
 

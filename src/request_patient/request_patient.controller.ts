@@ -6,35 +6,44 @@ import { CreateRequestPatientDto } from './dto/request_patient.dto';
 export class RequestPatientController {
   constructor(private readonly requestPatientService: RequestPatientService) {}
 
-  @Post()
+  @Post(':id/:professionalId')
   @UsePipes(new ValidationPipe({whitelist: true}))
-  create(@Body() data: CreateRequestPatientDto, @Req() request: Request, @Res() response: Response) {
+  async create(@Body() data: CreateRequestPatientDto, @Req() _request: Request, @Res() response: Response, @Param('id') id: string, @Param('professionalId') professionalId: string) {
     try {
-        const request_patient = this.requestPatientService.create(data);
-        
+        const request_patient = await this.requestPatientService.create(data, Number(id),Number(professionalId));
+
+        response.status(200).json(request_patient)
     } catch (error) {
-        
+        console.log(error);
+        response.status(500).json({message:"Error to create request"})
     }
     
   }
 
   @Get()
-  findAll() {
-    return this.requestPatientService.findAll();
+  async findAll() {
+    return await this.requestPatientService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.requestPatientService.findOne(id);
+  @Get(':id/:professionalId')
+  async findOne(@Req() _request: Request, @Res() response: Response, @Param('id') id: string, @Param('professionalId') professionalId: string) { 
+    try {
+      const request_patient = await this.requestPatientService.findOne(Number(id), Number(professionalId));
+
+      response.status(200).json(request_patient)
+  } catch (error) {
+      console.log(error);
+      response.status(500).json({message:"Error to get request"})
+  }
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() data: any) {
-    return this.requestPatientService.update(id, data);
+  async update(@Param('id') id: number, @Body() data: any) {
+    return await this.requestPatientService.update(id, data);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.requestPatientService.remove(id);
+  async remove(@Param('id') id: number) {
+    return await this.requestPatientService.remove(id);
   }
 }

@@ -24,6 +24,7 @@ export class UsersService {
         password: User.password,
         googleId: User.googleId,
         imageUrl: User.imageUrl,
+        roleId: 4
       },
     });
   }

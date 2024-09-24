@@ -124,7 +124,7 @@ model Professional {
   title String
   specialization String
   tuition Int
-  birthdate DateTime
+  birthdate String
 
   // Relaciones
   user User @relation(fields: [userId], references: [id]) 

@@ -18,7 +18,6 @@ export class CreateRequestPatientDto {
   address: string;
 
   @IsNotEmpty({ message: 'El teléfono es obligatorio.' })
-  @IsPhoneNumber(null, { message: 'El número de teléfono debe ser válido.' })
   telephone: string;
 
   @IsNotEmpty({ message: 'El nombre de contacto de emergencia es obligatorio.' })
@@ -30,7 +29,6 @@ export class CreateRequestPatientDto {
   contactEmergencyRelation: string;
 
   @IsNotEmpty({ message: 'El teléfono del contacto de emergencia es obligatorio.' })
-  @IsPhoneNumber(null, { message: 'El número de teléfono de emergencia debe ser válido.' })
   contactEmergencyTelephone: string;
 
   @IsNotEmpty({ message: 'El motivo de consulta es obligatorio.' })
@@ -68,12 +66,4 @@ export class CreateRequestPatientDto {
   @IsOptional()
   @IsString({ message: 'La historia familiar debe ser una cadena de texto.' })
   histoyFamily?: string;
-
-  @IsNotEmpty({ message: 'El ID del usuario es obligatorio.' })
-  @IsInt({ message: 'El ID del usuario debe ser un número entero.' })
-  userId: number;
-
-  @IsNotEmpty({ message: 'El ID del profesional es obligatorio.' })
-  @IsInt({ message: 'El ID del profesional debe ser un número entero.' })
-  professionalId: number;
 }
