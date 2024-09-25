@@ -14,6 +14,16 @@ export class ProfessionalControllers {
         private userService:UsersService
     ){}
 
+    @Get()
+    async getAllProfessional(@Req() _request: Request, @Res() response: Response){
+        try {
+            response.status(200).json(await this.professionalService.findAll());
+        } catch (error) {
+            console.log(error);
+            response.status(500).json({msg: "Error to get all professionals"})
+        }
+    };
+
     @Post(':id')
     @UsePipes(new ValidationPipe({whitelist: true}))
     async createProfessional(@Param('id') id: string ,@Req() _request: Request, @Res() response : Response, @Body() data: CreateProfessionalDto) {
@@ -27,20 +37,18 @@ export class ProfessionalControllers {
         };
     };
 
-
-
-    @Get()
-    async getAllProfessional(@Req() _request: Request, @Res() response: Response){
+    @Get(':id')
+    async findOneProfessionalByUserId(@Req() _request: Request, @Res() response: Response, @Param('id') id: string){
         try {
-            response.status(200).json(await this.professionalService.findAll());
+            response.status(200).json(await this.professionalService.findOneByUserId(Number(id)))
         } catch (error) {
             console.log(error);
-            response.status(500).json({msg: "Error to get all professionals"})
+            response.status(500).json({msg: "Error to find the professional"})
+            
         }
-    };
+    }
 
-
-    @Get(':id')
+    @Get('profile/:id')
     async findOneProfile(@Req() _request: Request, @Res() response: Response, @Param('id') id: string){
         try {
             response.status(200).json(await this.professionalService.findOneProfile(Number(id)));

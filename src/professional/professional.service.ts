@@ -43,6 +43,14 @@ export class ProfessionalService {
         
     };
 
+    async findOneByUserId(id:number){
+        return await this.prismaService.professional.findFirst({
+            where:{
+                userId:id
+            }
+        })
+    }
+
     async findAll(){
         return await this.prismaService.profileProfessional.findMany({
             include: {

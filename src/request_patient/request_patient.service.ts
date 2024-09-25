@@ -12,8 +12,12 @@ export class RequestPatientService {
     });
   }
 
-  async findAll() {
-    return this.prisma.request_patient.findMany();
+  async findAll(id:number) {
+    return this.prisma.request_patient.findMany({
+      where: {
+        professionalId: id
+      }
+    });
   }
 
   async findOne(id: number, professionalId: number) {
