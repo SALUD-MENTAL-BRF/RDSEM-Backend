@@ -22,6 +22,21 @@ export class UsersController {
     return await this.usersService.findAll();
   }
 
+  @Put('/:id')
+  async UpdateUser(@Param('id') id: string, @Body() user: any) {
+    try {
+      const updatedUser = await this.usersService.updateUser(parseInt(id, 10), user);
+
+      if (!updatedUser) {
+        throw new BadRequestException('No se pudo editar el usuario.');
+      }
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  }
+
   @Get('/:email')
   async GetUser(@Param('email') email: string) {
     return await this.usersService.findOneByEmail(email);
