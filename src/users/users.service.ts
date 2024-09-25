@@ -29,6 +29,10 @@ export class UsersService {
     });
   }
 
+  findAll() {
+    return this.prismaService.user.findMany();
+  }
+
   findOneByEmail(email: string) {
     return this.prismaService.user.findUnique({
       where: { email },
@@ -84,5 +88,19 @@ export class UsersService {
       throw new BadRequestException('Invalid file type.');
     });
   }
+
+  async deleteUser(userId: number) {
+    try {
+      await this.prismaService.user.delete({
+        where: { id: userId },
+      });
+  
+      return { success: true };
+    } catch (error) {
+      throw new BadRequestException('Usuario no encontrado');
+    }
+  }
+  
+  
 
 }

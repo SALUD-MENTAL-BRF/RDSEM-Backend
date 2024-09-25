@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, UseInterceptors, Req, Res, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, UseInterceptors, Req, Res, UploadedFile, Delete, BadRequestException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
@@ -6,12 +6,7 @@ import { Request, Response } from 'express';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  @Get('/:email')
-  async GetUser(@Param('email') email: string) {
-    return await this.usersService.findOneByEmail(email);
-  }
-
+  
   @Post('/')
   async CreateUser(@Body() user: any) {
     try {
@@ -21,6 +16,32 @@ export class UsersController {
       return { success: false, message: error.message };
     }
   }
+
+  @Get('/')
+  async GetUsers() {
+    return await this.usersService.findAll();
+  }
+
+  @Put('/:id')
+  async UpdateUser(@Param('id') id: string, @Body() user: any) {
+    try {
+      const updatedUser = await this.usersService.updateUser(parseInt(id, 10), user);
+
+      if (!updatedUser) {
+        throw new BadRequestException('No se pudo editar el usuario.');
+      }
+
+      return { success: true };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  }
+
+  @Get('/:email')
+  async GetUser(@Param('email') email: string) {
+    return await this.usersService.findOneByEmail(email);
+  }
+
 
   @Get('/token/:token')
   async GetUserByToken(@Param('token') token: string) {
@@ -49,4 +70,17 @@ export class UsersController {
       return response.status(500).json({ error: error.message });
     }
   }
+
+  @Delete('/:id')
+  async deleteUser(@Param('id') id: string) {
+    const numericId = parseInt(id);
+  
+    if (isNaN(numericId)) {
+      throw new BadRequestException('ID inválido');
+    }
+  
+    const response = await this.usersService.deleteUser(numericId);
+    return response;
+  }
+  
 }

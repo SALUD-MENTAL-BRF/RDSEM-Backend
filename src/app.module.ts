@@ -7,9 +7,10 @@ import { NoteModule } from './note/note.module';
 import { ProfessionalModule } from './professional/professional.module';
 import { CloudinaryService } from './cloudinary/cloudinary.service';
 import { RequestPatientModule } from './request_patient/request_patient.module';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
-  imports: [UsersModule, AuthModule, NoteModule, ProfessionalModule, RequestPatientModule],
+  imports: [UsersModule, AuthModule, NoteModule, ProfessionalModule, RolesModule, RequestPatientModule],
   controllers: [],
   providers: [PreloadedData, PrismaService, CloudinaryService],
 })
