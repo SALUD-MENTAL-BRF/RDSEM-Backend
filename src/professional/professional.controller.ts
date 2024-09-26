@@ -4,7 +4,6 @@ import { ProfessionalService } from "./professional.service";
 import { UsePipes } from "@nestjs/common";
 import { CreateProfessionalDto, UpdateProfileProfessionalDto } from "./dto/professional.dto";
 import { UsersService } from "src/users/users.service";
-import { FileInterceptor } from "@nestjs/platform-express";
 
 @Controller('professional')
 export class ProfessionalControllers {
@@ -59,18 +58,9 @@ export class ProfessionalControllers {
     };
 
     @Put(':id')
-    @UseInterceptors(FileInterceptor('file'))
-    async updateProfile(@Req() _request: Request, @Res() response: Response,@Param('id') id: string, @UploadedFile() file: Express.Multer.File, @Body() data: UpdateProfileProfessionalDto){
+    async updateProfile(@Req() _request: Request, @Res() response: Response,@Param('id') id: string, @Body() data: UpdateProfileProfessionalDto){
         try {
-            if(file){
-                await this.userService.updateImage(Number(id), file)
-            }
-            
-            if(data){
-                
-            }
-            
-            response.status(200).json({})
+            response.status(200).json(await this.professionalService.updateProfile(Number(id), data))
         } catch (error) {
             console.log(error);
             response.status(500).json({msg: "Error to update profile"})

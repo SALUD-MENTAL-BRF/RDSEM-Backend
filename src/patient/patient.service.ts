@@ -15,7 +15,8 @@ export class PatientService {
                     where:{
                         id: profesionalId
                     }
-                }
+                },
+                user: true
             }
         });
     };

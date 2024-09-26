@@ -70,7 +70,7 @@ export class ProfessionalService {
           data: {
             description: '', 
             availability: false, 
-            preference_communication: '',
+            preference_communication: 'Sin preferencias',
             professional: {
               connect: { id: id }
             }
@@ -91,12 +91,10 @@ export class ProfessionalService {
         })
       }
 
-      async update(id:number,data:UpdateProfileProfessionalDto){
+      async updateProfile(id:number,data:UpdateProfileProfessionalDto){        
         return await this.prismaService.profileProfessional.update({
-            where:{id:id},
-            data: {
-                
-            }
+            where:{professionalId: id},
+            data: data
         })
       }
 }
