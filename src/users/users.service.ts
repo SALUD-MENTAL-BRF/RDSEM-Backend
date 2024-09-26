@@ -7,6 +7,7 @@ import * as jwt from 'jsonwebtoken';
 import { jwtConstants } from '../auth/constants/jwt.constant'
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { BadRequestException } from '@nestjs/common';
+import * as bcryptjs from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -15,13 +16,16 @@ export class UsersService {
     private readonly cloudinaryService:CloudinaryService
   ) {}
 
-  createUser(User: CreateUserDto) {
+  async createUser(User: CreateUserDto) {
+
+    const hashedPassword = await bcryptjs.hash(User.password, 10);
+
 
     return this.prismaService.user.create({
       data: {
         username: User.username,
         email: User.email,
-        password: User.password,
+        password: hashedPassword,
         googleId: User.googleId,
         imageUrl: User.imageUrl,
         roleId: 4
@@ -29,9 +33,17 @@ export class UsersService {
     });
   }
 
-  findAll() {
-    return this.prismaService.user.findMany();
-  }
+  async findAll() {
+    return await this.prismaService.user.findMany({
+      include: {
+        rol: {
+          select: {
+            type: true,
+          },
+        },
+      },
+    });
+  }  
 
   findOneByEmail(email: string) {
     return this.prismaService.user.findUnique({
