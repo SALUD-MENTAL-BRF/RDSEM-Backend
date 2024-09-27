@@ -23,11 +23,11 @@ export class ProfessionalControllers {
         }
     };
 
-    @Post(':id')
+    @Post(':userId')
     @UsePipes(new ValidationPipe({whitelist: true}))
-    async createProfessional(@Param('id') id: string ,@Req() _request: Request, @Res() response : Response, @Body() data: CreateProfessionalDto) {
+    async createProfessional(@Param('userId') userId: string ,@Req() _request: Request, @Res() response : Response, @Body() data: CreateProfessionalDto) {
         try {
-            const professional = await this.professionalService.create(data, id);
+            const professional = await this.professionalService.create(data, Number(userId));
 
             response.status(200).json(professional);
         } catch (error) {
@@ -36,10 +36,10 @@ export class ProfessionalControllers {
         };
     };
 
-    @Get(':id')
-    async findOneProfessionalByUserId(@Req() _request: Request, @Res() response: Response, @Param('id') id: string){
+    @Get(':userId')
+    async findOneProfessionalByUserId(@Req() _request: Request, @Res() response: Response, @Param('userId') userId: string){
         try {
-            response.status(200).json(await this.professionalService.findOneByUserId(Number(id)))
+            response.status(200).json(await this.professionalService.findOneByUserId(Number(userId)))
         } catch (error) {
             console.log(error);
             response.status(500).json({msg: "Error to find the professional"})
