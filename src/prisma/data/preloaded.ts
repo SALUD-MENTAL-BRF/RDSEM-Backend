@@ -8,7 +8,8 @@ export class PreloadedData implements OnModuleInit{
     constructor(private prisma : PrismaService){}
 
     async onModuleInit() {
-        await this.addRole()    
+        await this.addRole()
+        await this.addCategories()    
     }
 
     async addRole(){    
@@ -25,5 +26,13 @@ export class PreloadedData implements OnModuleInit{
 
 
         return await this.prisma.role.createMany({data: roles})
+    }
+
+    async addCategories(){
+        const findCategoriesNaurodevelopment = await this.prisma.categoryNaurodevelopment.findMany()
+
+        if(findCategoriesNaurodevelopment.length > 1) return
+        
+        await this.prisma.categoryNaurodevelopment.createMany({data:categories})
     }
 }
