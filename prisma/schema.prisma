@@ -18,6 +18,11 @@ enum UserStatus {
   INACTIVO
 }
 
+enum TypeHospital {
+  Publico
+  Privado
+}
+
 model User {
   id          Int          @id @default(autoincrement())
   username    String
@@ -185,21 +190,22 @@ model Publication {
 // ----------------------------------------------------------------
 
 model Hospital {
-  id           Int                       @id @default(autoincrement())
-  name         String
-  address      String
-  telephone    String
-  email        String
-  website      String?
-  director     String?
-  openingHours String
-  createdAt    DateTime                  @default(now())
-  updatedAt    DateTime                  @updatedAt
+  id           Int              @id @default(autoincrement())
+  name         String           
+  address      String           
+  telephone    String           
+  email        String           
+  website      String?          
+  director     String?          
+  openingHours String           
+  type         TypeHospital     
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
 
   specialties  SpecialtiesOnHospitals[]
   services     ServicesOnHospitals[]
-	@@map("Hospital")
 }
+
 
 model Specialty {
   id        Int                       @id @default(autoincrement())
