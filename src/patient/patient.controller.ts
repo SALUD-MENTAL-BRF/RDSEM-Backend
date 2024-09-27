@@ -11,7 +11,7 @@ export class PatientController{
     @Get(':patientId')
     async findOnePatient(@Req() _request: Request, @Res() response: Response, @Param('patientId') patientId: string){
         try {
-            response.json(200).json(await this.patientService.findOne(Number(patientId)))
+            response.status(200).json(await this.patientService.findOne(Number(patientId)))
         } catch (error) {
             console.log(error);
             response.status(200).json({

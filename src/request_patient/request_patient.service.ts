@@ -6,9 +6,9 @@ import { CreateRequestPatientDto } from './dto/request_patient.dto';
 export class RequestPatientService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: any, id: number, professionalId:number) {
+  async create(data: any, userId: number, professionalId:number) {
     return this.prisma.request_patient.create({
-      data: {...data, userId: id, professionalId: professionalId} 
+      data: {...data, userId: userId, professionalId: professionalId} 
     });
   }
 

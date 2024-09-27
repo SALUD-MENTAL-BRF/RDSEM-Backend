@@ -168,6 +168,23 @@ model ProfileProfessional {
 // }
 
 
+model NaurodevelopmentActivities {
+  id Int @id @default(autoincrement())
+  title String
+
+  categoryNaurodevelopment CategoryNaurodevelopment @relation(fields: [categoryNaurodevelopmentId], references: [id])
+  categoryNaurodevelopmentId Int
+
+  
+}
+
+model CategoryNaurodevelopment {
+  id Int @id @default(autoincrement())
+  type String
+
+  naurodevelopmentActivities NaurodevelopmentActivities[]
+}
+
 
 model Publication {
   id Int @id @default(autoincrement())

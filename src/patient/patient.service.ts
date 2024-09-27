@@ -11,6 +11,9 @@ export class PatientService {
         return await this.prisma.patient.findFirst({
             where:{
                 id: patientId
+            },
+            include:{
+                user: true
             }
         })
     }

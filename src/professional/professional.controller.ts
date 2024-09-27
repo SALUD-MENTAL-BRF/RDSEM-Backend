@@ -47,20 +47,20 @@ export class ProfessionalControllers {
         }
     }
 
-    @Get('profile/:id')
-    async findOneProfile(@Req() _request: Request, @Res() response: Response, @Param('id') id: string){
+    @Get('profile/:profileId')
+    async findOneProfile(@Req() _request: Request, @Res() response: Response, @Param('profileId') profileId: string){
         try {
-            response.status(200).json(await this.professionalService.findOneProfile(Number(id)));
+            response.status(200).json(await this.professionalService.findOneProfile(Number(profileId)));
         } catch (error) {
             console.log(error);
             response.status(500).json({msg: "Error to get one professional"})
         }
     };
 
-    @Put(':id')
-    async updateProfile(@Req() _request: Request, @Res() response: Response,@Param('id') id: string, @Body() data: UpdateProfileProfessionalDto){
+    @Put(':professionalId')
+    async updateProfile(@Req() _request: Request, @Res() response: Response,@Param('professionalId') professionalId: string, @Body() data: UpdateProfileProfessionalDto){
         try {
-            response.status(200).json(await this.professionalService.updateProfile(Number(id), data))
+            response.status(200).json(await this.professionalService.updateProfile(Number(professionalId), data))
         } catch (error) {
             console.log(error);
             response.status(500).json({msg: "Error to update profile"})
