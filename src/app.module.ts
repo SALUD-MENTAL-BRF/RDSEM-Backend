@@ -9,9 +9,11 @@ import { CloudinaryService } from './cloudinary/cloudinary.service';
 import { RequestPatientModule } from './request_patient/request_patient.module';
 import { RolesModule } from './roles/roles.module';
 import { PatientModule } from './patient/patient.module';
-
+import { ProvinceModule } from './provinces/provinces.module';
 @Module({
-  imports: [UsersModule, AuthModule, NoteModule, ProfessionalModule, RolesModule, RequestPatientModule,PatientModule],
+  imports: [UsersModule, AuthModule, NoteModule, ProfessionalModule, RolesModule, RequestPatientModule,PatientModule,
+    ProvinceModule
+  ],
   controllers: [],
   providers: [PreloadedData, PrismaService, CloudinaryService],
 })

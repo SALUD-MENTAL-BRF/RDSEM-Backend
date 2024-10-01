@@ -72,7 +72,8 @@ export class RequestPatientService {
           reasonConsultation: request.reasonConsultation,
           telephone: request.telephone,
           treatmentsPrevious: request.treatmentsPrevious,
-          userId: request.userId
+          userId: request.userId,
+          localityId: request.localityId
       }});
 
   

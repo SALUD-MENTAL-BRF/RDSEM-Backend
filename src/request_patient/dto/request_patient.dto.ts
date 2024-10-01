@@ -66,4 +66,8 @@ export class CreateRequestPatientDto {
   @IsOptional()
   @IsString({ message: 'La historia familiar debe ser una cadena de texto.' })
   histoyFamily?: string;
+
+  // userId?: number
+
+  // professionalId?:number
 }
