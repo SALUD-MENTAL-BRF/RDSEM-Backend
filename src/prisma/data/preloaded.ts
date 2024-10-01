@@ -1,7 +1,7 @@
 import { PrismaService } from "../prisma.service"
 import { Injectable, OnModuleInit } from "@nestjs/common"
 import {categories} from './categories'
-import { naurodevelopmentActivities } from "./Activities"
+import { naurodevelopmentActivities } from "./activities"
 
 @Injectable()
 export class PreloadedData implements OnModuleInit{
