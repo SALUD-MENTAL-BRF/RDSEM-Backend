@@ -1,4 +1,4 @@
-export const locality = [
+export const localities = [
     { "name": "La Plata", "provinceId": 1 },
     { "name": "Mar del Plata", "provinceId": 1 },
     { "name": "Bahía Blanca", "provinceId": 1 },

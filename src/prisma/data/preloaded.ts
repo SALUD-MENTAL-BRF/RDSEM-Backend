@@ -2,6 +2,8 @@ import { PrismaService } from "../prisma.service"
 import { Injectable, OnModuleInit } from "@nestjs/common"
 import {categories} from './categories'
 import { naurodevelopmentActivities } from "./activities"
+import { provinces } from "./provinces"
+import { localities } from "./localities"
 
 @Injectable()
 export class PreloadedData implements OnModuleInit{
@@ -11,7 +13,9 @@ export class PreloadedData implements OnModuleInit{
     async onModuleInit() {
         await this.addRole()
         await this.addCategories()
-        await this.addActivities()   
+        await this.addActivities()
+        await this.addProvinces()
+        await this.addLocalities()
     }
 
     async addRole(){    
@@ -44,5 +48,21 @@ export class PreloadedData implements OnModuleInit{
         if (findActivitiesNaurodevelopment.length > 1) return 
 
         await this.prisma.naurodevelopmentActivities.createMany({data: naurodevelopmentActivities})
+    }
+
+    async addProvinces(){
+        const findProvinces = await this.prisma.province.findMany()
+
+        if (findProvinces.length > 1) return
+
+        await this.prisma.province.createMany({data: provinces})
+    }
+
+    async addLocalities(){
+        const findLocalities = await this.prisma.locality.findMany()
+
+        if (findLocalities.length > 1) return
+
+        await this.prisma.locality.createMany({data: localities})
     }
 }
