@@ -195,3 +195,18 @@ model Publication {
   user User @relation(fields: [userId], references: [id])
   userId Int
 }
+
+model Province {
+  id Int @id @default(autoincrement())
+  name String
+
+  locality locality[]
+}
+
+model locality {
+  id Int @id @default(autoincrement())
+  name String
+
+  province Province @relation(fields: [provinceId], references: [id])
+  provinceId Int
+}
