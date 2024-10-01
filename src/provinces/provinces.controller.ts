@@ -4,7 +4,7 @@ import { Request,Response } from "express";
 
 @Controller('province')
 export class ProvinceController{
-    constructor(private readonly provinceService: ProvinceService){};
+    constructor(private provinceService: ProvinceService){};
 
     @Get('')
     async findAllProvinces(@Req() _request:Request,@Res() response: Response){
