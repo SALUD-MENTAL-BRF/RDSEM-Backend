@@ -1,4 +1,4 @@
-export const Activities = [
+export const naurodevelopmentActivities = [
     {
         "title": "Juegos de Memoria y Atención",
         "categoryNaurodevelopmentId": 1
