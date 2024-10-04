@@ -8,4 +8,4 @@ import { LocalityService } from "./locality.service";
     controllers:[LocalityController],
     providers:[PrismaService,LocalityService]
 })
-export class localityModule{}
+export class LocalityModule{}

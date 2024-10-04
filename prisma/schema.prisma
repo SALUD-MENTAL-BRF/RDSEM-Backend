@@ -86,6 +86,8 @@ model Patient {
   historyConsumption String
   historyDiseases String
   histoyFamily String
+  streetNumber String
+  neighborhood String
 
   // Relaciones
   user User @relation(fields: [userId], references: [id])
@@ -116,6 +118,8 @@ model Request_patient {
   historyConsumption String
   historyDiseases String
   histoyFamily String
+  streetNumber String
+  neighborhood String
 
   //Relations
   locality Locality @relation(fields: [localityId], references: [id])
@@ -157,7 +161,7 @@ model ProfileProfessional {
 
 
 
-// model RequestProfessional {
+// model RequestProfessional {4
 //   id Int @id @default(autoincrement())
 //   fullname String
 //   title String

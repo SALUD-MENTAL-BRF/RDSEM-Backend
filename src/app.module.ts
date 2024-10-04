@@ -10,9 +10,11 @@ import { RequestPatientModule } from './request_patient/request_patient.module';
 import { RolesModule } from './roles/roles.module';
 import { PatientModule } from './patient/patient.module';
 import { ProvinceModule } from './provinces/provinces.module';
+import { LocalityModule } from './locality/locality.module';
+
 @Module({
   imports: [UsersModule, AuthModule, NoteModule, ProfessionalModule, RolesModule, RequestPatientModule,PatientModule,
-    ProvinceModule
+    ProvinceModule,LocalityModule
   ],
   controllers: [],
   providers: [PreloadedData, PrismaService, CloudinaryService],
