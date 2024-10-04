@@ -217,3 +217,9 @@ model Locality {
   request_patient Request_patient[]
   patient Patient[]
 }
+
+model ActivityCreated {
+  id Int @id @default(autoincrement())
+  title  String
+  description String
+}

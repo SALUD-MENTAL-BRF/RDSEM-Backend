@@ -13,7 +13,12 @@ export class PatientService {
                 id: patientId
             },
             include:{
-                user: true
+                user: true,
+                locality: {
+                    include: {
+                        province: true
+                    }
+                }
             }
         })
     }
