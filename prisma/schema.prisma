@@ -218,7 +218,7 @@ model Locality {
   patient Patient[]
 }
 
-model ActivityCreated {
+model Recommendation {
   id Int @id @default(autoincrement())
   title  String
   description String
