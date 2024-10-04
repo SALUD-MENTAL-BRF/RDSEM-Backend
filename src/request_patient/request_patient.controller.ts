@@ -19,8 +19,20 @@ export class RequestPatientController {
     }
     
   }
+  
+  @Post('professional/:requestId/:professionalId')
+  async acceptRequest(@Req() _request: Request, @Res() response: Response, @Param('requestId') requestId: string, @Param('professionalId') professionalId: string) {
+      try {
+        response.status(200).json(await this.requestPatientService.acceptRequest(Number(professionalId), Number(requestId)))
+      } catch (error) {
+        console.log(error);
+        response.status(500).json({
+          msg: "Error to accept the request."
+        })
+      }
+  }
 
-  @Get(':id')
+  @Get('professional/:id')
   async findAll(@Req() _request: Request, @Res() response: Response, @Param('id') id: string) {
     try {
       const request_patient = await this.requestPatientService.findAll(Number(id));
@@ -32,10 +44,21 @@ export class RequestPatientController {
   }
   }
 
-  @Get(':id/:professionalId')
-  async findOne(@Req() _request: Request, @Res() response: Response, @Param('id') id: string, @Param('professionalId') professionalId: string) { 
+  @Get(':id')
+  async findOne(@Req() _request: Request, @Res() response: Response, @Param('id') id: string) {
     try {
-      const request_patient = await this.requestPatientService.findOne(Number(id), Number(professionalId));
+        response.status(200).json(await this.requestPatientService.findOne(Number(id)))
+    } catch (error) {
+        console.log(error);
+        response.status(200).json({msg: "Error to find request."})
+    }
+  }
+
+
+  @Get(':id/:professionalId')
+  async findOneByUserAndProfessional(@Req() _request: Request, @Res() response: Response, @Param('id') id: string, @Param('professionalId') professionalId: string) { 
+    try {
+      const request_patient = await this.requestPatientService.findOneByUserAndProfessional(Number(id), Number(professionalId));
 
       response.status(200).json(request_patient)
   } catch (error) {
@@ -50,7 +73,11 @@ export class RequestPatientController {
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number) {
-    return await this.requestPatientService.remove(id);
+  async remove(@Req() _request: Request, @Res() response: Response,@Param('id') id: string) {
+    try {
+        response.status(200).json(await this.requestPatientService.remove(Number(id)))
+    } catch (error) {
+      response.status(500).json({msg: "Error to delete request"})
+    }
   }
 }
