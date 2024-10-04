@@ -8,7 +8,8 @@ export class RequestPatientService {
 
   async create(data: any, userId: number, professionalId:number) {
     return this.prisma.request_patient.create({
-      data: {...data, userId: userId, professionalId: professionalId} 
+      data: {...data, userId: userId, professionalId: professionalId,  localityId: Number(data.localityId)
+      } 
     });
   }
 
@@ -24,6 +25,13 @@ export class RequestPatientService {
     return this.prisma.request_patient.findFirst({
       where: {
         id:id
+      },
+      include: {
+        locality: {
+          include:{
+            province: true
+          }
+        }
       }
     })
   }
@@ -55,7 +63,6 @@ export class RequestPatientService {
 
 
       const patient = await this.prisma.patient.create({data: {
-          address: request.address,
           contactEmergencyName: request.contactEmergencyName,
           contactEmergencyRelation: request.contactEmergencyRelation,
           contactEmergencyTelephone: request.contactEmergencyTelephone,
@@ -73,7 +80,10 @@ export class RequestPatientService {
           telephone: request.telephone,
           treatmentsPrevious: request.treatmentsPrevious,
           userId: request.userId,
-          localityId: request.localityId
+          localityId: request.localityId,
+          neighborhood: request.neighborhood,
+          streetNumber: request.streetNumber
+
       }});
 
   

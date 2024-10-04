@@ -72,7 +72,6 @@ model Patient {
   fullName String
   date_birth String
   genre String
-  address String
   telephone String
   contactEmergencyName String
   contactEmergencyRelation String
@@ -104,7 +103,6 @@ model Request_patient {
   fullName String
   date_birth String
   genre String
-  address String
   telephone String
   contactEmergencyName String
   contactEmergencyRelation String

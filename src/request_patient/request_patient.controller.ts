@@ -10,6 +10,8 @@ export class RequestPatientController {
   @UsePipes(new ValidationPipe({whitelist: true}))
   async create(@Body() data: CreateRequestPatientDto, @Req() _request: Request, @Res() response: Response, @Param('userId') userId: string, @Param('professionalId') professionalId: string) {
     try {
+        console.log(data);
+        
         const request_patient = await this.requestPatientService.create(data, Number(userId),Number(professionalId));
 
         response.status(200).json(request_patient)
