@@ -6,7 +6,28 @@ import { CreateRecommendationDto } from "./dto/recomendation.dto";
 export class RecommendationService {
     constructor(private readonly prismaService : PrismaService){}
 
-    async create(data: CreateRecommendationDto){
-        return await this.prismaService.recommendation.create({data: data})
+    async create(data: CreateRecommendationDto, patientId: number){
+        return await this.prismaService.recommendation.create({data: {...data, patientId: patientId}})
     }
+
+
+    async findAllForPatientAndProfessional(patientId: number, professionalId: number){
+        return await this.prismaService.recommendation.findMany({
+            where: {
+                patientId: patientId
+            },
+            include: {
+                patient: {
+                    include: {
+                        professional: {
+                            where: {
+                                id: professionalId
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+
 };
