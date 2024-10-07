@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { HospitalService } from './hospital.service';
 import { createHospital } from './dto/createHospitalDTO';
+import { TypeHospital } from '@prisma/client';
 
 @Controller('hospital')
 export class HospitalController {
@@ -44,4 +45,11 @@ export class HospitalController {
       }
     }
   }
+
+  @Get('/types')
+  getHospitalTypes() {
+    const types = Object.values(TypeHospital);
+    return types;
+  }
+
 }
