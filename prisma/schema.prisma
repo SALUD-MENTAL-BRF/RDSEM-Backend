@@ -95,6 +95,7 @@ model Patient {
   historyPatient9 HistoryPatient[]
   locality Locality @relation(fields: [localityId], references: [id])
   localityId Int
+  recommendation Recommendation[]
 }
 
 
@@ -222,4 +223,7 @@ model Recommendation {
   id Int @id @default(autoincrement())
   title  String
   description String
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  patientId Int
 }
