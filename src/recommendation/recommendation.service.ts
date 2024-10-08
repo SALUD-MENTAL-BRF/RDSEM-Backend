@@ -20,12 +20,20 @@ export class RecommendationService {
         })
     }
 
-    async update(recomendationId: number, data: CreateRecommendationDto){
+    async update(recommendationId: number, data: CreateRecommendationDto){
         return await this.prismaService.recommendation.update({
             where: {
-                id: recomendationId
+                id: recommendationId
             },
             data: data
+        })
+    }
+
+    async delete(recommendationId: number){
+        return await this.prismaService.recommendation.delete({
+            where: {
+                id: recommendationId
+            }
         })
     }
 };

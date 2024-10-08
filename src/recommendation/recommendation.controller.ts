@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Req, Res,Get, Put } from "@nestjs/common";
+import { Body, Controller, Param, Post, Req, Res,Get, Put, Delete } from "@nestjs/common";
 import { RecommendationService } from "./recommendation.service";
 import { Response, Request } from "express";
 import { CreateRecommendationDto } from "./dto/recomendation.dto";
@@ -45,4 +45,15 @@ export class RecommendationController {
         }
     }
 
+    @Delete(':recommendationId')
+    async dateleRecommendation(@Req() _request: Request, @Res() response: Response,@Param('recommendationId') recommendationId: string,){
+        try {
+            response.status(200).json(await this.recommendationService.delete(Number(recommendationId)))
+        } catch (error) {   
+            console.log(error);
+            response.status(200).json({
+                msg: 'Error to delete the recommendation'
+            });
+        }
+    }
 }
