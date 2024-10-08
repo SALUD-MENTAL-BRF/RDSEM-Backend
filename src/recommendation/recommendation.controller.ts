@@ -8,10 +8,10 @@ export class RecommendationController {
     constructor(private recommendationService: RecommendationService){}
 
 
-    @Post(':patientId')
-    async createRecommendation(@Req() _request: Request, @Res() response: Response, @Param('patientId') patientId: string, @Body() data: CreateRecommendationDto){
+    @Post(':patientId/:professionalId')
+    async createRecommendation(@Req() _request: Request, @Res() response: Response, @Param('patientId') patientId: string,@Param('professionalId') professionalId: string, @Body() data: CreateRecommendationDto){
         try {
-            response.status(200).json(await this.recommendationService.create(data, Number(patientId)))
+            response.status(200).json(await this.recommendationService.create(data, Number(patientId), Number(professionalId)))
         } catch (error) {
             console.log(error);
             response.status(500).json({

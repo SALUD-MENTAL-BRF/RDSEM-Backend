@@ -14,7 +14,7 @@ export class PatientController{
             response.status(200).json(await this.patientService.findOne(Number(patientId)))
         } catch (error) {
             console.log(error);
-            response.status(200).json({
+            response.status(200).json({ 
                 msg: "Error to find the patient"
             });
         }

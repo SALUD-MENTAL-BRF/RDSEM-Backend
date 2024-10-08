@@ -1,16 +1,14 @@
-import { Controller,Post, Body, Req,Res, Param, ValidationPipe, Get, Put, UseInterceptors, UploadedFile } from "@nestjs/common";
+import { Controller,Post, Body, Req,Res, Param, ValidationPipe, Get, Put } from "@nestjs/common";
 import { Request,Response } from "express";
 import { ProfessionalService } from "./professional.service";
 import { UsePipes } from "@nestjs/common";
 import { CreateProfessionalDto, UpdateProfileProfessionalDto } from "./dto/professional.dto";
-import { UsersService } from "src/users/users.service";
 
 @Controller('professional')
 export class ProfessionalControllers {
 
     constructor(
         private professionalService: ProfessionalService,
-        private userService:UsersService
     ){}
 
     @Get()
@@ -38,7 +36,7 @@ export class ProfessionalControllers {
 
     @Get(':userId')
     async findOneProfessionalByUserId(@Req() _request: Request, @Res() response: Response, @Param('userId') userId: string){
-        try {
+        try {            
             response.status(200).json(await this.professionalService.findOneByUserId(Number(userId)))
         } catch (error) {
             console.log(error);

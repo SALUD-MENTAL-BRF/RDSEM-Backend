@@ -145,6 +145,7 @@ model Professional {
   patient Patient[]
   profile ProfileProfessional?
   request_patient Request_patient[]
+  recommendation Recommendation[]
 }
 
 model ProfileProfessional {
@@ -226,4 +227,10 @@ model Recommendation {
 
   patient Patient @relation(fields: [patientId], references: [id])
   patientId Int
+  professional Professional @relation(fields: [professionalId], references: [id])
+  professionalId Int
 }
+
+// model disorder {
+//   id Int @id @default(auto)
+// }
