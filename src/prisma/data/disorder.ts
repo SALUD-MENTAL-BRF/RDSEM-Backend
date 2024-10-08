@@ -1,4 +1,4 @@
-const disorder = [
+export const disorder = [
     {
         "id": 1,
         "type": "Ansiedad"
@@ -8,7 +8,7 @@ const disorder = [
         "type": "Depresión"
     },
     {
-        "id":2,
+        "id":3,
         "type": "Neurodesarrollo"
     }
 ]

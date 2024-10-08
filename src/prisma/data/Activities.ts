@@ -1,26 +1,38 @@
 export const naurodevelopmentActivities = [
     {
-        "title": "Juegos de Memoria y Atención",
-        "categoryNaurodevelopmentId": 1
+        "title": "Memoria y Atención",
+        "description": "El usuario debe recordar y repetir secuencias de sonidos o colores, ayudando a desarrollar la memoria y la atención selectiva.",
+        "categoryActivitiesId": 1,
+        "disorderId": 3,
     },
     {
-        "title": "Juegos de Reconocimiento Emocional",
-        "categoryNaurodevelopmentId": 2
+        "title": "Reconocimiento Emocional",
+        "description": "El usuario debe identificar emociones en caras mostradas, lo que ayuda a mejorar el reconocimiento y la comprensión emocional.",
+        "categoryActivitiesId": 2,
+        "disorderId": 3
     },
     {
-        "title": "Juegos de Habilidades Sociales",
-        "categoryNaurodevelopmentId": 3,
+        "title": "Habilidades Sociales",
+        "description": "Simulanción de conversaciones en diferentes escenarios sociales, permitiendo al usuario practicar cómo responder de manera adecuada.",
+        "categoryActivitiesId": 3,
+        "disorderId": 3
     },
     {
-        "title": "Juegos de Coordinación Motora y Sensorial",
-        "categoryNaurodevelopmentId": 4
+        "title": "Coordinación Motora y Sensorial",
+        "description": "Actividad en la que el usuario debe arrastrar objetos a su lugar correcto, mejorando la coordinación mano-ojo.",
+        "categoryActivitiesId": 4,
+        "disorderId": 3
     },
     {
-        "title": "Juegos de Resolución de Problemas y Lógica",
-        "categoryNaurodevelopmentId": 5
+        "title": "Resolución de Problemas y Lógica",
+        "description": "Actividad que desafía al usuario a resolver problemas visuales o lógicos, fomentando habilidades de pensamiento crítico y resolución de problemas.",
+        "categoryActivitiesId": 5,
+        "disorderId": 3
     },
     {
-        "title": "Juegos de Relajación y Mindfulness",
-        "categoryNaurodevelopmentId": 6
+        "title": "Relajación y Mindfulness",
+        "description": "Actividad que enseña a al usuario a controlar su respiración para relajarse.",
+        "categoryActivitiesId": 6,
+        "disorderId": 3
     }
 ]
