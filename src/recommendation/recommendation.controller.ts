@@ -1,6 +1,6 @@
-import { Body, Controller, Param, Post, Req, Res,Get } from "@nestjs/common";
+import { Body, Controller, Param, Post, Req, Res,Get, Put } from "@nestjs/common";
 import { RecommendationService } from "./recommendation.service";
-import { Response, Request, response } from "express";
+import { Response, Request } from "express";
 import { CreateRecommendationDto } from "./dto/recomendation.dto";
 
 @Controller('recommendation')
@@ -32,4 +32,17 @@ export class RecommendationController {
             
         }
     }
+
+    @Put(':recomendationId')
+    async updateRecomendation(@Req() _request: Request, @Res() response: Response,@Param('recomendationId') recomendationId: string, @Body() data: CreateRecommendationDto){
+        try {
+            response.status(200).json(await this.recommendationService.update(Number(recomendationId), data))
+        } catch (error) {
+            console.log(error);
+            response.status(500).json({
+                msg: 'Error to update the recommendation'
+            })
+        }
+    }
+
 }

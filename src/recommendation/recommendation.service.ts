@@ -20,4 +20,12 @@ export class RecommendationService {
         })
     }
 
+    async update(recomendationId: number, data: CreateRecommendationDto){
+        return await this.prismaService.recommendation.update({
+            where: {
+                id: recomendationId
+            },
+            data: data
+        })
+    }
 };
