@@ -231,6 +231,7 @@ model Recommendation {
   professionalId Int
 }
 
-// model disorder {
-//   id Int @id @default(auto)
-// }
+model disorder {
+  id Int @id @default(autoincrement())
+  type String
+}
