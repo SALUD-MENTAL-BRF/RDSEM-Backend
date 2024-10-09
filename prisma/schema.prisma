@@ -40,10 +40,12 @@ model User {
 
   patient Patient[]
   professional Professional[]
-  // requestProfessional RequestProfessional[]
   publication Publication[]
   notes Note[] // Relación inversa a las notas
   requeset_patient Request_patient[]
+  
+  // Relación con Hospital
+  hospital    Hospital?    // Este campo es el inverso, no requiere `@relation`
 }
 
 model Note {
@@ -204,8 +206,11 @@ model Hospital {
 
   specialties  SpecialtiesOnHospitals[]
   services     ServicesOnHospitals[]
-}
 
+  // Campo para almacenar el ID del usuario con el rol de hospital
+  userId       Int              @unique // Relación uno a uno, debe ser único
+  user         User             @relation(fields: [userId], references: [id])
+}
 
 model Specialty {
   id        Int                       @id @default(autoincrement())
