@@ -7,7 +7,15 @@ export class ActivityService {
 
 
     async findAll(){
-        return await this.prismaService.activities.findMany()
+        return await this.prismaService.activities.findMany({
+            include: {
+                categoryActivities: true
+            }
+        })
     };
+
+    async linked(patientId: number, data: Array<number>){
+        
+    }
 
 };

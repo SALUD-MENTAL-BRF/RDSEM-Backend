@@ -1,6 +1,7 @@
-import { Controller, Get,Res,Req } from "@nestjs/common";
+import { Controller, Get,Res,Req, Post } from "@nestjs/common";
 import { ActivityService } from "./activity.service";
 import { Request,Response } from "express";
+import { Param } from "@nestjs/common";
 
 @Controller('activity')
 export class ActivityController {
@@ -18,4 +19,13 @@ export class ActivityController {
         }
     }
 
+
+    @Post(':patientId')
+    async linkedActivity(@Req() _request:Request, @Res() response: Response, @Param('patientId') patientId: string){
+        try {
+            
+        } catch (error) {
+            
+        }
+    }
 };

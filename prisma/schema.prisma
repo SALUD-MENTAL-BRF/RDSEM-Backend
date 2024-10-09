@@ -96,6 +96,7 @@ model Patient {
   locality Locality @relation(fields: [localityId], references: [id])
   localityId Int
   recommendation Recommendation[]
+  activity Activities[]
 }
 
 
@@ -183,6 +184,8 @@ model Activities {
   categoryActivitiesId Int
   disorder Disorder @relation(fields: [disorderId], references: [id])
   disorderId Int
+
+  patient Patient[]
 }
 
 model CategoryActivities {
