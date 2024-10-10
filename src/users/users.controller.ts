@@ -22,6 +22,21 @@ export class UsersController {
     return await this.usersService.findAll();
   }
 
+  @Get('/UsersHospitals')
+  async getUserHospitals() {
+
+    try {
+      const users = await this.usersService.findAllUsersHospitals();
+      if(!users) {
+        throw new BadRequestException('No se encontraron usuarios con hospitales.');
+      }
+      return users;
+    } catch (err) {
+      return { success: false, message: err.message };
+    }
+
+  }
+
   @Get('/:id')
   async GetUserById(@Param('id') id: string) {
     return await this.usersService.findOne(parseInt(id, 10));

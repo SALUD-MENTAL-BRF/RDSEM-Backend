@@ -123,5 +123,19 @@ export class UsersService {
       throw new BadRequestException('Usuario no encontrado');
     }
   }
+
+  async findAllUsersHospitals() {
+    try {
+      const users = await this.prismaService.user.findMany({
+        where: {
+          roleId: 2
+        }
+      })
+
+      return users;
+    } catch (err) {
+      throw new BadRequestException('Error al consultar los usuarios de hospitales');
+    }
+  }
   
 }
