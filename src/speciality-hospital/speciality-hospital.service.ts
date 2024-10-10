@@ -14,4 +14,16 @@ export class SpecialityHospitalService {
     return await this.prismaService.specialty.findMany()
   }
 
+  async deleteSpecialtyHospital(id: number) {
+    try {
+      await this.prismaService.specialty.delete({
+        where: {id}
+      })
+
+      return { success: true }
+    } catch(err) {
+      return { success: false, error: err.message }
+    }
+  }
+
 }

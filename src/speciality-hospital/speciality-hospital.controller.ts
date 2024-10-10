@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { SpecialityHospitalService } from './speciality-hospital.service';
 import { CreateSpecialityHospital } from './dto/createSpecialityHospital';
 
@@ -30,6 +30,28 @@ export class SpecialityHospitalController {
         console.error(`Error getting all specialities hospital: ${err.message}`);
       } else {
         console.error(`Unknown error getting all specialities hospital: ${err}`);
+      }
+    }
+  }
+
+  @Delete('/:id')
+  async deltedSpecialityHospital(@Param('id') id: string) {
+    try {
+
+      const numericId = parseInt(id);
+  
+      if (isNaN(numericId)) {
+        throw new BadRequestException('ID inválido');
+      }
+
+      const response = await this.specialityHospitalService.deleteSpecialtyHospital(numericId);
+      return response;
+
+    } catch (err) {
+      if(err instanceof Error) {
+        console.error(`Error deleting speciality hospital: ${err.message}`);
+      } else {
+        console.error(`Unknown error deleting speciality hospital: ${err}`);
       }
     }
   }
