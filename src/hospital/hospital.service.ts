@@ -20,7 +20,7 @@ export class HospitalService {
         type: hospital.type,
         userId: hospital.userId,
       };
-  
+      
       const user = await this.userService.findOne(data.userId);
   
       if (user.rol.type!== 'Hospital') {
@@ -89,8 +89,6 @@ export class HospitalService {
 
   async deleteHospital(id: number) {
     try {
-      console.log(id)
-      console.log(typeof(id))
       await this.prismaService.hospital.delete({
         where: { id },
       });
