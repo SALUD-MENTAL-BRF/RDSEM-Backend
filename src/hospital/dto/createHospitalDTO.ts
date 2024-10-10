@@ -14,4 +14,5 @@ export interface createHospital {
   type: TypeHospital
   specialties?: number[] | undefined;  // IDs de las especialidades
   services?: number[] | undefined;     // IDs de los servicios
+  userId: number | undefined; //
 }
