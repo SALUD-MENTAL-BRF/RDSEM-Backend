@@ -14,10 +14,11 @@ import { LocalityModule } from './locality/locality.module';
 import { RecommendationModule } from './recommendation/recommendation.module';
 import { ActivityModule } from './activity/activity.module';
 import { DisorderModule } from './disorder/disorder.module';
+import { CategoryActivitiesModule } from './category-activities/category.module';
 
 @Module({
   imports: [UsersModule, AuthModule, NoteModule, ProfessionalModule, RolesModule, RequestPatientModule,PatientModule,
-    ProvinceModule,LocalityModule, RecommendationModule,ActivityModule, DisorderModule
+    ProvinceModule,LocalityModule, RecommendationModule,ActivityModule, DisorderModule, CategoryActivitiesModule
   ],
   controllers: [],
   providers: [PreloadedData, PrismaService, CloudinaryService],
