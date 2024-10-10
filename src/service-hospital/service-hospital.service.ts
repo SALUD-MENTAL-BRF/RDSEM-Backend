@@ -14,4 +14,16 @@ export class ServiceHospitalService {
     return this.prismaService.service.findMany();
   }
 
+  async deleteServiceHospital(id: number) {
+    try{
+      await this.prismaService.service.delete({
+        where: { id },
+      })
+      
+      return { success: true }
+    } catch (err) {
+      return { success: false, error: err.message }
+    }
+  }
+
 }
