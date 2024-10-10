@@ -43,7 +43,7 @@ export class ActivityService {
             },
         });
     }
-    async unlink(patientId: number, activityId: number) {
+    async unlinked(patientId: number, activityId: number) {
         return await this.prismaService.patient.update({
             where: {
                 id: patientId,
