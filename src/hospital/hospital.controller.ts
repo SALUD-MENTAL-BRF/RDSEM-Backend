@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { HospitalService } from './hospital.service';
 import { createHospital } from './dto/createHospitalDTO';
 import { TypeHospital } from '@prisma/client';
@@ -47,9 +47,30 @@ export class HospitalController {
   }
 
   @Get('/types')
-  getHospitalTypes() {
+  async getHospitalTypes() {
     const types = Object.values(TypeHospital);
     return types;
+  }
+
+  @Delete('/:id') 
+  async deleteHospital(@Param('id') id: string) {
+    try {
+
+      const NumberId = parseInt(id, 10);
+
+      if(isNaN(NumberId)){
+        return { success: false, message: 'ID inválido' };
+      }
+
+      const response = await this.hospitalService.deleteHospital(NumberId);
+      return response
+    } catch (err) {
+      if(err instanceof Error) {
+        console.error(`Error deleting speciality hospital: ${err.message}`);
+      } else {
+        console.error(`Unknown error deleting speciality hospital: ${err}`);
+      }
+    }
   }
 
 }
