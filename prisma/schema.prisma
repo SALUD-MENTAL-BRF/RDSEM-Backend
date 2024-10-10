@@ -227,8 +227,8 @@ model Service {
 model SpecialtiesOnHospitals {
   hospitalId   Int
   specialtyId  Int
-  hospital     Hospital @relation(fields: [hospitalId], references: [id])
-  specialty    Specialty            @relation(fields: [specialtyId], references: [id])
+  hospital     Hospital @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  specialty    Specialty @relation(fields: [specialtyId], references: [id])
 
   @@id([hospitalId, specialtyId])
 }
@@ -236,8 +236,8 @@ model SpecialtiesOnHospitals {
 model ServicesOnHospitals {
   hospitalId   Int
   serviceId    Int
-  hospital     Hospital @relation(fields: [hospitalId], references: [id])
-  service      Service              @relation(fields: [serviceId], references: [id])
+  hospital     Hospital @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  service      Service @relation(fields: [serviceId], references: [id])
 
   @@id([hospitalId, serviceId])
 }
