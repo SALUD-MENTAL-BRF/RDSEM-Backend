@@ -2,7 +2,7 @@ import { Controller, Get, Param, Req, Res } from "@nestjs/common";
 import { CategoryActivitiesService } from "./category.service";
 import { Response,Request } from "express";
 
-@Controller()
+@Controller('category')
 export class CategoryActivitiesController {
     constructor(private categoryActivitiesService: CategoryActivitiesService){};
 
