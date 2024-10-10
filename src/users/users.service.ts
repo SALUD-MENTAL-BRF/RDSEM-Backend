@@ -65,6 +65,13 @@ export class UsersService {
   async findOne(id: number) {
     return this.prismaService.user.findUnique({
       where: { id },
+      include: {
+        rol: {
+          select: {
+            type: true
+          }
+        }
+      }
     });
   }
 
@@ -117,6 +124,4 @@ export class UsersService {
     }
   }
   
-  
-
 }
