@@ -36,6 +36,15 @@ export class PreloadedData implements OnModuleInit{
         await this.prisma.role.createMany({data: roles});
     };
 
+    async addDisorder(){
+        const findDisorder = await this.prisma.disorder.findMany();
+
+        if(findDisorder.length > 1) return;
+
+        await this.prisma.disorder.createMany({data: disorder});
+    }
+
+    
     async addCategories(){
         const findCategoriesNaurodevelopment = await this.prisma.categoryActivities.findMany();
 
@@ -68,11 +77,5 @@ export class PreloadedData implements OnModuleInit{
         await this.prisma.locality.createMany({data: localities});
     };
 
-    async addDisorder(){
-        const findDisorder = await this.prisma.disorder.findMany();
 
-        if(findDisorder.length > 1) return;
-
-        await this.prisma.disorder.createMany({data: disorder});
-    }
 }

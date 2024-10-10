@@ -192,6 +192,8 @@ model CategoryActivities {
   id Int @id @default(autoincrement())
   type String
 
+  disorder Disorder @relation(fields: [disorderId], references: [id])
+  disorderId Int
   activities Activities[]
 }
 
@@ -239,4 +241,5 @@ model Disorder {
   type String
 
   activities Activities[]
+  categoryActivities CategoryActivities[]
 }
