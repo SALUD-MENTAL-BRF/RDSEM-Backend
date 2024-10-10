@@ -13,10 +13,11 @@ import { ProvinceModule } from './provinces/provinces.module';
 import { LocalityModule } from './locality/locality.module';
 import { RecommendationModule } from './recommendation/recommendation.module';
 import { ActivityModule } from './activity/activity.module';
+import { DisorderModule } from './disorder/disorder.module';
 
 @Module({
   imports: [UsersModule, AuthModule, NoteModule, ProfessionalModule, RolesModule, RequestPatientModule,PatientModule,
-    ProvinceModule,LocalityModule, RecommendationModule,ActivityModule
+    ProvinceModule,LocalityModule, RecommendationModule,ActivityModule, DisorderModule
   ],
   controllers: [],
   providers: [PreloadedData, PrismaService, CloudinaryService],
