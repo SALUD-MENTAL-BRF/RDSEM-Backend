@@ -33,15 +33,15 @@ export class RequestPatientController {
   }
 
   @Get('professional/:professionalId')
-  async findAllByProfessional(@Req() _request: Request, @Res() response: Response, @Param('professionalId') professionalId: string) {
-    try {
-      const request_patient = await this.requestPatientService.findAll(Number(professionalId));
+    async findAllByProfessional(@Req() _request: Request, @Res() response: Response, @Param('professionalId') professionalId: string) {
+      try {
+        const request_patient = await this.requestPatientService.findAll(Number(professionalId));
 
-      response.status(200).json(request_patient)
-  } catch (error) {
-      console.log(error);
-      response.status(500).json({message:"Error to get request"})
-  }
+        response.status(200).json(request_patient)
+    } catch (error) {
+        console.log(error);
+        response.status(500).json({message:"Error to get request"})
+    }
   }
 
   @Get(':requestId')

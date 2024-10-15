@@ -76,15 +76,6 @@ model Patient {
   contactEmergencyName String
   contactEmergencyRelation String
   contactEmergencyTelephone String
-  reasonConsultation String
-  descriptionProblem String
-  diagnosesPrevious String
-  treatmentsPrevious String
-  hospitalizationsPrevious String
-  meciationCurrent String
-  historyConsumption String
-  historyDiseases String
-  histoyFamily String
   streetNumber String
   neighborhood String
 
@@ -97,8 +88,26 @@ model Patient {
   localityId Int
   recommendation Recommendation[]
   activity Activities[]
+  infoPatient InfoPatient[]
 }
 
+model InfoPatient {
+  id Int @id @default(autoincrement())
+  reasonConsultation String
+  descriptionProblem String
+  diagnosesPrevious String
+  treatmentsPrevious String
+  hospitalizationsPrevious String
+  meciationCurrent String
+  historyConsumption String
+  historyDiseases String
+  histoyFamily String
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  patientId Int
+  professional Professional @relation(fields: [professionalId], references: [id])
+  professionalId Int
+}
 
 model Request_patient {
   id Int @id @default(autoincrement())
@@ -147,6 +156,7 @@ model Professional {
   profile ProfileProfessional?
   request_patient Request_patient[]
   recommendation Recommendation[]
+  infoPatient InfoPatient[]
 }
 
 model ProfileProfessional {

@@ -24,13 +24,12 @@ export class PatientService {
     }
 
     async getAllPatientByProfessional(profesionalId:number){
-        return await this.prisma.patient.findMany({
-            include:{
-                professional:{
-                    where:{
-                        id: profesionalId
-                    }
-                },
+        return await this.prisma.professional.findFirst({
+            where: {
+                id: profesionalId
+            },
+            include: {
+                patient: true,
                 user: true
             }
         });

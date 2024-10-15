@@ -14,6 +14,8 @@ export class RequestPatientService {
   }
 
   async findAll(id:number) {
+    console.log(id);
+    
     return this.prisma.request_patient.findMany({
       where: {
         professionalId: id

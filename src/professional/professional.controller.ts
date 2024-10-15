@@ -33,9 +33,9 @@ export class ProfessionalControllers {
             console.log(error);
         };
     };
-
+    
     @Get(':userId')
-    async findOneProfessionalByUserId(@Req() _request: Request, @Res() response: Response, @Param('userId') userId: string){
+    async findAllProfessionaslByPatient(@Req() _request: Request, @Res() response: Response, @Param('userId') userId: string){
         try {            
             response.status(200).json(await this.professionalService.findOneByUserId(Number(userId)))
         } catch (error) {
