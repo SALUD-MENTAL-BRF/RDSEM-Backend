@@ -23,37 +23,34 @@ export class ActivityService {
                 professionalId: professionalId,
             },
             include: {
-                activity: true
+                activity: {
+                    include: {
+                        categoryActivities: true
+                    }
+                }
             }
         })
     }
     
 
-    async linked(patientId: number, activityIds: Array<number>) {
-        return await this.prismaService.patient.update({
-            where: {
-                id: patientId,
-            },
-            data: {
-                activity: {
-                    connect: activityIds.map((id) => ({ id })),
-                },
-            },
+    async linked(patientId: number, professionalId: number, activityIds: Array<number>) {
+        return await this.prismaService.activityXPatient.createMany({
+            data: activityIds.map((activityId) => ({
+                patientId: patientId,
+                professionalId: professionalId,
+                activityId: activityId
+            }))
         });
     }
-    async unlinked(patientId: number, activityId: number) {
-        return await this.prismaService.patient.update({
+    
+
+
+    async unlinked(patientXactivityId: number) {
+        return await this.prismaService.activityXPatient.delete({
             where: {
-                id: patientId,
-            },
-            data: {
-                activity: {
-                    disconnect: {
-                        id: activityId,
-                    },
-                },
-            },
-        });
+                id: patientXactivityId
+            }
+        })
     }
     
 };

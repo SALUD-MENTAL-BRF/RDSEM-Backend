@@ -31,10 +31,10 @@ export class ActivityController {
         }
     }
 
-    @Post(':patientId')
-    async linkActivity(@Req() _request:Request, @Res() response: Response, @Param('patientId') patientId: string, @Body() data: lindedActivityDto){
+    @Post(':patientId/:professionalId')
+    async linkActivity(@Req() _request:Request, @Res() response: Response, @Param('patientId') patientId: string,@Param('professionalId') professionalId: string ,@Body() data: lindedActivityDto){
         try {
-            response.status(200).json(await this.activityService.linked(Number(patientId), data.activityIds))
+            response.status(200).json(await this.activityService.linked(Number(patientId),Number(professionalId), data.activityIds))
         } catch (error) {
             console.log(error);
             response.status(500).json({
@@ -43,10 +43,10 @@ export class ActivityController {
         }
     }
 
-    @Delete(':patientId/:activityId')
-    async unlinkActivity(@Req() _request:Request, @Res() response: Response, @Param('patientId') patientId: string, @Param('activityId') activityId: string){
+    @Delete(':patientXactivityId')
+    async unlinkActivity(@Req() _request:Request, @Res() response: Response, @Param('patientXactivityId') patientXactivityId: string){
         try {
-            response.status(200).json(await this.activityService.unlinked(Number(patientId), Number(activityId)))
+            response.status(200).json(await this.activityService.unlinked(Number(patientXactivityId)))
         } catch (error) {
             response.status(500).json({
                 msg: 'Error to unlink the activity'
