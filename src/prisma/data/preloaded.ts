@@ -12,12 +12,12 @@ export class PreloadedData implements OnModuleInit{
     constructor(private prisma : PrismaService){};
 
     async onModuleInit() {
+        await this.addDisorder();
         await this.addRole();
         await this.addCategories();
         await this.addActivities();
         await this.addProvinces();
         await this.addLocalities();
-        await this.addDisorder();
     };
 
     async addRole(){    
