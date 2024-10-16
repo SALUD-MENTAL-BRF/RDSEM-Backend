@@ -89,6 +89,7 @@ model Patient {
   recommendation Recommendation[]
   activity Activities[]
   infoPatient InfoPatient[]
+  activityXPatient ActivityXPatient []
 }
 
 model InfoPatient {
@@ -157,6 +158,7 @@ model Professional {
   request_patient Request_patient[]
   recommendation Recommendation[]
   infoPatient InfoPatient[]
+  activityXPatient ActivityXPatient[]
 }
 
 model ProfileProfessional {
@@ -196,6 +198,7 @@ model Activities {
   disorderId Int
 
   patient Patient[]
+  activityXPatient ActivityXPatient[]
 }
 
 model CategoryActivities {
@@ -205,6 +208,19 @@ model CategoryActivities {
   disorder Disorder @relation(fields: [disorderId], references: [id])
   disorderId Int
   activities Activities[]
+}
+
+model ActivityXPatient {
+  id Int @id @default(autoincrement())
+
+  activity Activities @relation(fields: [activityId], references: [id])
+  activityId Int
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  patientId Int
+
+  professional Professional @relation(fields: [professionalId], references: [id])
+  professionalId Int
 }
 
 

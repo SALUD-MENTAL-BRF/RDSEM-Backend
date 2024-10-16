@@ -23,6 +23,15 @@ export class PatientService {
         })
     }
 
+    async findInfo(patientId: number, professionalId: number){
+        return await this.prisma.infoPatient.findFirst({
+            where: {
+                patientId: patientId,
+                professionalId: professionalId
+            }
+        })
+    }
+
     async findOneByUserId(userId: number){
         return await this.prisma.patient.findFirst({
             where: {

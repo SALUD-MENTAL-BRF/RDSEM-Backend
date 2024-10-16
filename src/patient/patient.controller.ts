@@ -19,6 +19,18 @@ export class PatientController{
             });
         }
     }
+
+    @Get('info/:patientId/:professionalId')
+    async findInfoPatient(@Req() _request: Request, @Res() response: Response,@Param('patientId') patientId: string,@Param('professionalId') professionalId: string){
+        try {
+            response.status(200).json(await this.patientService.findInfo(Number(patientId), Number(professionalId)))
+        } catch (error) {
+            console.log(error);
+            response.status(200).json({
+                msg: "Error to find the information of the patient"
+            })
+        }
+    }
     
     @Get('user/:userId')
     async findPatientByUser(@Req() _request: Request, @Res() response: Response, @Param('userId') userId: string){
