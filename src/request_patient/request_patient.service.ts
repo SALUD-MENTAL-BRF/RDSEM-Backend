@@ -13,9 +13,7 @@ export class RequestPatientService {
     });
   }
 
-  async findAll(id:number) {
-    console.log(id);
-    
+  async findAll(id:number) {    
     return this.prisma.request_patient.findMany({
       where: {
         professionalId: id
@@ -38,11 +36,10 @@ export class RequestPatientService {
     })
   }
 
-  async findOneByUserAndProfessional(id: number, professionalId: number) {
+  async findOneByUser(id: number) {
     return this.prisma.request_patient.findFirst({
       where: { 
-        userId: id,
-        professionalId: professionalId
+        userId: id
        },
     });
   }
@@ -63,33 +60,48 @@ export class RequestPatientService {
   async acceptRequest (professionalId:number, requestId:number){
       const request = await this.findOne(requestId);
 
+    let patient = await this.prisma.patient.findFirst({
+      where: {
+        userId: request.userId
+      }
+    });
 
-      const patient = await this.prisma.patient.create({data: {
+    if (!patient){
+       patient = await this.prisma.patient.create({
+        data: {
+          fullName: request.fullName,
+          date_birth: request.date_birth,
+          genre: request.genre,
+          telephone: request.telephone,
           contactEmergencyName: request.contactEmergencyName,
           contactEmergencyRelation: request.contactEmergencyRelation,
           contactEmergencyTelephone: request.contactEmergencyTelephone,
-          date_birth: request.date_birth,
-          descriptionProblem: request.descriptionProblem,
-          diagnosesPrevious: request.diagnosesPrevious,
-          fullName: request.fullName,
-          genre: request.genre,
-          historyConsumption: request.historyConsumption,
-          historyDiseases: request.historyDiseases,
-          histoyFamily: request.histoyFamily,
-          hospitalizationsPrevious: request.hospitalizationsPrevious,
-          meciationCurrent: request.meciationCurrent,
-          reasonConsultation: request.reasonConsultation,
-          telephone: request.telephone,
-          treatmentsPrevious: request.treatmentsPrevious,
-          userId: request.userId,
-          localityId: request.localityId,
+          streetNumber: request.streetNumber,
           neighborhood: request.neighborhood,
-          streetNumber: request.streetNumber
+          userId: request.userId,
+          localityId: request.localityId
+        }
+      })
+    }
 
-      }});
+    await this.prisma.infoPatient.create({
+      data: {
+        reasonConsultation: request.reasonConsultation,
+        descriptionProblem: request.descriptionProblem,
+        diagnosesPrevious: request.diagnosesPrevious,
+        treatmentsPrevious: request.treatmentsPrevious,
+        hospitalizationsPrevious: request.hospitalizationsPrevious,
+        meciationCurrent: request.meciationCurrent,
+        historyConsumption: request.historyConsumption,
+        historyDiseases: request.historyDiseases,
+        histoyFamily: request.histoyFamily,
 
-  
-      
+        patientId: patient.id,
+        professionalId: professionalId
+      }
+    })
+    
+    
       await this.prisma.user.update({
         where:{
           id: request.userId

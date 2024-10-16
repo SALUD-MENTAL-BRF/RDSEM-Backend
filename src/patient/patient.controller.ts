@@ -20,6 +20,18 @@ export class PatientController{
         }
     }
     
+    @Get('user/:userId')
+    async findPatientByUser(@Req() _request: Request, @Res() response: Response, @Param('userId') userId: string){
+        try {
+            response.status(200).json(await this.patientService.findOneByUserId(Number(userId)))
+        } catch (error) {
+            console.log(error);
+            response.status(200).json({ 
+                msg: "Error to find the patient"
+            });
+        }
+    }
+
 
     @Get('professional/:professionalId')
     async findAllPatientByProfessional(@Req() _request:Request,@Res() response:Response,  @Param('professionalId') professionalId: string){

@@ -55,10 +55,10 @@ export class RequestPatientController {
   }
 
 
-  @Get(':userId/:professionalId')
-  async findOneByUserAndProfessional(@Req() _request: Request, @Res() response: Response, @Param('userId') userId: string, @Param('professionalId') professionalId: string) { 
+  @Get('patient/:userId')
+  async findOneByUser(@Req() _request: Request, @Res() response: Response, @Param('userId') userId: string, @Param('professionalId') professionalId: string) { 
     try {
-      const request_patient = await this.requestPatientService.findOneByUserAndProfessional(Number(userId), Number(professionalId));
+      const request_patient = await this.requestPatientService.findOneByUser(Number(userId));
 
       response.status(200).json(request_patient)
   } catch (error) {

@@ -23,6 +23,21 @@ export class PatientService {
         })
     }
 
+    async findOneByUserId(userId: number){
+        return await this.prisma.patient.findFirst({
+            where: {
+                userId: userId
+            },
+            include:{
+                locality: {
+                    include:{
+                        province: true
+                    }
+                }
+            }
+        })
+    }
+
     async getAllPatientByProfessional(profesionalId:number){
         return await this.prisma.professional.findFirst({
             where: {

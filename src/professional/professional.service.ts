@@ -82,7 +82,8 @@ export class ProfessionalService {
             include: {
                 professional: {
                     include: {
-                        user: true
+                        user: true,
+                        patient: true
                     }
                 }
             }
