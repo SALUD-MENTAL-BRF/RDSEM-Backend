@@ -79,11 +79,28 @@ model Patient {
   fullName String
   date_birth String
   genre String
-  address String
   telephone String
   contactEmergencyName String
   contactEmergencyRelation String
   contactEmergencyTelephone String
+  streetNumber String
+  neighborhood String
+
+  // Relaciones
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  professional Professional[]
+  historyPatient HistoryPatient[]
+  locality Locality @relation(fields: [localityId], references: [id])
+  localityId Int
+  recommendation Recommendation[]
+  activity Activities[]
+  infoPatient InfoPatient[]
+  activityXPatient ActivityXPatient []
+}
+
+model InfoPatient {
+  id Int @id @default(autoincrement())
   reasonConsultation String
   descriptionProblem String
   diagnosesPrevious String
@@ -94,20 +111,17 @@ model Patient {
   historyDiseases String
   histoyFamily String
 
-  // Relaciones
-  user User @relation(fields: [userId], references: [id])
-  userId Int
-  professional Professional[]
-  historyPatient9 HistoryPatient[]
+  patient Patient @relation(fields: [patientId], references: [id])
+  patientId Int
+  professional Professional @relation(fields: [professionalId], references: [id])
+  professionalId Int
 }
-
 
 model Request_patient {
   id Int @id @default(autoincrement())
   fullName String
   date_birth String
   genre String
-  address String
   telephone String
   contactEmergencyName String
   contactEmergencyRelation String
@@ -121,9 +135,12 @@ model Request_patient {
   historyConsumption String
   historyDiseases String
   histoyFamily String
+  streetNumber String
+  neighborhood String
 
   //Relations
-
+  locality Locality @relation(fields: [localityId], references: [id])
+  localityId Int 
   user User @relation(fields: [userId], references: [id])
   userId Int
   professional Professional @relation(fields: [professionalId], references: [id])
@@ -146,6 +163,9 @@ model Professional {
   patient Patient[]
   profile ProfileProfessional?
   request_patient Request_patient[]
+  recommendation Recommendation[]
+  infoPatient InfoPatient[]
+  activityXPatient ActivityXPatient[]
 }
 
 model ProfileProfessional {
@@ -161,7 +181,7 @@ model ProfileProfessional {
 
 
 
-// model RequestProfessional {
+// model RequestProfessional {4
 //   id Int @id @default(autoincrement())
 //   fullname String
 //   title String
@@ -174,6 +194,41 @@ model ProfileProfessional {
 //   userId Int
 // }
 
+
+model Activities {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  categoryActivities CategoryActivities @relation(fields: [categoryActivitiesId], references: [id])
+  categoryActivitiesId Int
+  disorder Disorder @relation(fields: [disorderId], references: [id])
+  disorderId Int
+
+  patient Patient[]
+  activityXPatient ActivityXPatient[]
+}
+
+model CategoryActivities {
+  id Int @id @default(autoincrement())
+  type String
+
+  disorder Disorder @relation(fields: [disorderId], references: [id])
+  disorderId Int
+  activities Activities[]
+}
+
+model ActivityXPatient {
+  id Int @id @default(autoincrement())
+
+  activity Activities @relation(fields: [activityId], references: [id])
+  activityId Int
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  patientId Int
+
+  professional Professional @relation(fields: [professionalId], references: [id])
+  professionalId Int
+}
 
 
 model Publication {
@@ -245,3 +300,38 @@ model ServicesOnHospitals {
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
+model Province {
+  id Int @id @default(autoincrement())
+  name String
+
+  locality Locality[]
+}
+
+model Locality {
+  id Int @id @default(autoincrement())
+  name String
+
+  province Province @relation(fields: [provinceId], references: [id])
+  provinceId Int
+  request_patient Request_patient[]
+  patient Patient[]
+}
+
+model Recommendation {
+  id Int @id @default(autoincrement())
+  title  String
+  description String
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  patientId Int
+  professional Professional @relation(fields: [professionalId], references: [id])
+  professionalId Int
+}
+
+model Disorder {
+  id Int @id @default(autoincrement())
+  type String
+
+  activities Activities[]
+  categoryActivities CategoryActivities[]
+}

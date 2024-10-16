@@ -13,9 +13,14 @@ export class CreateRequestPatientDto {
   @IsString({ message: 'El género debe ser una cadena de texto.' })
   genre: string;
 
-  @IsNotEmpty({ message: 'La dirección es obligatoria.' })
-  @IsString({ message: 'La dirección debe ser una cadena de texto.' })
-  address: string;
+  @IsNotEmpty({message: "Tienes que seleccionar tu localidad."})
+  localityId: number;
+
+  @IsNotEmpty({message: 'La Colonia o barrio es obligatorio.'})
+  neighborhood: string;
+
+  @IsNotEmpty({message: "La Calle y número (o apartamento) es obligatorio."})
+  streetNumber: String;
 
   @IsNotEmpty({ message: 'El teléfono es obligatorio.' })
   telephone: string;
@@ -66,4 +71,8 @@ export class CreateRequestPatientDto {
   @IsOptional()
   @IsString({ message: 'La historia familiar debe ser una cadena de texto.' })
   histoyFamily?: string;
+
+  // userId?: number
+
+  // professionalId?:number
 }

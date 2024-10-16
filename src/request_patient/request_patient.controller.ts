@@ -6,11 +6,11 @@ import { CreateRequestPatientDto } from './dto/request_patient.dto';
 export class RequestPatientController {
   constructor(private readonly requestPatientService: RequestPatientService) {}
 
-  @Post(':id/:professionalId')
+  @Post(':userId/:professionalId')
   @UsePipes(new ValidationPipe({whitelist: true}))
-  async create(@Body() data: CreateRequestPatientDto, @Req() _request: Request, @Res() response: Response, @Param('id') id: string, @Param('professionalId') professionalId: string) {
-    try {
-        const request_patient = await this.requestPatientService.create(data, Number(id),Number(professionalId));
+  async create(@Body() data: CreateRequestPatientDto, @Req() _request: Request, @Res() response: Response, @Param('userId') userId: string, @Param('professionalId') professionalId: string) {
+    try {        
+        const request_patient = await this.requestPatientService.create(data, Number(userId),Number(professionalId));
 
         response.status(200).json(request_patient)
     } catch (error) {
@@ -32,22 +32,22 @@ export class RequestPatientController {
       }
   }
 
-  @Get('professional/:id')
-  async findAll(@Req() _request: Request, @Res() response: Response, @Param('id') id: string) {
-    try {
-      const request_patient = await this.requestPatientService.findAll(Number(id));
+  @Get('professional/:professionalId')
+    async findAllByProfessional(@Req() _request: Request, @Res() response: Response, @Param('professionalId') professionalId: string) {
+      try {
+        const request_patient = await this.requestPatientService.findAll(Number(professionalId));
 
-      response.status(200).json(request_patient)
-  } catch (error) {
-      console.log(error);
-      response.status(500).json({message:"Error to get request"})
-  }
+        response.status(200).json(request_patient)
+    } catch (error) {
+        console.log(error);
+        response.status(500).json({message:"Error to get request"})
+    }
   }
 
-  @Get(':id')
-  async findOne(@Req() _request: Request, @Res() response: Response, @Param('id') id: string) {
+  @Get(':requestId')
+  async findOne(@Req() _request: Request, @Res() response: Response, @Param('requestId') requestId: string) {
     try {
-        response.status(200).json(await this.requestPatientService.findOne(Number(id)))
+        response.status(200).json(await this.requestPatientService.findOne(Number(requestId)))
     } catch (error) {
         console.log(error);
         response.status(200).json({msg: "Error to find request."})
@@ -55,10 +55,10 @@ export class RequestPatientController {
   }
 
 
-  @Get(':id/:professionalId')
-  async findOneByUserAndProfessional(@Req() _request: Request, @Res() response: Response, @Param('id') id: string, @Param('professionalId') professionalId: string) { 
+  @Get('patient/:userId')
+  async findOneByUser(@Req() _request: Request, @Res() response: Response, @Param('userId') userId: string, @Param('professionalId') professionalId: string) { 
     try {
-      const request_patient = await this.requestPatientService.findOneByUserAndProfessional(Number(id), Number(professionalId));
+      const request_patient = await this.requestPatientService.findOneByUser(Number(userId));
 
       response.status(200).json(request_patient)
   } catch (error) {

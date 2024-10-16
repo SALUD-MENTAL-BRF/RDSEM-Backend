@@ -1,17 +1,14 @@
-import { Controller,Post, Body, Req,Res, Param, ValidationPipe, Get, Put, UseInterceptors, UploadedFile } from "@nestjs/common";
+import { Controller,Post, Body, Req,Res, Param, ValidationPipe, Get, Put } from "@nestjs/common";
 import { Request,Response } from "express";
 import { ProfessionalService } from "./professional.service";
 import { UsePipes } from "@nestjs/common";
 import { CreateProfessionalDto, UpdateProfileProfessionalDto } from "./dto/professional.dto";
-import { UsersService } from "src/users/users.service";
-import { FileInterceptor } from "@nestjs/platform-express";
 
 @Controller('professional')
 export class ProfessionalControllers {
 
     constructor(
         private professionalService: ProfessionalService,
-        private userService:UsersService
     ){}
 
     @Get()
@@ -24,11 +21,11 @@ export class ProfessionalControllers {
         }
     };
 
-    @Post(':id')
+    @Post(':userId')
     @UsePipes(new ValidationPipe({whitelist: true}))
-    async createProfessional(@Param('id') id: string ,@Req() _request: Request, @Res() response : Response, @Body() data: CreateProfessionalDto) {
+    async createProfessional(@Param('userId') userId: string ,@Req() _request: Request, @Res() response : Response, @Body() data: CreateProfessionalDto) {
         try {
-            const professional = await this.professionalService.create(data, id);
+            const professional = await this.professionalService.create(data, Number(userId));
 
             response.status(200).json(professional);
         } catch (error) {
@@ -36,11 +33,11 @@ export class ProfessionalControllers {
             console.log(error);
         };
     };
-
-    @Get(':id')
-    async findOneProfessionalByUserId(@Req() _request: Request, @Res() response: Response, @Param('id') id: string){
-        try {
-            response.status(200).json(await this.professionalService.findOneByUserId(Number(id)))
+    
+    @Get(':userId')
+    async findProfessionalByUserId(@Req() _request: Request, @Res() response: Response, @Param('userId') userId: string){
+        try {            
+            response.status(200).json(await this.professionalService.findOneByUserId(Number(userId)))
         } catch (error) {
             console.log(error);
             response.status(500).json({msg: "Error to find the professional"})
@@ -48,29 +45,20 @@ export class ProfessionalControllers {
         }
     }
 
-    @Get('profile/:id')
-    async findOneProfile(@Req() _request: Request, @Res() response: Response, @Param('id') id: string){
+    @Get('profile/:profileId')
+    async findOneProfile(@Req() _request: Request, @Res() response: Response, @Param('profileId') profileId: string){
         try {
-            response.status(200).json(await this.professionalService.findOneProfile(Number(id)));
+            response.status(200).json(await this.professionalService.findOneProfile(Number(profileId)));
         } catch (error) {
             console.log(error);
             response.status(500).json({msg: "Error to get one professional"})
         }
     };
 
-    @Put(':id')
-    @UseInterceptors(FileInterceptor('file'))
-    async updateProfile(@Req() _request: Request, @Res() response: Response,@Param('id') id: string, @UploadedFile() file: Express.Multer.File, @Body() data: UpdateProfileProfessionalDto){
+    @Put(':professionalId')
+    async updateProfile(@Req() _request: Request, @Res() response: Response,@Param('professionalId') professionalId: string, @Body() data: UpdateProfileProfessionalDto){
         try {
-            if(file){
-                await this.userService.updateImage(Number(id), file)
-            }
-            
-            if(data){
-                
-            }
-            
-            response.status(200).json({})
+            response.status(200).json(await this.professionalService.updateProfile(Number(professionalId), data))
         } catch (error) {
             console.log(error);
             response.status(500).json({msg: "Error to update profile"})

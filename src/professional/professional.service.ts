@@ -10,9 +10,7 @@ export class ProfessionalService {
 
     ){};
 
-    async create(data:CreateProfessionalDto, id: string){
-        
-        const userId = Number(id)
+    async create(data:CreateProfessionalDto, userId: number){
 
         const user = await this.prismaService.user.findFirst({where: {
             id: userId
@@ -43,10 +41,10 @@ export class ProfessionalService {
         
     };
 
-    async findOneByUserId(id:number){
+    async findOneByUserId(userId:number){
         return await this.prismaService.professional.findFirst({
             where:{
-                userId:id
+                userId:userId
             }
         })
     }
@@ -70,7 +68,7 @@ export class ProfessionalService {
           data: {
             description: '', 
             availability: false, 
-            preference_communication: '',
+            preference_communication: 'Sin preferencias',
             professional: {
               connect: { id: id }
             }
@@ -78,25 +76,24 @@ export class ProfessionalService {
         });
       };
       
-      async findOneProfile(id: number){
+      async findOneProfile(profileId: number){
         return await this.prismaService.profileProfessional.findFirst({
-            where: {id: id},
+            where: {id: profileId},
             include: {
                 professional: {
                     include: {
-                        user: true
+                        user: true,
+                        patient: true
                     }
                 }
             }
         })
       }
 
-      async update(id:number,data:UpdateProfileProfessionalDto){
+      async updateProfile(professionalId:number,data:UpdateProfileProfessionalDto){        
         return await this.prismaService.profileProfessional.update({
-            where:{id:id},
-            data: {
-                
-            }
+            where:{professionalId: professionalId},
+            data: data
         })
       }
 }
