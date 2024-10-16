@@ -12,22 +12,20 @@ export class ActivityService {
             include: {
                 categoryActivities: true
             }
-        })
+        });
     };
     
-    async findAllLinkedByPatientId(patientId: number) {
-        return await this.prismaService.activities.findMany({
+    async findAllLinkedByPatientId(patientId: number, professionalId: number) {
+
+        return await this.prismaService.activityXPatient.findMany({
             where: {
-                patient: {
-                    some: {
-                        id: patientId
-                    }
-                }
+                patientId: patientId,
+                professionalId: professionalId,
             },
             include: {
-                categoryActivities: true
+                activity: true
             }
-        });
+        })
     }
     
 

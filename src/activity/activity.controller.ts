@@ -20,10 +20,10 @@ export class ActivityController {
         }
     }
 
-    @Get(':patientId')
-    async findAllActivitiesLinked(@Req() _request:Request, @Res() response: Response, @Param('patientId') patientId:string){
+    @Get(':patientId/:professionalId')
+    async findAllActivitiesLinked(@Req() _request:Request, @Res() response: Response, @Param('patientId') patientId:string, @Param('professionalId') professionalId:string){
         try {
-            response.status(200).json(await this.activityService.findAllLinkedByPatientId(Number(patientId)))
+            response.status(200).json(await this.activityService.findAllLinkedByPatientId(Number(patientId), Number(professionalId)))
         } catch (error) {
             response.status(500).json({
                 msg: 'Error to find all activities by patientId'
