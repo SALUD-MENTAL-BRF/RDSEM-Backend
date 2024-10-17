@@ -11,15 +11,6 @@ export class ProfessionalControllers {
         private professionalService: ProfessionalService,
     ){}
 
-    @Get()
-    async getAllProfessional(@Req() _request: Request, @Res() response: Response){
-        try {
-            response.status(200).json(await this.professionalService.findAll());
-        } catch (error) {
-            console.log(error);
-            response.status(500).json({msg: "Error to get all professionals"})
-        }
-    };
 
     @Post(':userId')
     @UsePipes(new ValidationPipe({whitelist: true}))
@@ -33,6 +24,16 @@ export class ProfessionalControllers {
             console.log(error);
         };
     };
+
+    @Get()
+    async getAllProfessional(@Req() _request: Request, @Res() response: Response){
+        try {
+            response.status(200).json(await this.professionalService.findAll());
+        } catch (error) {
+            console.log(error);
+            response.status(500).json({msg: "Error to get all professionals"})
+        }
+    };
     
     @Get(':userId')
     async findProfessionalByUserId(@Req() _request: Request, @Res() response: Response, @Param('userId') userId: string){
@@ -44,6 +45,18 @@ export class ProfessionalControllers {
             
         }
     }
+
+    @Get('patient/:patientId')
+    async findProfessionalsByPatient(@Req() _request: Request, @Res() response: Response, @Param('patientId') patientId: string){
+        try {
+            response.status(200).json(await this.professionalService.findBypatient(Number(patientId)))
+        } catch (error) {
+            console.log(error);
+            response.status(500).json({
+                msg:"Error to find all professionals by patient"
+            })
+        }
+    };
 
     @Get('profile/:profileId')
     async findOneProfile(@Req() _request: Request, @Res() response: Response, @Param('profileId') profileId: string){

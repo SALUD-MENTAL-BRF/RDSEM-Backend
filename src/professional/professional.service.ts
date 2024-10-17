@@ -62,6 +62,21 @@ export class ProfessionalService {
         });
     }
 
+    async findBypatient(patientId: number){
+        return await this.prismaService.patient.findFirst({
+            where: {
+                id: patientId
+            },
+            include: {
+                professional: {
+                    include: {
+                        user: true
+                    }
+                }
+            }
+        })
+    }
+
 
     async createProfile(id: number) {
         return await this.prismaService.profileProfessional.create({
