@@ -36,7 +36,7 @@ model User {
 
   // Relaciones
   rol         Role         @relation(fields: [roleId], references: [id])
-  roleId      Int          @default(3)
+  roleId      Int
 
   patient Patient[]
   professional Professional[]

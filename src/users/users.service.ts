@@ -17,13 +17,11 @@ export class UsersService {
   ) {}
 
   async createUser(User: CreateUserDto) {
-
     let hashedPassword: string | null = null
     
     if (User.password) {
       hashedPassword = await bcryptjs.hash(User.password, 10);
     }
-
 
     return this.prismaService.user.create({
       data: {
@@ -32,7 +30,7 @@ export class UsersService {
         password: hashedPassword,
         googleId: User.googleId,
         imageUrl: User.imageUrl,
-        roleId: 4
+        roleId: User.roleId ? User.roleId : 4
       },
     });
   }
