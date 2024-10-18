@@ -87,7 +87,6 @@ model Patient {
   locality Locality @relation(fields: [localityId], references: [id])
   localityId Int
   recommendation Recommendation[]
-  activity Activities[]
   infoPatient InfoPatient[]
   activityXPatient ActivityXPatient []
 }
@@ -196,8 +195,8 @@ model Activities {
   categoryActivitiesId Int
   disorder Disorder @relation(fields: [disorderId], references: [id])
   disorderId Int
+  active Boolean
 
-  patient Patient[]
   activityXPatient ActivityXPatient[]
 }
 
