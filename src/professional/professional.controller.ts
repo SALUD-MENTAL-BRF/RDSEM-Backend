@@ -23,7 +23,7 @@ export class ProfessionalControllers {
 
     @Post(':userId')
     @UsePipes(new ValidationPipe({whitelist: true}))
-    async createProfessional(@Param('userId') userId: string ,@Req() _request: Request, @Res() response : Response, @Body() data: CreateProfessionalDto) {
+    async createProfessional(@Param('userId') userId: string, @Body() data: CreateProfessionalDto, @Res() response : Response,) {
         try {
             const professional = await this.professionalService.create(data, Number(userId));
 

@@ -160,6 +160,8 @@ model Professional {
   // Relaciones
   user User @relation(fields: [userId], references: [id]) 
   userId Int
+  hospital Hospital @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+  hospitalId Int
   patient Patient[]
   profile ProfileProfessional?
   request_patient Request_patient[]
@@ -261,10 +263,11 @@ model Hospital {
 
   specialties  SpecialtiesOnHospitals[]
   services     ServicesOnHospitals[]
+  professional Professional[]
 
   // Campo para almacenar el ID del usuario con el rol de hospital
   userId       Int              @unique // Relación uno a uno, debe ser único
-  user         User             @relation(fields: [userId], references: [id])
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Specialty {
