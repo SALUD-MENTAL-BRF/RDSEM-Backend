@@ -31,8 +31,19 @@ export class ProfessionalService {
             }
         })
 
+        const Data = {
+            title: data.title,
+            firstname: data.firstname,
+            lastname: data.lastname,
+            specialization: data.specialization,
+            tuition: data.tuition,
+            birthdate: data.birthdate,
+            hospitalId: data.hospitalId,
+            userId: userId
+        }
 
-        const profesional = await this.prismaService.professional.create({data: {...data, userId: userId}})
+
+        const profesional = await this.prismaService.professional.create({data: Data})
 
         await this.createProfile(profesional.id)
         

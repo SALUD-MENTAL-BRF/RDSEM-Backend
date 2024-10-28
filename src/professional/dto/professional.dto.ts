@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsNumber, IsISO8601, isString, isNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsISO8601, isNotEmpty } from 'class-validator';
 
 export class CreateProfessionalDto {
   @IsNotEmpty({ message: 'El título es obligatorio' })
@@ -24,6 +24,10 @@ export class CreateProfessionalDto {
   @IsNotEmpty({ message: 'La fecha de nacimiento es obligatoria' })
   @IsISO8601({}, { message: 'La fecha de nacimiento debe estar en un formato ISO 8601 válido' })
   birthdate: string;
+
+  @IsNotEmpty({ message: 'El hospital es obligatorio' })
+  @IsNumber({}, { message: 'El hospital debe ser un número' })
+  hospitalId: number;
 }
 
 
