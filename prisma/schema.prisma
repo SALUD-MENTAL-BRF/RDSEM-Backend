@@ -89,6 +89,7 @@ model Patient {
   recommendation Recommendation[]
   infoPatient InfoPatient[]
   activityXPatient ActivityXPatient []
+  socialHabilitySetting SocialHabilitySetting[]
 }
 
 model InfoPatient {
@@ -158,6 +159,7 @@ model Professional {
   recommendation Recommendation[]
   infoPatient InfoPatient[]
   activityXPatient ActivityXPatient[]
+  socialHabilitySetting SocialHabilitySetting[]
 }
 
 model ProfileProfessional {
@@ -220,6 +222,19 @@ model ActivityXPatient {
 
   professional Professional @relation(fields: [professionalId], references: [id])
   professionalId Int
+}
+
+model SocialHabilitySetting {
+  id Int @id @default(autoincrement())
+
+  age String
+  genre String
+  complexity String
+
+  patientId Int
+  patient Patient @relation(fields: [patientId], references: [id])
+  professionalId Int
+  professional Professional @relation(fields: [professionalId], references: [id])
 }
 
 
