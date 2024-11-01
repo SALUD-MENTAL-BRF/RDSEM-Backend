@@ -30,7 +30,7 @@ export class UsersService {
         password: hashedPassword,
         googleId: User.googleId,
         imageUrl: User.imageUrl,
-        roleId: User.roleId ? User.roleId : 4
+        roleId: User.roleId ? User.roleId : 5
       },
     });
   }
