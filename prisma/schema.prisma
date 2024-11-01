@@ -231,10 +231,10 @@ model SocialHabilitySetting {
   genre String
   complexity String
 
-  patientId Int
   patient Patient @relation(fields: [patientId], references: [id])
-  professionalId Int
+  patientId Int
   professional Professional @relation(fields: [professionalId], references: [id])
+  professionalId Int
 }
 
 
