@@ -21,16 +21,14 @@ export class ProfessionalControllers {
         }
     };
 
-    @Post(':userId')
+    @Post()
     @UsePipes(new ValidationPipe({whitelist: true}))
-    async createProfessional(@Param('userId') userId: string, @Body() data: CreateProfessionalDto, @Res() response : Response,) {
+    async createProfessional(@Body() data: CreateProfessionalDto, @Res() response : Response,) {
         try {
-            const professional = await this.professionalService.create(data, Number(userId));
-
-            response.status(200).json(professional);
+            const professional = await this.professionalService.create(data);
+            return response.json({ success: true, professional });
         } catch (error) {
-            response.status(500).json({msg: 'Error to add the professional'});
-            console.log(error);
+            return response.json({ success: false, message: error.message });
         };
     };
     

@@ -1,6 +1,23 @@
-import { IsNotEmpty, IsString, IsNumber, IsISO8601, isNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsISO8601, isNotEmpty, IsEmail } from 'class-validator';
 
 export class CreateProfessionalDto {
+
+  @IsNotEmpty({ message: 'El nombre de usuario es obligatorio' })
+  @IsString({ message: 'El nombre de usuario debe ser una cadena de caracteres' })
+  username: string;
+
+  @IsNotEmpty({ message: 'El email es obligatorio' })
+  @IsEmail({}, { message: 'El email debe ser un formato válido' })
+  email: string;
+
+  @IsNotEmpty({ message: 'La contraseña es obligatoria' })
+  @IsString({ message: 'La contraseña debe ser una cadena de caracteres' })
+  password: string;
+
+  @IsNotEmpty({ message: 'El rol es obligatorio' })
+  @IsNumber({}, { message: 'El rol debe ser un número' })
+  roleId: number
+
   @IsNotEmpty({ message: 'El título es obligatorio' })
   @IsString({ message: 'El título debe ser una cadena de texto' })
   title: string;
@@ -22,7 +39,7 @@ export class CreateProfessionalDto {
   tuition: number;
 
   @IsNotEmpty({ message: 'La fecha de nacimiento es obligatoria' })
-  @IsISO8601({}, { message: 'La fecha de nacimiento debe estar en un formato ISO 8601 válido' })
+  @IsISO8601({}, { message: 'La fecha de nacimiento debe estar en un formato ISO 8601 válido "YYYY-MM-DD"' })
   birthdate: string;
 
   @IsNotEmpty({ message: 'El hospital es obligatorio' })

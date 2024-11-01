@@ -10,46 +10,51 @@ export class ProfessionalService {
 
     ){};
 
-    async create(data: CreateProfessionalDto, userId: number) {
-        const user = await this.prismaService.user.findFirst({
-            where: { id: userId },
-        });
-    
-        if (!user) {
-            throw new NotFoundException("No se encontró el usuario.");
+    async create(data: CreateProfessionalDto) {
+
+        const newUserData = {
+            username: data.username,
+            email: data.email,
+            password: data.password,
+            roleId: data.roleId
         }
-    
-        if (user.roleId === 2) {
-            return { msg: "El usuario ya está registrado como un profesional." };
+
+        const newUser = await this.prismaService.user.create({
+            data: newUserData
+        })
+
+        const hospital = await this.prismaService.hospital.findFirst({
+            where: {
+                id: data.hospitalId
+            }
+        })
+
+        if (!hospital) {
+            throw new NotFoundException("No se encontró el hospital con el ID proporcionado.");
         }
-    
-        await this.prismaService.user.update({
-            where: { id: userId },
-            data: { roleId: 2 },
-        });
-    
-        const professionalData = {
+
+        const profesionalData = {
             title: data.title,
             firstname: data.firstname,
             lastname: data.lastname,
             specialization: data.specialization,
             tuition: data.tuition,
-            birthdate: data.birthdate, // Asegúrate de que sea un objeto Date si es necesario
+            birthdate: data.birthdate,
             user: {
-                connect: { id: userId }, // Conectar con el usuario existente
+                connect: { id: newUser.id }
             },
             hospital: {
-                connect: { id: data.hospitalId }, // Conectar con el hospital desde el body
-            },
-        };
+                connect: { id: hospital.id }
+            }
+        }
+
+        const newProfesional = await this.prismaService.professional.create({
+            data: profesionalData
+        })
     
-        const profesional = await this.prismaService.professional.create({
-            data: professionalData,
-        });
-    
-        await this.createProfile(profesional.id);
+        await this.createProfile(newProfesional.id);
         
-        return profesional;
+        return newProfesional;
     }
     
 
