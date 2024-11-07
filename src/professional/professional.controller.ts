@@ -1,4 +1,4 @@
-import { Controller,Post, Body, Req,Res, Param, ValidationPipe, Get, Put } from "@nestjs/common";
+import { Controller,Post, Body, Req,Res, Param, ValidationPipe, Get, Put, Delete } from "@nestjs/common";
 import { Request,Response } from "express";
 import { ProfessionalService } from "./professional.service";
 import { UsePipes } from "@nestjs/common";
@@ -28,18 +28,20 @@ export class ProfessionalControllers {
             const professional = await this.professionalService.create(data);
             return response.json({ success: true, professional });
         } catch (error) {
-            return response.json({ success: false, message: error.message });
+            return response.status(500).json({ success: false, message: error.message });
         };
     };
-    
-    @Get(':userId')
-    async findProfessionalByUserId(@Req() _request: Request, @Res() response: Response, @Param('userId') userId: string){
-        try {            
-            response.status(200).json(await this.professionalService.findOneByUserId(Number(userId)))
+
+    @Get(':professionalId')
+    async findProfessionalById(@Req() _request: Request, @Res() response: Response, @Param('professionalId') professionalId: string){
+        try {
+            const professional = await this.professionalService.findOneByUserId(Number(professionalId));
+            if (!professional) {
+                return response.status(404).json({ success: false, message: 'No se encontró el profesional' });
+            }
+            return response.json({ success: true, professional });
         } catch (error) {
-            console.log(error);
-            response.status(500).json({msg: "Error to find the professional"})
-            
+            return response.status(500).json({ success: false, message: error.message });
         }
     }
 
@@ -60,6 +62,21 @@ export class ProfessionalControllers {
         } catch (error) {
             console.log(error);
             response.status(500).json({msg: "Error to update profile"})
+        }
+    }
+
+    @Delete(':professionalId')
+    async deleteProfessional(@Req() _request: Request, @Res() response: Response, @Param('professionalId') professionalId: string){
+        try {
+            const professional = await this.professionalService.findOneByUserId(Number(professionalId));
+            if (!professional) {
+                return response.status(404).json({ success: false, message: 'No se encontró el profesional' });
+            }
+            await this.professionalService.deleteProfessional(professional.user.id)
+
+            return response.json({ success: true });
+        } catch (error) {
+            return response.status(500).json({ success: false, message: error.message });
         }
     }
 }

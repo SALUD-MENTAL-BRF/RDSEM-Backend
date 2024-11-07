@@ -19,6 +19,14 @@ export class ProfessionalService {
             roleId: data.roleId
         }
 
+        const existingUser = await this.prismaService.user.findUnique({
+            where: { email: data.email },
+        });
+        
+        if (existingUser) {
+            throw new Error('El email ya está en uso. Por favor, elige otro.');
+        }
+
         const newUser = await this.prismaService.user.create({
             data: newUserData
         })
@@ -58,10 +66,24 @@ export class ProfessionalService {
     }
     
 
-    async findOneByUserId(userId:number){
-        return await this.prismaService.professional.findFirst({
-            where:{
-                userId:userId
+    async findOneByUserId(professionalId:number){
+        return await this.prismaService.professional.findUnique({
+            where: { id: professionalId},
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        username: true,
+                        email: true,
+                        roleId: true,
+                        rol: {
+                            select: {
+                                type: true
+                            }
+                        },
+                        status: true
+                    }
+                }
             }
         })
     }
@@ -71,7 +93,20 @@ export class ProfessionalService {
             include: {
                 professional: {
                     include:{
-                        user: true
+                        user: {
+                            select: {
+                                id: true,
+                                username: true,
+                                email: true,
+                                roleId: true,
+                                rol: {
+                                    select: {
+                                        type: true
+                                    }
+                                },
+                                status: true
+                            }
+                        }
                     }
                 }
 
@@ -99,7 +134,20 @@ export class ProfessionalService {
             include: {
                 professional: {
                     include: {
-                        user: true,
+                        user: {
+                            select: {
+                                id: true,
+                                username: true,
+                                email: true,
+                                roleId: true,
+                                rol: {
+                                    select: {
+                                        type: true
+                                    }
+                                },
+                                status: true
+                            }
+                        },
                         patient: true
                     }
                 }
@@ -113,4 +161,11 @@ export class ProfessionalService {
             data: data
         })
       }
+
+    async deleteProfessional(userId: number) {
+        await this.prismaService.user.delete({
+            where: { id: userId }
+        })
+    }
+
 }
