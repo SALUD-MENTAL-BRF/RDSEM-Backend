@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put, Req,Res, UsePipes, ValidationPipe } from "@nestjs/common";
-import { createSocialHabilitySettingDto } from "./dto/social.hability.dto";
+import { createSocialHabilitySettingDto, createSocialHabilityHistoryDto } from "./dto/social.hability.dto";
 import { SocialHabilityService } from "./social.hability.service";
 import { Request,Response } from "express";
 
@@ -7,6 +7,30 @@ import { Request,Response } from "express";
 export class SocialHabilityController {
 
     constructor(private socialHabilityService: SocialHabilityService){}
+
+    @Post('history/:professionalId/:patientId')
+    @UsePipes(new ValidationPipe({whitelist: true}))
+    async createHistory(@Req() _request: Request, @Res() response: Response, @Body() data: createSocialHabilityHistoryDto, @Param('professionalId') professionalId: string, @Param('patientId') patientId: string){
+        try {
+            response.status(201).json(await this.socialHabilityService.addedHistory(data, Number(professionalId), Number(patientId)));
+        } catch (error) {
+            console.log(error);
+            response.status(500).json({
+                msg: 'Error to create history'
+            });
+        };
+    };
+
+    @Get('history/:professionalId/:patientId')
+    async findHistory(@Req() _request: Request, @Res() response: Response,@Param('professionalId') professionalId: string, @Param('patientId') patientId: string){
+        try {
+            response.status(200).json(await this.socialHabilityService.findAllHistoryByPatientAndProfessional(Number(professionalId), Number(patientId)));
+        } catch (error) {
+            response.status(500).json({
+                msg: 'Error to find the history'
+            });
+        };
+    };
 
     @Post('setting/:professionalId/:patientId')
     @UsePipes(new ValidationPipe({whitelist: true}))
