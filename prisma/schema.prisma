@@ -90,6 +90,7 @@ model Patient {
   infoPatient InfoPatient[]
   activityXPatient ActivityXPatient []
   socialHabilitySetting SocialHabilitySetting[]
+  socialHabilityHistory SocialHabilityHistory[]
 }
 
 model InfoPatient {
@@ -160,6 +161,7 @@ model Professional {
   infoPatient InfoPatient[]
   activityXPatient ActivityXPatient[]
   socialHabilitySetting SocialHabilitySetting[]
+  socialHabilityHistory SocialHabilityHistory[]
 }
 
 model ProfileProfessional {
@@ -236,6 +238,20 @@ model SocialHabilitySetting {
   patientId Int
   professional Professional @relation(fields: [professionalId], references: [id])
   professionalId Int
+}
+
+model SocialHabilityHistory {
+  id Int @id @default(autoincrement())
+
+  stage String
+  responses Json
+  explanation String
+  createdAt  DateTime @default(now())
+
+  patientId Int
+  patient Patient @relation(fields: [patientId], references: [id])
+  professionalId Int
+  professional Professional @relation(fields: [professionalId], references: [id])
 }
 
 
