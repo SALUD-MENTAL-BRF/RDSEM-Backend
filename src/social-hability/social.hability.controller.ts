@@ -25,7 +25,7 @@ export class SocialHabilityController {
     @UsePipes(new ValidationPipe({whitelist: true}))
     async updateSetting(@Req() _request: Request, @Res() response: Response, @Body() data: createSocialHabilitySettingDto, @Param('settingId') settingId: string){
         try {
-            const setting = await this.socialHabilityService.findOne(Number(settingId));
+            const setting = await this.socialHabilityService.findOneSetting(Number(settingId));
 
             if (!setting){
                 return response.status(404).json({

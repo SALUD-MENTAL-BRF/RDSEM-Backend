@@ -1,11 +1,26 @@
 import { PrismaService } from "src/prisma/prisma.service";
-import { createSocialHabilitySettingDto } from "./dto/social.hability.dto";
+import { createSocialHabilitySettingDto,createSocialHabilityHistoryDto } from "./dto/social.hability.dto";
 import { Injectable } from "@nestjs/common";
 
 
 @Injectable()
 export class SocialHabilityService {
     constructor(private readonly prismaService: PrismaService){}
+
+    async addedHistory(data: createSocialHabilityHistoryDto, professionalId: number, patientId: number){
+        return await this.prismaService.socialHabilityHistory.create({
+            data: {...data, professionalId: professionalId, patientId: patientId}
+        });
+    };
+
+    async findAllHistoryByPatientAndProfessional(professionalId: number, patientId: number){
+        return await this.prismaService.socialHabilityHistory.findMany({
+            where: {
+                professionalId: professionalId,
+                patientId: patientId
+            }
+        });
+    };
 
     async addedSetting(setting: createSocialHabilitySettingDto, professionalId: number, patientId:number){
         return await this.prismaService.socialHabilitySetting.create({data: {...setting, professionalId, patientId}})
@@ -29,7 +44,7 @@ export class SocialHabilityService {
         });
     };
     
-    async findOne(settingId: number){
+    async findOneSetting(settingId: number){
         return await this.prismaService.socialHabilitySetting.findFirst({
             where: {
                 id:settingId
