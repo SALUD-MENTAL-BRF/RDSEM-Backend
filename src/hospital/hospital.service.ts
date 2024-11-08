@@ -97,4 +97,48 @@ export class HospitalService {
       throw new Error(`Error al eliminar el hospital: ${error.message}`);
     }
   }
-}
+
+  async findOneByUserId(userId: number) {
+    return await this.prismaService.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        imageUrl: true,
+        updatedAt: true,
+        createdAt: true,
+        status: true,
+        roleId: true,
+        hospital: {
+          select: {
+            id: true,
+            name: true,
+            address: true,
+            telephone: true,
+            email: true,
+            website: true,
+            director: true,
+            openingHours: true,
+            type: true,
+            specialties: {
+              select: {
+                specialty: true
+              }
+            },
+            services: {
+              select: {
+                service: true
+              }
+            }
+          },
+        },
+        rol: {
+          select: {
+            type: true
+          }
+        }
+      },
+    });
+  }
+}  

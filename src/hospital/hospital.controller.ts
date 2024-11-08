@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Req, Res } from '@nestjs/common';
 import { HospitalService } from './hospital.service';
 import { createHospital } from './dto/createHospitalDTO';
 import { TypeHospital } from '@prisma/client';
+import { Request, Response } from 'express';
 
 @Controller('hospital')
 export class HospitalController {
@@ -45,11 +46,24 @@ export class HospitalController {
       }
     }
   }
-
+  
   @Get('/types')
   async getHospitalTypes() {
     const types = Object.values(TypeHospital);
     return types;
+  }
+
+  @Get('/:userId')
+  async findHospitalByUserId(@Req() _request: Request, @Res() response: Response, @Param('userId') userId: string) {
+    try {
+      const user = await this.hospitalService.findOneByUserId(Number(userId));
+      if (!user) {
+        return response.status(404).json({ success: false, message: 'No se encontró el hospital' });
+      }
+      return response.json({ success: true, hospital: user });
+    } catch (err) {
+      return response.status(500).json({ success: false, message: err.message });
+    }
   }
 
   @Delete('/:id') 
