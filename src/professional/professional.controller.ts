@@ -45,6 +45,19 @@ export class ProfessionalControllers {
         }
     }
 
+    @Get('/hospital/:hospitalId') 
+    async findProfessionalByHospitalId(@Req() _request: Request, @Res() response: Response, @Param('hospitalId') hospitalId: string){
+        try {
+            const professionals = await this.professionalService.finAllByHospitalId(Number(hospitalId));
+            if (!professionals) {
+                return response.status(404).json({ success: false, message: 'No se encontraron profesionales' });
+            }
+            return response.json({ success: true, professionals });
+        } catch (err) {
+            return response.status(500).json({ success: false, message: err.message });
+        }
+    }
+
     @Get('profile/:profileId')
     async findOneProfile(@Req() _request: Request, @Res() response: Response, @Param('profileId') profileId: string){
         try {

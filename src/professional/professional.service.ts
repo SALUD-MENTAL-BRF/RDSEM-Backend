@@ -168,4 +168,12 @@ export class ProfessionalService {
         })
     }
 
+    async finAllByHospitalId(hospitalId: number) {
+        return await this.prismaService.professional.findMany({
+            where: {
+                hospitalId: hospitalId
+            }
+        })
+    }
+
 }
