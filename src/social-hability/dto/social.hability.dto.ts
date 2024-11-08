@@ -33,7 +33,13 @@ export class createSocialHabilityHistoryDto{
     explanation: string;
 
     @IsNotEmpty({message: 'La complejidad no existe'})
-    complexy: string;
+    complexity: string;
+
+    @IsNotEmpty({message: 'La respuesta no existe'})
+    answer: number
+
+    @IsNotEmpty({message: 'La respuesta correcta no existe'})
+    correctResponse: string;
 
     professionalid: number;
 

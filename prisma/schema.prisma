@@ -245,8 +245,10 @@ model SocialHabilityHistory {
 
   stage String
   responses Json
+  answer Int
+  correctResponse String
   explanation String
-  complexy String
+  complexity String
   createdAt  DateTime @default(now())
 
   patientId Int
@@ -254,7 +256,6 @@ model SocialHabilityHistory {
   professionalId Int
   professional Professional @relation(fields: [professionalId], references: [id])
 }
-
 
 model Publication {
   id Int @id @default(autoincrement())
