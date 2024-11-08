@@ -21,11 +21,11 @@ export class SocialHabilityController {
         };
     };
 
-    @Put('setting/:professionalId/:patientId')
+    @Put('setting/:settingId')
     @UsePipes(new ValidationPipe({whitelist: true}))
-    async updateSetting(@Req() _request: Request, @Res() response: Response, @Body() data: createSocialHabilitySettingDto, @Param('professionalId') professionalId: string, @Param('patientId') patientId: string){
+    async updateSetting(@Req() _request: Request, @Res() response: Response, @Body() data: createSocialHabilitySettingDto, @Param('settingId') settingId: string){
         try {
-            const setting = await this.socialHabilityService.findOneByProfessionalAndPatient(Number(professionalId), Number(patientId));
+            const setting = await this.socialHabilityService.findOne(Number(settingId));
 
             if (!setting){
                 return response.status(404).json({
@@ -33,7 +33,7 @@ export class SocialHabilityController {
                 });
             };
 
-            response.status(200).json(await this.socialHabilityService.updateSetting( setting.id,data));
+            response.status(200).json(await this.socialHabilityService.updateSetting( Number(settingId),data));
         } catch (error) {
             console.log(error);
             response.status(500).json({

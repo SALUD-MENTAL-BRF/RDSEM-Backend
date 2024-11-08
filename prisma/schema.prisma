@@ -230,6 +230,7 @@ model SocialHabilitySetting {
   age String
   genre String
   complexity String
+  personality String
 
   patient Patient @relation(fields: [patientId], references: [id])
   patientId Int

@@ -15,10 +15,11 @@ import { RecommendationModule } from './recommendation/recommendation.module';
 import { ActivityModule } from './activity/activity.module';
 import { DisorderModule } from './disorder/disorder.module';
 import { CategoryActivitiesModule } from './category-activities/category.module';
+import { SocialHabilityModule } from './social-hability/social.hability.module';
 
 @Module({
   imports: [UsersModule, AuthModule, NoteModule, ProfessionalModule, RolesModule, RequestPatientModule,PatientModule,
-    ProvinceModule,LocalityModule, RecommendationModule,ActivityModule, DisorderModule, CategoryActivitiesModule
+    ProvinceModule,LocalityModule, RecommendationModule,ActivityModule, DisorderModule, CategoryActivitiesModule, SocialHabilityModule
   ],
   controllers: [],
   providers: [PreloadedData, PrismaService, CloudinaryService],

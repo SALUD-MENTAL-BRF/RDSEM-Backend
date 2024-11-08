@@ -28,4 +28,12 @@ export class SocialHabilityService {
             }
         });
     };
+    
+    async findOne(settingId: number){
+        return await this.prismaService.socialHabilitySetting.findFirst({
+            where: {
+                id:settingId
+            }
+        });
+    };
 };
