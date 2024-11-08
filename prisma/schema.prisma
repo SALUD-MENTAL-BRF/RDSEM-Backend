@@ -246,6 +246,7 @@ model SocialHabilityHistory {
   stage String
   responses Json
   explanation String
+  complexy String
   createdAt  DateTime @default(now())
 
   patientId Int

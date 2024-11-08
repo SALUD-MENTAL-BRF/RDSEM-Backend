@@ -20,3 +20,22 @@ export class createSocialHabilitySettingDto {
 
     patientId: number;
 };
+
+export class createSocialHabilityHistoryDto{
+
+    @IsNotEmpty({message: 'El escenario no existe'})
+    stage: string;
+
+    @IsNotEmpty({message: 'Las respuestas no existe'})
+    responses: Array<string>;
+
+    @IsNotEmpty({message:'La explicación no existe'})
+    explanation: string;
+
+    @IsNotEmpty({message: 'La complejidad no existe'})
+    complexy: string;
+
+    professionalid: number;
+
+    patientId: number;
+}
