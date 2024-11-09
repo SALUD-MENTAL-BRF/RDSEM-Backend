@@ -1,14 +1,16 @@
 import { Controller,Post, Body, Req,Res, Param, ValidationPipe, Get, Put, Delete } from "@nestjs/common";
-import { Request,Response } from "express";
+import { Request,response,Response } from "express";
 import { ProfessionalService } from "./professional.service";
 import { UsePipes } from "@nestjs/common";
 import { CreateProfessionalDto, UpdateProfileProfessionalDto } from "./dto/professional.dto";
+import { UsersService } from "src/users/users.service";
 
 @Controller('professional')
 export class ProfessionalControllers {
 
     constructor(
         private professionalService: ProfessionalService,
+        private userService: UsersService,
     ){}
 
     @Get()
@@ -43,12 +45,16 @@ export class ProfessionalControllers {
         } catch (error) {
             return response.status(500).json({ success: false, message: error.message });
         }
-    }
+    } 
 
-    @Get('/hospital/:hospitalId') 
-    async findProfessionalByHospitalId(@Req() _request: Request, @Res() response: Response, @Param('hospitalId') hospitalId: string){
+    @Get('/token/:token')
+    async findProfessionalOneHospital(@Req() _request:Request, @Res() response:Response, @Param('token') token: string){
         try {
-            const professionals = await this.professionalService.finAllByHospitalId(Number(hospitalId));
+            const user = await this.userService.findOneByToken(token);
+            if (!user) {
+                return response.status(404).json({ success: false, message: 'No se encontró el usuario' });
+            }
+            const professionals = await this.professionalService.finAllByHospitalId(user.hospital.id);
             if (!professionals) {
                 return response.status(404).json({ success: false, message: 'No se encontraron profesionales' });
             }

@@ -172,6 +172,50 @@ export class ProfessionalService {
         return await this.prismaService.professional.findMany({
             where: {
                 hospitalId: hospitalId
+            },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        username: true,
+                        email: true,
+                        roleId: true,
+                        rol: {
+                            select: {
+                                type: true
+                            }
+                        },
+                        status: true,
+                        patient: {
+                            select: {
+                                id: true,
+                                fullName: true,
+                                date_birth: true,
+                                genre: true,
+                                telephone: true,
+                                contactEmergencyName: true,
+                                contactEmergencyRelation: true,
+                                contactEmergencyTelephone: true,
+                                streetNumber: true,
+                                neighborhood: true,
+                                user: {
+                                    select: {
+                                        id: true,
+                                        username: true,
+                                        email: true,
+                                        roleId: true,
+                                        rol: {
+                                            select: {
+                                                type: true
+                                            }
+                                        },
+                                        status: true
+                                    }
+                                }
+                            },
+                        }
+                    }
+                }
             }
         })
     }
