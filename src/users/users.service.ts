@@ -68,6 +68,11 @@ export class UsersService {
           select: {
             type: true
           }
+        },
+        hospital: {
+          select: {
+            id: true,
+          }
         }
       }
     });
