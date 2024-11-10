@@ -48,6 +48,7 @@ export class ProfessionalService {
             specialization: data.specialization,
             tuition: data.tuition,
             birthdate: data.birthdate,
+            turnOfAttention: data.turnOfAttention,
             user: {
                 connect: { id: newUser.id }
             },
@@ -186,35 +187,35 @@ export class ProfessionalService {
                             }
                         },
                         status: true,
-                        patient: {
+                    }
+                },
+                patient: {
+                    select: {
+                        id: true,
+                        fullName: true,
+                        date_birth: true,
+                        genre: true,
+                        telephone: true,
+                        contactEmergencyName: true,
+                        contactEmergencyRelation: true,
+                        contactEmergencyTelephone: true,
+                        streetNumber: true,
+                        neighborhood: true,
+                        user: {
                             select: {
                                 id: true,
-                                fullName: true,
-                                date_birth: true,
-                                genre: true,
-                                telephone: true,
-                                contactEmergencyName: true,
-                                contactEmergencyRelation: true,
-                                contactEmergencyTelephone: true,
-                                streetNumber: true,
-                                neighborhood: true,
-                                user: {
+                                username: true,
+                                email: true,
+                                roleId: true,
+                                rol: {
                                     select: {
-                                        id: true,
-                                        username: true,
-                                        email: true,
-                                        roleId: true,
-                                        rol: {
-                                            select: {
-                                                type: true
-                                            }
-                                        },
-                                        status: true
+                                        type: true
                                     }
-                                }
-                            },
+                                },
+                                status: true
+                            }
                         }
-                    }
+                    },
                 }
             }
         })

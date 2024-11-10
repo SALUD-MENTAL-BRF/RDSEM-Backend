@@ -38,6 +38,10 @@ export class CreateProfessionalDto {
   @IsNumber({}, { message: 'La matrícula debe ser un número' })
   tuition: number;
 
+  @IsNotEmpty({ message: 'El turno de atención es obligatorio' })
+  @IsString({ message: 'El turno de atención debe ser una cadena de texto' })
+  turnOfAttention: string;
+
   @IsNotEmpty({ message: 'La fecha de nacimiento es obligatoria' })
   @IsISO8601({}, { message: 'La fecha de nacimiento debe estar en un formato ISO 8601 válido "YYYY-MM-DD"' })
   birthdate: string;

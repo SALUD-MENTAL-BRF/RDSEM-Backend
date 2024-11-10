@@ -155,6 +155,7 @@ model Professional {
   specialization String
   tuition Int 
   birthdate String
+  turnOfAttention String @default("")
 
   // Relaciones
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
