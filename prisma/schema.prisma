@@ -301,4 +301,3 @@ model Disorder {
   activities Activities[]
   categoryActivities CategoryActivities[]
 }
-

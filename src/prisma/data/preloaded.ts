@@ -5,6 +5,7 @@ import { Activities } from "./activities"
 import { provinces } from "./provinces"
 import { localities } from "./localities"
 import { disorder } from "./disorder"
+import { activityXdisorder } from "./activitiesXdisorder"
 
 @Injectable()
 export class PreloadedData implements OnModuleInit{
@@ -76,6 +77,5 @@ export class PreloadedData implements OnModuleInit{
 
         await this.prisma.locality.createMany({data: localities});
     };
-
 
 }
