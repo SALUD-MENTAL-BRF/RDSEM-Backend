@@ -243,12 +243,12 @@ model SocialHabilitySetting {
 model SocialHabilityHistory {
   id Int @id @default(autoincrement())
 
-  stage String
+  stage String @db.VarChar(300) 
   responses Json
   answer Int
   correctResponse String
   explanation String
-  complexity String
+  complexity String @db.VarChar(300)
   createdAt  DateTime @default(now())
 
   patientId Int
