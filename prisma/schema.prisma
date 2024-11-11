@@ -269,6 +269,8 @@ model Hospital {
 
   Professional Professional[]
   user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  Medicines Medicines[]
 }
 
 model Specialty {
@@ -301,9 +303,20 @@ model ServicesOnHospitals {
   @@id([hospitalId, serviceId])
 }
 
+model Medicines {
+  id           Int      @id @default(autoincrement())
+  hospitalId   Int
+  name         String   // Nombre del medicamento para cada hospital
+  description  String
+  quantity     Int
+
+  hospital     Hospital @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
+}
+
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
+
 model Province {
   id Int @id @default(autoincrement())
   name String
