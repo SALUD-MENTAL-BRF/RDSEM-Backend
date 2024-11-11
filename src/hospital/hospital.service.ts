@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { createHospital } from './dto/createHospitalDTO';
 import { UsersService } from 'src/users/users.service';
+import { createMedicine } from './dto/createMedicineDTO';
 
 @Injectable()
 export class HospitalService {
@@ -141,4 +142,91 @@ export class HospitalService {
       },
     });
   }
+
+
+  async createMedicine(medicine: createMedicine) {
+    const medicineData = {
+      name: medicine.name,
+      description: medicine.description,
+      quantity: medicine.quantity,
+      hospital: {
+        connect: { id: medicine.hospitalId },
+      }
+    };
+
+    const findHospital = await this.prismaService.hospital.findFirst({
+      where: {
+        id: medicine.hospitalId,
+      },
+    })
+
+    if (!findHospital) {
+      throw new Error("No se encontró el hospital con el ID proporcionado.");
+    }
+
+    const findMedicine = await this.prismaService.medicines.findFirst({
+      where: {
+        name: medicine.name,
+        hospital: {
+          id: medicine.hospitalId,
+        },
+      } as any,
+    });
+    
+    if (findMedicine) {
+      throw new Error("El medicamento ya existe en la base de datos.");
+    } else {
+      const newMedicine = await this.prismaService.medicines.create({
+        data: medicineData,
+      });
+      return newMedicine;
+    }
+  }
+
+  async findAllMedicinesByHopsitalId(hospitalId: number) {
+
+    const findMedicines = await this.prismaService.medicines.findMany({
+      where: {
+        hospitalId: hospitalId,
+      } as any,
+    });
+
+    return findMedicines;
+
+  }
+
+  async findById(id: number) {
+    const findMedicine = await this.prismaService.hospital.findUnique({
+      where: {
+        id: id,
+      } as any,
+    });
+
+    return findMedicine;
+  }
+
+  async deleteMedicine(medicineId: number) {
+    await this.prismaService.medicines.delete({
+      where: {
+        id: medicineId,
+      } as any,
+    });
+  }
+
+  async findMedicineById(medicineId: number) {
+    const findMedicine = await this.prismaService.medicines.findUnique({
+      where: {
+        id: medicineId,
+      } as any,
+    });
+
+    return findMedicine;
+  }
+
+  async findAllMedicines() {
+    const findMedicines = await this.prismaService.medicines.findMany();
+
+    return findMedicines;
+  }
+  
 }  

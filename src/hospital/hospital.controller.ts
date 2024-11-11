@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Req, Res, UsePipes, ValidationPipe } from '@nestjs/common';
 import { HospitalService } from './hospital.service';
 import { createHospital } from './dto/createHospitalDTO';
 import { TypeHospital } from '@prisma/client';
 import { Request, Response } from 'express';
+import { createMedicine } from './dto/createMedicineDTO';
 
 @Controller('hospital')
 export class HospitalController {
@@ -46,6 +47,19 @@ export class HospitalController {
       }
     }
   }
+
+  @Get('/medicines')
+  async findAllMedicines(@Req() _request: Request, @Res() response: Response) {
+    try {
+      const medicines = await this.hospitalService.findAllMedicines();
+      if (medicines.length === 0) {
+        return response.status(404).json({ success: false, message: 'No se encontraron medicinas' });
+      }
+      return response.json({ success: true, medicines });
+    } catch (error) {
+      return response.status(500).json({ success: false, message: error.message });
+    }
+  }
   
   @Get('/types')
   async getHospitalTypes() {
@@ -87,4 +101,57 @@ export class HospitalController {
     }
   }
 
-}
+  // ----------------------------------------------------------------
+  // Controladores para el manejo de medicinas
+  // ----------------------------------------------------------------
+
+  @Post('/medicines')
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  async createMedicine(@Body() medicine: createMedicine, @Req() _request: Request, @Res() response: Response) {
+    try {
+      const medecine = await this.hospitalService.createMedicine(medicine);
+      return response.json({ success: true, medecine });
+    } catch (error) {
+      return response.status(500).json({ success: false, message: error.message });
+    }
+  }
+
+  @Get('/medicines/:hospitalId')
+  async findAllMedicinesByHospitalId(@Req() _request: Request, @Res() response: Response, @Param('hospitalId') hospitalId: string) {
+    try {
+
+      const findHospital = await this.hospitalService.findById(Number(hospitalId));
+
+      if (!findHospital) {
+        return response.status(404).json({ success: false, message: 'No se encontró el hospital' });
+      }
+
+      const medicines =  await this.hospitalService.findAllMedicinesByHopsitalId(Number(hospitalId))
+
+      if (medicines.length === 0) {
+        return response.status(404).json({ success: false, message: 'No se encontraron medicinas' });
+      }
+
+      return response.json({ success: true, medicines });
+    } catch (error) {
+      return response.status(500).json({ success: false, message: error.message})
+    }
+  }
+
+  @Delete('/medicines/:medicineId')
+  async deleteMedicine(@Req() _request: Request, @Res() response: Response, @Param('medicineId') medicineId: string) {
+    try {
+      const medicine = await this.hospitalService.findMedicineById(Number(medicineId));
+      if (!medicine) {
+        return response.status(404).json({ success: false, message: 'No se encontró la medicina' });
+      }
+      await this.hospitalService.deleteMedicine(Number(medicineId));
+      return response.json({ success: true });
+    } catch (error) {
+      return response.status(500).json({ success: false, message: error.message });
+    }
+  }
+
+  // ----------------------------------------------------------------
+  // ----------------------------------------------------------------
+} 
