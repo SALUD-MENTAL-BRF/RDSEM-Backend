@@ -1,7 +1,7 @@
 import { PrismaService } from "../prisma.service"
 import { Injectable, OnModuleInit } from "@nestjs/common"
 import {categories} from './categories'
-import { naurodevelopmentActivities } from "./activities"
+import { Activities } from "./activities"
 import { provinces } from "./provinces"
 import { localities } from "./localities"
 import { disorder } from "./disorder"
@@ -58,7 +58,7 @@ export class PreloadedData implements OnModuleInit{
 
         if (findActivitiesNaurodevelopment.length > 1) return; 
 
-        await this.prisma.activities.createMany({data: naurodevelopmentActivities});
+        await this.prisma.activities.createMany({data: Activities});
     };
 
     async addProvinces(){

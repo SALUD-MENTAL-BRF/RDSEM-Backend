@@ -197,10 +197,9 @@ model Activities {
   description String
   categoryActivities CategoryActivities @relation(fields: [categoryActivitiesId], references: [id])
   categoryActivitiesId Int
-  disorder Disorder @relation(fields: [disorderId], references: [id])
-  disorderId Int
   active Boolean
 
+  disorder Disorder[]
   activityXPatient ActivityXPatient[]
 }
 
@@ -302,3 +301,4 @@ model Disorder {
   activities Activities[]
   categoryActivities CategoryActivities[]
 }
+
