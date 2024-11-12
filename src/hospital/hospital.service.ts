@@ -144,19 +144,18 @@ export class HospitalService {
   }
 
 
-  async createMedicine(medicine: createMedicine) {
+  async createMedicine(medicine: createMedicine, hospitalId: number) {
     const medicineData = {
       name: medicine.name,
       description: medicine.description,
+      type: medicine.type,
       quantity: medicine.quantity,
-      hospital: {
-        connect: { id: medicine.hospitalId },
-      }
+      hospitalId: hospitalId,
     };
 
     const findHospital = await this.prismaService.hospital.findFirst({
       where: {
-        id: medicine.hospitalId,
+        id: hospitalId,
       },
     })
 
@@ -168,7 +167,7 @@ export class HospitalService {
       where: {
         name: medicine.name,
         hospital: {
-          id: medicine.hospitalId,
+          id: hospitalId,
         },
       } as any,
     });

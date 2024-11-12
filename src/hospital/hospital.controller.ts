@@ -4,10 +4,14 @@ import { createHospital } from './dto/createHospitalDTO';
 import { TypeHospital } from '@prisma/client';
 import { Request, Response } from 'express';
 import { createMedicine } from './dto/createMedicineDTO';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('hospital')
 export class HospitalController {
-  constructor(private readonly hospitalService: HospitalService) {}
+  constructor(
+    private readonly hospitalService: HospitalService, 
+    private readonly userService: UsersService
+  ) {}
 
   @Post('/')
   async createHospital(@Body() hospital: createHospital) {
@@ -105,33 +109,45 @@ export class HospitalController {
   // Controladores para el manejo de medicinas
   // ----------------------------------------------------------------
 
-  @Post('/medicines')
+  @Post('/medicines/:token')
   @UsePipes(new ValidationPipe({ whitelist: true }))
-  async createMedicine(@Body() medicine: createMedicine, @Req() _request: Request, @Res() response: Response) {
+  async createMedicine(@Body() medicine: createMedicine, @Req() _request: Request, @Res() response: Response, @Param('token') token: string) {
     try {
-      const medecine = await this.hospitalService.createMedicine(medicine);
+      if (!token) {
+        return response.status(404).json({ success: false, message: 'No se encontró el token' });
+      }
+
+      const user = await this.userService.findOneByToken(token);
+      if (!user) {
+        return response.status(404).json({ success: false, message: 'No se encontró el usuario' });
+      }
+
+      const medecine = await this.hospitalService.createMedicine(medicine, user.hospital.id);
       return response.json({ success: true, medecine });
     } catch (error) {
       return response.status(500).json({ success: false, message: error.message });
     }
   }
 
-  @Get('/medicines/:hospitalId')
-  async findAllMedicinesByHospitalId(@Req() _request: Request, @Res() response: Response, @Param('hospitalId') hospitalId: string) {
+  @Get('/medicines/:token')
+  async findAllMedicinesByHospitalId(@Req() _request: Request, @Res() response: Response, @Param('token') token: string) {
     try {
 
-      const findHospital = await this.hospitalService.findById(Number(hospitalId));
-
-      if (!findHospital) {
-        return response.status(404).json({ success: false, message: 'No se encontró el hospital' });
+      if (!token) {
+        return response.status(404).json({ success: false, message: 'No se encontró el token' });
       }
 
-      const medicines =  await this.hospitalService.findAllMedicinesByHopsitalId(Number(hospitalId))
+      const user = await this.userService.findOneByToken(token);
+      if (!user) {
+        return response.status(404).json({ success: false, message: 'No se encontró el usuario' });
+      }
 
-      if (medicines.length === 0) {
+      const medicines = await this.hospitalService.findAllMedicinesByHopsitalId(user.hospital.id);
+
+      if (!medicines) {
         return response.status(404).json({ success: false, message: 'No se encontraron medicinas' });
       }
-
+      
       return response.json({ success: true, medicines });
     } catch (error) {
       return response.status(500).json({ success: false, message: error.message})

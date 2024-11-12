@@ -11,12 +11,12 @@ export class createMedicine {
   @IsString({ message: 'La descripción debe ser una cadena de caracteres' })
   description: string;
 
+  @IsNotEmpty({ message: 'El tipo es obligatorio' }) 
+  @IsString({ message: 'el tipo debe ser una cadena de caracteres' })
+  type: string;
+
   @IsNotEmpty({ message: 'La cantidad es obligatoria' })
   @IsInt({ message: 'La cantidad debe ser un número entero' })
   quantity: number;
-
-  @IsNotEmpty({ message: 'El hospital es obligatorio' })
-  @IsInt({ message: 'El hospital debe ser un número entero' })
-  hospitalId: number;
 
 }
