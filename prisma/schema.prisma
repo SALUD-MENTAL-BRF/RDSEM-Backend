@@ -307,6 +307,7 @@ model Medicines {
   id           Int      @id @default(autoincrement())
   hospitalId   Int
   name         String   // Nombre del medicamento para cada hospital
+  type         String   // Tipo de medicamento
   description  String
   quantity     Int
 
