@@ -199,8 +199,8 @@ model Activities {
   categoryActivitiesId Int
   active Boolean
 
-  disorder Disorder[]
   activityXPatient ActivityXPatient[]
+  activityXdisorder ActivityXDisorder[]
 }
 
 model CategoryActivities {
@@ -298,6 +298,17 @@ model Disorder {
   id Int @id @default(autoincrement())
   type String
 
-  activities Activities[]
+
   categoryActivities CategoryActivities[]
+  activityXdisorder ActivityXDisorder[]
+}
+
+
+model ActivityXDisorder{
+  id Int @id @default(autoincrement())
+
+  activityId Int
+  activity Activities @relation(fields: [activityId], references: [id])
+  disorderId Int
+  disorder Disorder @relation(fields: [disorderId], references: [id])
 }

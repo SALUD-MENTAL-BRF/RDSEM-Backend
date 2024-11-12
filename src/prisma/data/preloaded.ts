@@ -19,6 +19,7 @@ export class PreloadedData implements OnModuleInit{
         await this.addActivities();
         await this.addProvinces();
         await this.addLocalities();
+        await this.addActivitiesXdisorder();
     };
 
     async addRole(){    
@@ -78,4 +79,19 @@ export class PreloadedData implements OnModuleInit{
         await this.prisma.locality.createMany({data: localities});
     };
 
-}
+
+    async addActivitiesXdisorder(){
+        const findRelation = await this.prisma.activityXDisorder.findMany();
+
+        if(findRelation.length > 1) return;
+
+        activityXdisorder.forEach(async(element) => {
+            await this.prisma.activityXDisorder.createMany({
+                data: element.activityIds.map((activityId) => ({
+                    disorderId: element.disorderId,
+                    activityId: activityId
+                }))
+            });
+        });
+    };
+};
