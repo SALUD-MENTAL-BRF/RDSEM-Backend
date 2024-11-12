@@ -10,7 +10,8 @@ export class ActivityService {
     async findAll(){
         return await this.prismaService.activities.findMany({
             include: {
-                categoryActivities: true
+                categoryActivities: true,
+                activityXdisorder: true
             }
         });
     };
