@@ -207,9 +207,9 @@ model CategoryActivities {
   id Int @id @default(autoincrement())
   type String
 
-  disorder Disorder @relation(fields: [disorderId], references: [id])
-  disorderId Int
+
   activities Activities[]
+  disorderXcategory DisorderXCategory[]
 }
 
 model ActivityXPatient {
@@ -299,8 +299,8 @@ model Disorder {
   type String
 
 
-  categoryActivities CategoryActivities[]
   activityXdisorder ActivityXDisorder[]
+  disorderXcategory DisorderXCategory[]
 }
 
 
@@ -311,4 +311,13 @@ model ActivityXDisorder{
   activity Activities @relation(fields: [activityId], references: [id])
   disorderId Int
   disorder Disorder @relation(fields: [disorderId], references: [id])
+}
+
+model DisorderXCategory {
+  id Int @id @default(autoincrement())
+
+  disorderId Int
+  disorder Disorder @relation(fields: [disorderId], references: [id])
+  categoryId Int
+  category CategoryActivities @relation(fields: [categoryId], references: [id])
 }

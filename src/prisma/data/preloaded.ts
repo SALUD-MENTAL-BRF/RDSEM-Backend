@@ -6,6 +6,7 @@ import { provinces } from "./provinces"
 import { localities } from "./localities"
 import { disorder } from "./disorder"
 import { activityXdisorder } from "./activitiesXdisorder"
+import { disorderXcategory } from "./disorderXcategory"
 
 @Injectable()
 export class PreloadedData implements OnModuleInit{
@@ -20,6 +21,7 @@ export class PreloadedData implements OnModuleInit{
         await this.addProvinces();
         await this.addLocalities();
         await this.addActivitiesXdisorder();
+        await this.addDisorderXcategory();
     };
 
     async addRole(){    
@@ -94,4 +96,19 @@ export class PreloadedData implements OnModuleInit{
             });
         });
     };
+
+    async addDisorderXcategory(){
+        const findRelation = await this.prisma.disorderXCategory.findMany(); 
+
+        if(findRelation.length > 1) return;
+
+        disorderXcategory.forEach(async(element) => {
+            await this.prisma.disorderXCategory.createMany({
+                data: element.categoryIds.map((categoryId) => ({
+                    disorderId: element.disorderId,
+                    categoryId: categoryId
+                }))
+            });
+        });
+    }
 };

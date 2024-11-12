@@ -8,9 +8,12 @@ export class CategoryActivitiesService {
 
 
     async findByDisorder(disorderId: number){
-        return await this.prismaService.categoryActivities.findMany({
+        return await this.prismaService.disorderXCategory.findMany({
             where: {
                 disorderId: disorderId
+            },
+            include: {
+                category:true
             }
         })
     };
