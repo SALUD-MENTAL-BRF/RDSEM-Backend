@@ -10,7 +10,7 @@ export const Activities = [
         "id": 2,
         "title": "Reconocimiento Emocional",
         "description": "El usuario debe identificar emociones en caras mostradas, lo que ayuda a mejorar el reconocimiento y la comprensión emocional.",
-        "active": true,
+        "active": false,
         "categoryActivitiesId": 2,
 
     },
@@ -34,7 +34,7 @@ export const Activities = [
         "id": 5,
         "title": "Resolución de Problemas y Lógica",
         "description": "Actividad que desafía al usuario a resolver problemas visuales o lógicos, fomentando habilidades de pensamiento crítico y resolución de problemas.",
-        "active": false,
+        "active": true,
         "categoryActivitiesId": 5,
 
     },
