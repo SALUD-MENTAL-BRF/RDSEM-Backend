@@ -12,7 +12,7 @@ export class LogicalProblemService {
         });
     };
 
-    async findOne(professionalId: number,patientId:number){
+    async findOneByProfessionalAndPatient(professionalId: number,patientId:number){
         return await this.prismaService.logicalProblemSetting.findFirst({
             where: {
                 professionalId: professionalId,
@@ -29,4 +29,12 @@ export class LogicalProblemService {
             data: setting
         })
     };
+
+    async findOne(settingId: number){
+        return await this.prismaService.logicalProblemSetting.findFirst({
+            where: {
+                id: settingId
+            }
+        });
+    }
 };
