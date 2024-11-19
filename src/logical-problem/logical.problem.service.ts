@@ -10,5 +10,23 @@ export class LogicalProblemService {
         return await this.prismaService.logicalProblemSetting.create({
             data: {...setting, professionalId: professionalId, patientId: patientId}
         });
-    };  
+    };
+
+    async findOne(professionalId: number,patientId:number){
+        return await this.prismaService.logicalProblemSetting.findFirst({
+            where: {
+                professionalId: professionalId,
+                patientId: patientId
+            }
+        });
+    };
+
+    async update(settingId: number,setting:createLogicalProblemSettingDto){
+        return await this.prismaService.logicalProblemSetting.update({
+            where: {
+                id: settingId
+            },
+            data: setting
+        })
+    };
 };
