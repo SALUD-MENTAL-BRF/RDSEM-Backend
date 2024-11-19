@@ -92,6 +92,7 @@ model Patient {
   socialHabilitySetting SocialHabilitySetting[]
   socialHabilityHistory SocialHabilityHistory[]
   logicalProblemHistory LogicalProblemHistory[]
+  logicalProblemSetting LogicalProblemSetting[]
 }
 
 model InfoPatient {
@@ -164,6 +165,7 @@ model Professional {
   socialHabilitySetting SocialHabilitySetting[]
   socialHabilityHistory SocialHabilityHistory[]
   logicalProblemHistory LogicalProblemHistory[]
+  logicalProblemSetting LogicalProblemSetting[]
 }
 
 model ProfileProfessional {
@@ -339,4 +341,17 @@ model LogicalProblemHistory {
   patient Patient @relation(fields: [patientId], references: [id])
   professionalId Int
   professional Professional @relation(fields: [professionalId], references: [id])
+}
+
+model LogicalProblemSetting {
+  id Int @id @default(autoincrement()) 
+
+  complexity String
+  theme String
+  problem_type String
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  patientId Int
+  professional Professional @relation(fields: [professionalId], references: [id])
+  professionalId Int
 }
