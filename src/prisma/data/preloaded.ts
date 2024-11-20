@@ -26,13 +26,14 @@ export class PreloadedData implements OnModuleInit{
 
     async addRole(){    
         const roles = [
-            {"type": "admin"},
-            {"type": "professional"},
-            {"type": "patient"},
-            {"type": "guest"}
-        ];
-          
-        const findRoles = await this.prisma.role.findMany();
+            {"type": "ADMIN"},
+            {"type": "Hospital"},
+            {"type": "Profesional"},
+            {"type": "Paciente"},
+            {"type": "Invitado"}
+        ]
+        
+        const findRoles = await this.prisma.role.findMany()
 
         if (findRoles.length > 1) return;
 

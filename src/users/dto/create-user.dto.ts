@@ -15,7 +15,7 @@ export class CreateUserDto {
     password?: string;
 
     @IsNotEmpty({message: 'Role is required'})
-    role?: string;
+    roleId?: number;
 
     @IsOptional()
     @IsString()

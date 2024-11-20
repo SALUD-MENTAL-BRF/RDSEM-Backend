@@ -7,6 +7,7 @@ import * as jwt from 'jsonwebtoken';
 import { jwtConstants } from '../auth/constants/jwt.constant'
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 import { BadRequestException } from '@nestjs/common';
+import * as bcryptjs from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -15,23 +16,36 @@ export class UsersService {
     private readonly cloudinaryService:CloudinaryService
   ) {}
 
-  createUser(User: CreateUserDto) {
+  async createUser(User: CreateUserDto) {
+    let hashedPassword: string | null = null
+    
+    if (User.password) {
+      hashedPassword = await bcryptjs.hash(User.password, 10);
+    }
 
     return this.prismaService.user.create({
       data: {
         username: User.username,
         email: User.email,
-        password: User.password,
+        password: hashedPassword,
         googleId: User.googleId,
         imageUrl: User.imageUrl,
-        roleId: 4
+        roleId: User.roleId ? User.roleId : 5
       },
     });
   }
 
-  findAll() {
-    return this.prismaService.user.findMany();
-  }
+  async findAll() {
+    return await this.prismaService.user.findMany({
+      include: {
+        rol: {
+          select: {
+            type: true,
+          },
+        },
+      },
+    });
+  }  
 
   findOneByEmail(email: string) {
     return this.prismaService.user.findUnique({
@@ -49,6 +63,18 @@ export class UsersService {
   async findOne(id: number) {
     return this.prismaService.user.findUnique({
       where: { id },
+      include: {
+        rol: {
+          select: {
+            type: true
+          }
+        },
+        hospital: {
+          select: {
+            id: true,
+          }
+        }
+      }
     });
   }
 
@@ -100,7 +126,19 @@ export class UsersService {
       throw new BadRequestException('Usuario no encontrado');
     }
   }
-  
-  
 
+  async findAllUsersHospitals() {
+    try {
+      const users = await this.prismaService.user.findMany({
+        where: {
+          roleId: 2
+        }
+      })
+
+      return users;
+    } catch (err) {
+      throw new BadRequestException('Error al consultar los usuarios de hospitales');
+    }
+  }
+  
 }
