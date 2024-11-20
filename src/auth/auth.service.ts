@@ -39,7 +39,6 @@ export class AuthService {
 
     const token = await this.jwtService.signAsync(payload, {
       secret: jwtConstants.secret,
-      expiresIn: '1h'
     });
 
     return { token }
@@ -66,7 +65,6 @@ export class AuthService {
 
     const token = await this.jwtService.signAsync(payload, {
       secret: jwtConstants.secret,
-      expiresIn: '1h'
     });
 
     return { token }
@@ -88,19 +86,23 @@ export class AuthService {
 
     let user = await this.usersService.findOneByEmail(payload.email);
 
-    if (!user) {
-      user = await this.usersService.createUser({
-        username: payload.name,
-        email: payload.email,
-        googleId: payload.sub,
-        imageUrl: payload.picture,
-      });
-    } else {
-      if (!user.googleId || !user.imageUrl) {
-        user = await this.usersService.updateUser(user.id, {
+    try {
+      if (!user) {
+        user = await this.usersService.createUser({
+          username: payload.name,
+          email: payload.email,
           googleId: payload.sub,
+          imageUrl: payload.picture,
         });
+      } else {
+        if (!user.googleId || !user.imageUrl) {
+          user = await this.usersService.updateUser(user.id, {
+            googleId: payload.sub,
+          });
+        }
       }
+    } catch (err) {
+      console.log(err);
     }
 
     const foudUser = await this.usersService.findOneByEmail(payload.email)
@@ -109,7 +111,6 @@ export class AuthService {
 
     const token = await this.jwtService.signAsync(jwtPayload, {
       secret: jwtConstants.secret,
-      expiresIn: '1h',
     })
 
     return { token }
