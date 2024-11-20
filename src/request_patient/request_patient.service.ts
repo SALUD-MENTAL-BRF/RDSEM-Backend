@@ -107,7 +107,7 @@ export class RequestPatientService {
           id: request.userId
         },
         data:{
-          roleId: 3
+          roleId: 4
         }
       })
 
