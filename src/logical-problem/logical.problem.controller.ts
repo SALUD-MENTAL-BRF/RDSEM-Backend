@@ -1,4 +1,4 @@
-import { Controller, Param, Post, Get, Req, Res, UsePipes, ValidationPipe, Put } from "@nestjs/common";
+import { Controller, Param, Post, Get, Req, Res, UsePipes, ValidationPipe, Put, Body } from "@nestjs/common";
 import { LogicalProblemService } from "./logical.problem.service";
 import { Request,Response } from "express";
 import { createLogicalProblemSettingDto } from "./dto/logical.problem.dto";
@@ -11,8 +11,10 @@ export class LogicalProblemController {
     @Post('setting/:professionalId/:patientId')
     @UsePipes(new ValidationPipe({whitelist: true}))
     async createSetting(@Req() _request: Request, @Res() response:Response,@Param('professionalId') professionalId:number, 
-    @Param() patientId: number,setting: createLogicalProblemSettingDto){
+    @Param('patientId') patientId: number,@Body() setting: createLogicalProblemSettingDto){
         try {
+            console.log();
+            
             response.status(201).json(await this.logicalProblemService.addSetting(Number(professionalId), Number(patientId), setting));
         } catch (error) {
             console.log(error);
@@ -22,12 +24,13 @@ export class LogicalProblemController {
         }   
     };
 
-    @Get(':professionalId/:patientId')
+    @Get('setting/:professionalId/:patientId')
     async findOneSetting(@Req() _request: Request, @Res() response:Response,@Param('professionalId') professionalId:number, 
-    @Param() patientId:string){
+    @Param('patientId') patientId:string){
         try {
-            const setting = await this.logicalProblemService.findOneByProfessionalAndPatient(Number(professionalId), Number(patientId));
-
+            const setting = await this.logicalProblemService.findOneSettingByProfessionalAndPatient(Number(professionalId), Number(patientId));
+            console.log(setting);
+            
             if(!setting){
                 return response.status(404).json({
                     msg:'Setting not found'
@@ -43,9 +46,9 @@ export class LogicalProblemController {
         };
     };
 
-    @Put(':settingId')
+    @Put('setting/:settingId')
     @UsePipes(new ValidationPipe({whitelist: true}))
-    async updateSetting(@Req() _request: Request, @Res() response:Response,@Param('settingId') settingId: string,setting: createLogicalProblemSettingDto){
+    async updateSetting(@Req() _request: Request, @Res() response:Response,@Param('settingId') settingId: string,@Body() setting: createLogicalProblemSettingDto){
         try {
             const findSetting = await this.logicalProblemService.findOne(Number(settingId));
 
@@ -55,7 +58,7 @@ export class LogicalProblemController {
                 });
             };
 
-            response.status(200).json(await this.logicalProblemService.update(Number(settingId), setting))
+            response.status(200).json(await this.logicalProblemService.updateSetting(Number(settingId), setting))
         } catch (error) {
             console.log(error);
             response.status(500).json({
