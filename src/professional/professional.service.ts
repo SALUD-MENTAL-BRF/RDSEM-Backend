@@ -249,4 +249,12 @@ export class ProfessionalService {
         })
     }
 
+    async findOneProfileByProfessionalId(professionalId: number){
+        return await this.prismaService.profileProfessional.findFirst({
+            where: {
+                professionalId: professionalId
+            }
+        })
+    };
+
 }

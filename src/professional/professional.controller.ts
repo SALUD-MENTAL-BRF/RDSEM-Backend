@@ -35,7 +35,7 @@ export class ProfessionalControllers {
         }
     };
 
-    @Get(':userId')
+    @Get('user/:userId')
     async findProfessionalByUserId(@Req() _request: Request, @Res() response: Response, @Param('userId') userId: string){
         try {            
             response.status(200).json(await this.professionalService.findOneByUserId(Number(userId)))
@@ -89,6 +89,16 @@ export class ProfessionalControllers {
         }
     };
 
+    @Get('profile/professional/:professionalId')
+    async findOneProfileByProfessionalId(@Req() _request: Request, @Res() response: Response, @Param('professionalId') professionalId: string){
+        try {
+            response.status(200).json(await this.professionalService.findOneProfileByProfessionalId(Number(professionalId)));
+        } catch (error) {
+            console.log(error);
+            response.status(500).json({msg: "Error to get one profile"})
+        }
+    };
+
     @Get('profile/:profileId')
     async findOneProfile(@Req() _request: Request, @Res() response: Response, @Param('profileId') profileId: string){
         try {
@@ -99,7 +109,7 @@ export class ProfessionalControllers {
         }
     };
 
-    @Put(':professionalId')
+    @Put('profile/:professionalId')
     async updateProfile(@Req() _request: Request, @Res() response: Response,@Param('professionalId') professionalId: string, @Body() data: UpdateProfileProfessionalDto){
         try {
             response.status(200).json(await this.professionalService.updateProfile(Number(professionalId), data))
