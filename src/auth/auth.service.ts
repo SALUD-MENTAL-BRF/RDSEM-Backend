@@ -27,15 +27,12 @@ export class AuthService {
       );
     }
 
-    const hashedPassword = await bcryptjs.hash(password, 10);
-    console.log(hashedPassword);
-    
-
     user = await this.usersService.createUser({
       username,
       email,
-      password: hashedPassword,
+      password
     });
+    console.log(user)
 
     const payload = { id: user.id };
 
@@ -48,13 +45,11 @@ export class AuthService {
 
   async login({ email, password }: LoginDto) {
     const user = await this.usersService.findOneByEmail(email);
-
     if (!user) {
         throw new BadRequestException(
           'Usuario no encontrado',
       );
     }
-
     const isPasswordValid = await bcryptjs.compare(password, user.password);
     console.log(await bcryptjs.hash(password, 10));
     
