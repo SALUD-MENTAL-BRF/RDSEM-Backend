@@ -188,14 +188,14 @@ export class ProfessionalService {
         return await this.prismaService.profileProfessional.update({
             where:{professionalId: professionalId},
             data: data
-        })
-      }
+        });
+      };
 
     async deleteProfessional(userId: number) {
         await this.prismaService.user.delete({
             where: { id: userId }
-        })
-    }
+        });
+    };
 
     async finAllByHospitalId(hospitalId: number) {
         return await this.prismaService.professional.findMany({
@@ -257,4 +257,18 @@ export class ProfessionalService {
         })
     };
 
+    async desvincular(professionalId: number, patientId: number)  {
+        return await this.prismaService.professional.update({
+            where: {
+                id:professionalId
+            },
+            data: {
+                patient: {
+                    disconnect: {
+                        id: patientId
+                    }
+                }
+            }
+        })
+    }
 }

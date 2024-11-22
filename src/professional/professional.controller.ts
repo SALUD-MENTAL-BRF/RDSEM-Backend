@@ -133,4 +133,17 @@ export class ProfessionalControllers {
             return response.status(500).json({ success: false, message: error.message });
         }
     }
-}
+
+    @Delete('desvincular/:professionalId/:patientId')
+    async desvincular(@Req() _request: Request, @Res() response:Response, @Param('professionalId') professionalId: string,
+        @Param('patientId') patientId: string){
+        try {
+            response.status(200).json(await this.professionalService.desvincular(Number(professionalId),Number(patientId)))
+        } catch (error) {
+            console.log();
+            response.status(500).json({
+                msg: 'Error to desvincular the patient'
+            })
+        };
+    };
+};

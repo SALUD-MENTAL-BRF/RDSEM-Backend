@@ -28,6 +28,8 @@ export class AuthService {
     }
 
     const hashedPassword = await bcryptjs.hash(password, 10);
+    console.log(hashedPassword);
+    
 
     user = await this.usersService.createUser({
       username,
@@ -54,7 +56,8 @@ export class AuthService {
     }
 
     const isPasswordValid = await bcryptjs.compare(password, user.password);
-
+    console.log(await bcryptjs.hash(password, 10));
+    
     if (!isPasswordValid) {
       throw new BadRequestException(
         'Contraseña incorrecta',
