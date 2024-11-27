@@ -99,6 +99,7 @@ model Patient {
   socialHabilityHistory SocialHabilityHistory[]
   logicalProblemHistory LogicalProblemHistory[]
   logicalProblemSetting LogicalProblemSetting[]
+  solicitudes   Solicitud[]
 }
 
 model InfoPatient {
@@ -175,6 +176,7 @@ model Professional {
   socialHabilityHistory SocialHabilityHistory[]
   logicalProblemHistory LogicalProblemHistory[]
   logicalProblemSetting LogicalProblemSetting[]
+  solicitudes Solicitud[]
 }
 
 model ProfileProfessional {
@@ -438,4 +440,24 @@ model LogicalProblemSetting {
   patientId Int
   professional Professional @relation(fields: [professionalId], references: [id])
   professionalId Int
+}
+
+enum EstadoSolicitud {
+  PENDIENTE
+  CANCELADA
+  ACEPTADA
+}
+
+model Solicitud {
+  id             Int      @id @default(autoincrement())
+  motivo         String
+  fechaSolicitud DateTime
+  horaSolicitud  String 
+  estadoSolicitud EstadoSolicitud
+  professionalId Int
+  professional   Professional @relation(fields: [professionalId], references: [id])
+  patientId      Int
+  patient        Patient    @relation(fields: [patientId], references: [id])
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
 }
