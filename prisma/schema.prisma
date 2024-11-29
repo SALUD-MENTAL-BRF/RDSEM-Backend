@@ -259,7 +259,7 @@ model SocialHabilityHistory {
   responses Json
   answer Int
   correctResponse String
-  explanation String
+  explanation String @db.VarChar(300) 
   complexity String @db.VarChar(300)
   createdAt  DateTime @default(now())
 
@@ -417,7 +417,7 @@ model LogicalProblemHistory {
   responses Json
   answer Int
   correctResponse String
-  explanation String
+  explanation String @db.VarChar(300) 
   complexity String @db.VarChar(300)
   createdAt  DateTime @default(now())
 
