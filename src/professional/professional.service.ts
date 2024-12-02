@@ -113,6 +113,7 @@ export class ProfessionalService {
                                 username: true,
                                 email: true,
                                 roleId: true,
+                                imageUrl: true,
                                 rol: {
                                     select: {
                                         type: true
