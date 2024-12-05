@@ -23,11 +23,12 @@ import { SocialHabilityModule } from './social-hability/social.hability.module';
 import { LogicalProblemModule } from './logical-problem/logical.problem.module';
 import { ZegocloudModule } from './zegocloud/zegocloud.module';
 import { RequestVideocallModule } from './request-videocall/request-videocall.module';
+import { SocketsModule } from './sockets/sockets.module';
 
 @Module({
   imports: [UsersModule, AuthModule, NoteModule, ProfessionalModule, RolesModule, RequestPatientModule, HospitalModule, SpecialityHospitalModule, PatientModule,
     ProvinceModule,LocalityModule, RecommendationModule,ActivityModule, DisorderModule, CategoryActivitiesModule,
-    SocialHabilityModule, LogicalProblemModule, ZegocloudModule, RequestVideocallModule
+    SocialHabilityModule, LogicalProblemModule, ZegocloudModule, RequestVideocallModule, SocketsModule
   ],
   controllers: [ServiceHospitalController],
   providers: [PreloadedData, PrismaService, CloudinaryService, ServiceHospitalService],
